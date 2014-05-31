@@ -1,1 +1,19 @@
-Here your calendar will be displayed
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>	Workload-Umfrage TU Dresden</title>
+		<link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<div id="header">
+			<div id="headerBar">
+				UserID: {{ user.student.permanentId }} Status: logged in.
+			</div>
+			<div id="optionsButton">
+				<img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
+			</div>
+		</div><!-- close header -->
+		Here your calendar will be displayed 
+		TODO: Read this, it is very helpful and important!!!:  https://docs.python.org/2/library/calendar.html
+	</body>
+</html>

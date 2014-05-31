@@ -1,0 +1,28 @@
+body{
+	margin: 0;
+}
+
+#header{
+	border-bottom-style: solid;
+	height: 2.5em;
+	width: 100%;
+}
+
+#headerBar{
+	width: auto;
+	height: 100%;
+	float: left;
+}
+
+#optionsButton{
+	width: 3em;
+	height: 100%;
+	float: right;
+
+	border-left-style: solid;
+}
+
+#optionsButtonGraphic{
+	height: 2.5em;
+	width: 3em;
+}
