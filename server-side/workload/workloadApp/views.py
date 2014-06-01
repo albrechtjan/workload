@@ -9,7 +9,7 @@ def calendar(request):
     if not request.user.is_authenticated(): # If the user is not logged in, make him log in :)
         return HttpResponse("Not logged in. TODO: Redirect to login page")
 
-    if not request.user.lectures:   # If the user 
+    if not request.user.student.lectures:   # If the user 
         return HttpResponse("No lectures chosen. TODO: Redirect to page where lectures can be chosen")
 
     else:

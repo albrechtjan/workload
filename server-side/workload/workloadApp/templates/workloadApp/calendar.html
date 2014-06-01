@@ -15,6 +15,25 @@
 		</div><!-- close header -->
 
 
+		<!-- TODO make "getCalendarWeeks" return a list of lists of weeks, where each of the inner lists contains only the weeks for a certain year -->
+		<div id="calendar">
+			{% for week in user.student.getCalendarWeeks %}
+				<a href="weekDetails/{{week.getYear}}/{{week.getWeekNumber}}/">
+						{%if week.hasData %}
+					<div class="weekButton green">
+						{%else%}
+					<div class="weekButton red">
+						{%endif%}
+						{{week.getYear}}
+						<div class="weekNumber">
+							{{week.getWeekNumber}} 
+						</div>
+					</div>
+				</a>
+			{% endfor %}
+		</div>
+
+
 
 
 	</body>
