@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>	Workload-Umfrage TU Dresden</title>
+		<link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<div id="header">
+			<div id="headerBar">
+				SELECT LECTURE 	UserID: {{ user.student.permanentId }} Status: logged in.
+			</div>
+			<div id="optionsButton">
+				<img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
+			</div>
+		</div><!-- close header -->
+		</div id="content">
+
+	<form action="../enterWorkloadData" name="selectLectureForm" id="selectLectureForm" method="post">
+		{% csrf_token %}
+		{% for lecture in user.student.lectures.all %}
+    	<input type="radio" name="lecture" value="{{ lecture.name }}" />
+    	<label for="choice{{ forloop.counter }}">{{lecture.name }}</label><br />
+		{% endfor %}
+		<input type="submit" value="Select" />
+	</form>
+			{{year}}
+			{{week}}
+		</div>
+
+

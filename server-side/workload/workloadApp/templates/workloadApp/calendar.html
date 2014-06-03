@@ -18,7 +18,7 @@
 		<!-- TODO make "getCalendarWeeks" return a list of lists of weeks, where each of the inner lists contains only the weeks for a certain year -->
 		<div id="calendar">
 			{% for week in user.student.getCalendarWeeks %}
-				<a href="weekDetails/{{week.getYear}}/{{week.getWeekNumber}}/">
+				<a href="../selectLecture?year={{week.getYear}}&week={{week.getWeekNumber}}">
 						{%if week.hasData %}
 					<div class="weekButton green">
 						{%else%}

@@ -3,5 +3,6 @@ from workloadApp import views
 
 
 urlpatterns = patterns('',
-    url(r'^$', views.calendar, name='calendar')
+    url(r'^calendar/', views.calendar, name='calendar'),
+    url(r'^selectLecture/', views.selectLecture,name='selectLecture')
 )

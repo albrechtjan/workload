@@ -5,6 +5,7 @@ from classes import StudentWeek
 from django.contrib.auth.models import User
 
 class Lecture(models.Model):
+    #TODO: Add Lecture ID
     semester = models.CharField(max_length=6) #e.g. WS2014
     name = models.CharField(max_length=200)
     startDay = models.DateField() # The day of the first lecture event. Or the monday of the week when the lecture starts.
