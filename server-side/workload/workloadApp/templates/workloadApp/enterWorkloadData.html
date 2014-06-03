@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>	Workload-Umfrage TU Dresden</title>
+		<link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<div id="header">
+			<div id="headerBar">
+				Enter Workload Data 	UserID: {{ user.student.permanentId }} Status: logged in.
+			</div>
+			<div id="optionsButton">
+				<img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
+			</div>
+		</div><!-- close header -->
+		</div id="content">
+			<form action="../postWorkloadDataEntry" method="post" >
+			{% csrf_token %}
+			    <label for="hoursInLecture">hours spent attending</label>
+				<input type="number" name="hoursInLecture" id="hoursInLecture" min="0" max="99" value="0"></br>
+
+				<label for="hoursForHomework">hours spent doing homework</label>
+				<input type="number" name="hoursForHomework" id="hourForHomework" min="0" max="99" value="0"></br>
+
+				<label for="hoursStudying">hours spent on other related studies</label>
+				<input type="number" name="hoursStudying" id="hoursStudying" min="0" max="99" value="0"></br>
+
+				<input type="hidden" name="year" value="{{year}}">
+				<input type="hidden" name="week" value="{{week}}">
+				<input type="hidden" name="lectureId" value="{{lectureId}}">
+			<input type="submit" value="Submit" />
+			</form>
+
+		</div>
+	</body>
+</html>
+
+
+
+

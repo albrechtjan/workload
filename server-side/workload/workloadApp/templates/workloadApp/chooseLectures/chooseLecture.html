@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>	Workload-Umfrage TU Dresden</title>
+		<link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<div id="header">
+			<div id="headerBar">
+				Choose Semester 	UserID: {{ user.student.permanentId }} Status: logged in.
+			</div>
+			<div id="optionsButton">
+				<img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
+			</div>
+		</div><!-- close header -->
+		Please choose a lecture to add:
+		TODO: Create a form here and make it with checkboxes </br>
+		{% for lecture in lectures%}
+			<a>{{lecture.name}}</a></br>
+		{% endfor %}
+		</div>
+	</body>
+</html>
+

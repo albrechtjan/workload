@@ -38,19 +38,23 @@ class Student(models.Model):
         # returns a datetime.date of a day in the last week of lectures
         if not self.lectures.all():
             raise Exception("no lectures found")
-        return min([lecture.endDay for lecture in list(self.lectures.all())])
+        return max([lecture.endDay for lecture in list(self.lectures.all())])
 
     # TODO: move this function into the calendar view
     def getCalendarWeeks(self):
+        # TODO: user isoweek.Week in this function after moving it to the calendar view
         startDate = self.startOfLectures();
-        weekMondayIterator = startDate - timedelta(days=startDate.weekday()) # TODO: user isoweek instead in this place
+        weekMondayIterator = startDate - timedelta(days=startDate.weekday()) 
         weeks = []
         while weekMondayIterator <= self.endOfLectures():
             weeks.append(StudentWeek(mondaydate=weekMondayIterator, hasdata=True))
             for lectureIterator in self.lectures.all():
-                if not WorkingHoursEntry.objects.filter(week=weekMondayIterator,student=self,lecture=lectureIterator): 
-                    weeks[-1].hasData = False
-                    continue
+                # check if lecture is ongoing at the current week
+                if lectureIterator.isActive(weekMondayIterator) or lectureIterator.isActive(weekMondayIterator+timedelta(days=5)): 
+                    # if an ongoing lecture has not data for the current week, the week is considered to be missing data
+                    if not WorkingHoursEntry.objects.filter(week=weekMondayIterator,student=self,lecture=lectureIterator): 
+                        weeks[-1].hasData = False
+                        continue
             weekMondayIterator = weekMondayIterator + timedelta(weeks=1)
         return weeks
 
