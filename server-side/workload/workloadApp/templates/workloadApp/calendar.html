@@ -20,9 +20,9 @@
 			{% for week in user.student.getCalendarWeeks %}
 				<a href="../selectLecture?year={{week.getYear}}&week={{week.getWeekNumber}}">
 						{%if week.hasData %}
-					<div class="weekButton green">
+					<div class="weekButton button green">
 						{%else%}
-					<div class="weekButton red">
+					<div class="weekButton button red">
 						{%endif%}
 						{{week.getYear}}
 						<div class="weekNumber">

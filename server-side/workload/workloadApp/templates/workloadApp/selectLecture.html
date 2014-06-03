@@ -15,16 +15,19 @@
 		</div><!-- close header -->
 		</div id="content">
 
-	<form action="../enterWorkloadData" name="selectLectureForm" id="selectLectureForm" method="get"> <!-- Use get method and no CSS protoection because no data is changed on server-->
 		{% for lecture in lecturesToDisplay %} <!--# "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)-->
-    	<input type="radio" name="lecture" value="{{ lecture.0.pk }}" />
-    	<label for="choice{{ forloop.counter }}">{{lecture.0.name }}</label><br />
+		<a href="../enterWorkloadData/?year={{year}}&week={{week}}&lectureId={{lecture.0.pk}}">
+			{%if lecture.1 %} <!-- if lecture has data for this week and student -->
+			<div class="green wideButton button ">
+			{% else %}
+			<div class="red wideButton button ">
+			{% endif %}
+				{{lecture.0.name}}
+			</div>
+		</a>
 		{% endfor %}
-		<input type="submit" value="Select" />
-	</form>
-			{{lecturesToDisplay}}
-			{{year}}
-			{{week}}
 		</div>
+
+
 
 

@@ -18,7 +18,6 @@ body{
 	width: 3em;
 	height: 100%;
 	float: right;
-
 	border-left-style: solid;
 }
 
@@ -29,11 +28,26 @@ body{
 
 .weekButton{
 	float:left;
-	height: 4em;
+
 	width: 4em;
 	margin: 0.5em;
+}
+
+
+.wideButton{
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+
+.button{
+	height: 4em;
 	border-style: solid;
 }
+
+
 
 a{
 	text-decoration: none;
@@ -55,3 +69,5 @@ a{
 	margin: auto;
 	font-size: 200%;	
 }
+
+
