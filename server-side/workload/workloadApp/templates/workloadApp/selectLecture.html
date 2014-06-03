@@ -15,14 +15,14 @@
 		</div><!-- close header -->
 		</div id="content">
 
-	<form action="../enterWorkloadData" name="selectLectureForm" id="selectLectureForm" method="post">
-		{% csrf_token %}
-		{% for lecture in user.student.lectures.all %}
-    	<input type="radio" name="lecture" value="{{ lecture.name }}" />
-    	<label for="choice{{ forloop.counter }}">{{lecture.name }}</label><br />
+	<form action="../enterWorkloadData" name="selectLectureForm" id="selectLectureForm" method="get"> <!-- Use get method and no CSS protoection because no data is changed on server-->
+		{% for lecture in lecturesToDisplay %} <!--# "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)-->
+    	<input type="radio" name="lecture" value="{{ lecture.0.pk }}" />
+    	<label for="choice{{ forloop.counter }}">{{lecture.0.name }}</label><br />
 		{% endfor %}
 		<input type="submit" value="Select" />
 	</form>
+			{{lecturesToDisplay}}
 			{{year}}
 			{{week}}
 		</div>

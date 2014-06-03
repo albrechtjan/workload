@@ -14,6 +14,10 @@ class Lecture(models.Model):
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.name
 
+    def isActive(self,date):
+        return (self.startDay<=date and date <=self.endDay)
+
+
 
 # The Student model is possibly going to be written as an extension of the user model once the shibboleth login has been implemented
 class Student(models.Model):
@@ -36,9 +40,10 @@ class Student(models.Model):
             raise Exception("no lectures found")
         return min([lecture.endDay for lecture in list(self.lectures.all())])
 
+    # TODO: move this function into the calendar view
     def getCalendarWeeks(self):
         startDate = self.startOfLectures();
-        weekMondayIterator = startDate - timedelta(days=startDate.weekday())
+        weekMondayIterator = startDate - timedelta(days=startDate.weekday()) # TODO: user isoweek instead in this place
         weeks = []
         while weekMondayIterator <= self.endOfLectures():
             weeks.append(StudentWeek(mondaydate=weekMondayIterator, hasdata=True))
@@ -48,7 +53,6 @@ class Student(models.Model):
                     continue
             weekMondayIterator = weekMondayIterator + timedelta(weeks=1)
         return weeks
-
 
 
 
