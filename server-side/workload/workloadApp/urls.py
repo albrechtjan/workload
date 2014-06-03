@@ -8,6 +8,8 @@ urlpatterns = patterns('',
     url(r'^selectLecture/', views.selectLecture,name='selectLecture'),
     url(r'^enterWorkloadData/', views.enterWorkloadData,name='enterWorkloadData'),
     url(r'postWorkloadDataEntry', views.postWorkloadDataEntry,name='postWorkloadDataEntry'),
-    url(r'chooseListOfLectures', views.chooseListOfLectures,name='chooseListOfLectures'),
+    url(r'options/chosenLectures/addLecture/', views.addLecture,name='addLecture'),
+    url(r'options/chosenLectures/', views.chosenLectures, name="chosenLectures"),
+    url(r'options/', views.options, name="options"),
     url(r'^$', RedirectView.as_view(url='calendar/',permanent=False), name='index')
 )

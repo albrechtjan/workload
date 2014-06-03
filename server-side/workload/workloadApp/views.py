@@ -82,7 +82,7 @@ def postWorkloadDataEntry(request):
 
 
 @login_required
-def chooseListOfLectures(request):
+def addLecture(request):
     # Here the student can choose the list of lectures for which he wants to collect data
     #lectures are sorted by semester
 
@@ -91,7 +91,7 @@ def chooseListOfLectures(request):
     #    # Can be "Master Physik" or "Bachelor Physik"
 
     if "semester" in request.GET.keys():
-        template = loader.get_template('workloadApp/chooseLectures/chooseLecture.html')
+        template = loader.get_template('workloadApp/addLecture/choose.html')
 
         context = RequestContext(request,{
             # list of lectures which are given in the stated semester and which have not yet been selected by the user
@@ -99,14 +99,19 @@ def chooseListOfLectures(request):
         })
         return HttpResponse(template.render(context))
     else:
-        template = loader.get_template('workloadApp/chooseLectures/selectSemester.html')
+        template = loader.get_template('workloadApp/addLecture/selectSemester.html')
         context = RequestContext(request,{
             "allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct()
 
             })
         return HttpResponse(template.render(context))
 
+@login_required
+def options(request):
+    return HttpResponse("<a href='chosenLectures/''>show chosen lectures</a>")
+
+
 
 @login_required
-def showChosenLectures(request):
-    return HttpResponse("List of Lectures that the user has chosen, with a button to add a new one and the possibility to remove one")
+def chosenLectures(request):
+    return HttpResponse("List of Lectures that the user has chosen, with a button to add a new one and the possibility to remove one </br> <a href='addLecture/'>Add A lecture </a>")
