@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<body>
+
+    <head>
+        <title> Workload-Umfrage TU Dresden</title>
+        <link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="header">
+            <div id="headerBar">
+                {% block title %}{% endblock %}
+            </div>
+            <a href="/workload/options/">
+                <div id="optionsButton">
+                    <img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
+                </div>
+            </a>
+        </div><!-- close header -->
+
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+
+    </body>
+</html>

@@ -1,28 +1,12 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>	Workload-Umfrage TU Dresden</title>
-		<link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<body>
-		<div id="header">
-			<div id="headerBar">
-				Choose Semester 	UserID: {{ user.student.permanentId }} Status: logged in.
-			</div>
-			<div id="optionsButton">
-				<img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
-			</div>
-		</div><!-- close header -->
-		</div id="content">
-			    Please select the semester in which the lecture occurs</br>
-			    {% for semester in allSemesters%}
-				 <a href="?semester={{semester}}">{{semester}}</a></br>
-				{% endfor %}
-				<!-- in case of higher hirarchies, resubmit all categories selected in the previous step -->
-		</div>
-	</body>
-</html>
+{% extends "base.html" %}
 
+{% block title %}Choose Semester 	UserID: {{ user.student.permanentId }} Status: logged in.{% endblock %}
 
+{% block content %}
+	Please select the semester in which the lecture occurs</br>
+	{% for semester in allSemesters%}
+		<a href="?semester={{semester}}">{{semester}}</a></br>
+	{% endfor %}
+	<!-- in case of higher hirarchies, resubmit all categories selected in the previous step -->
 
-
+{% endblock %}

@@ -1,35 +1,17 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>	Workload-Umfrage TU Dresden</title>
-		<link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<body>
-		<div id="header">
-			<div id="headerBar">
-				SELECT LECTURE 	UserID: {{ user.student.permanentId }} Status: logged in.
-			</div>
-			<div id="optionsButton">
-				<img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
-			</div>
-		</div><!-- close header -->
-		</div id="content">
+{% extends "base.html" %}
 
-		{% for lecture in lecturesToDisplay %} <!--# "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)-->
-		<a href="../enterWorkloadData/?year={{year}}&week={{week}}&lectureId={{lecture.0.pk}}">
-			{%if lecture.1 %} <!-- if lecture has data for this week and student -->
-			<div class="green wideButton button ">
-			{% else %}
-			<div class="red wideButton button ">
-			{% endif %}
-				{{lecture.0.name}}
-			</div>
-		</a>
-		{% endfor %}
+{% block title %} Select Lecture 	UserID: {{ user.student.permanentId }} Status: logged in.{% endblock %}
+
+{% block content %}
+	{% for lecture in lecturesToDisplay %} <!--# "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)-->
+	<a href="../enterWorkloadData/?year={{year}}&week={{week}}&lectureId={{lecture.0.pk}}">
+		{%if lecture.1 %} <!-- if lecture has data for this week and student -->
+		<div class="green wideButton button ">
+		{% else %}
+		<div class="red wideButton button ">
+		{% endif %}
+			{{lecture.0.name}}
 		</div>
-	</body>
-</html>
-
-
-
-
+	</a>
+	{% endfor %}
+{% endblock %}
