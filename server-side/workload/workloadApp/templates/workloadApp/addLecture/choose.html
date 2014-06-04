@@ -4,9 +4,14 @@
 
 {% block content %}
 		Please choose a lecture to add:
-		TODO: Create a form here and make it with checkboxes </br>
 		{% for lecture in lectures%}
-			<a>{{lecture.name}}</a></br>
+			<a href="?addLecture={{lecture.id}}">
+				<div class="button wideButton">
+					<div class="buttonText">
+						Add {{lecture.name}}
+					</div>
+				</div>
+			</a>
 		{% endfor %}
 
 {% endblock %}

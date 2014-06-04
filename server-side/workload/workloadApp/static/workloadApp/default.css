@@ -45,6 +45,26 @@ body{
 .button{
 	height: 4em;
 	border-style: solid;
+	text-align: center;
+}
+
+.buttonText{
+	font-size: 2em;
+	margin-top: 0.5em; 
+}
+
+.wideItem{
+	height: 4em;
+	text-align: center;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.itemText{
+	font-size: 2em;
+	margin-top: 0.5em; 
 }
 
 

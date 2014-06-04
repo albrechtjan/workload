@@ -95,23 +95,44 @@ def addLecture(request):
 
         context = RequestContext(request,{
             # list of lectures which are given in the stated semester and which have not yet been selected by the user
-            "lectures" : Lecture.objects.exclude(student=request.user.student)
+            "lectures" : Lecture.objects.filter(semester=request.GET["semester"]).exclude(student=request.user.student)
         })
         return HttpResponse(template.render(context))
     else:
+        addedLecture = False
+        if "addLecture" in request.GET.keys():
+            lecture = Lecture.objects.get(pk=request.GET["addLecture"])
+            request.user.student.lectures.add(lecture)
+            request.user.student.save()
+            addedLecture = True
+
         template = loader.get_template('workloadApp/addLecture/selectSemester.html')
         context = RequestContext(request,{
-            "allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct()
-
+            "allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct(),
+            "addedLecture" : addedLecture
             })
         return HttpResponse(template.render(context))
 
 @login_required
 def options(request):
-    return HttpResponse("<a href='chosenLectures/''>show chosen lectures</a>")
+    template = loader.get_template('workloadApp/options.html')
+
+    context = RequestContext(request,{
+
+        })
+
+    return HttpResponse(template.render(context))
 
 
 
 @login_required
 def chosenLectures(request):
-    return HttpResponse("List of Lectures that the user has chosen, with a button to add a new one and the possibility to remove one </br> <a href='addLecture/'>Add A lecture </a>")
+
+    template = loader.get_template('workloadApp/options/chosenLectures.html')    
+
+    chosenLectures = list(request.user.student.lectures.all())
+    context = RequestContext(request,{
+        "chosenLectures" : chosenLectures
+        })
+
+    return HttpResponse(template.render(context))
