@@ -2,18 +2,39 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from datetime import date
+from datetime import date, timedelta
 from isoweek import Week # I should have a close look at this class when refactoring
 from workloadApp.models import WorkingHoursEntry, Lecture
 
 @login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
 def calendar(request):
 
-    if not request.user.student.lectures:   # If the user 
+    if not request.user.student.lectures.all():   # If the user 
         return HttpResponse("No lectures chosen. TODO: Redirect to page where lectures can be chosen")
+
+    student = request.user.student
+
+    weekIterator = Week.withdate(student.startOfLectures())
+    endWeek   = Week.withdate(student.endOfLectures())
+
+    weeks = []
+    hasData = []
+    while weekIterator <= endWeek:
+        weeks.append(weekIterator)
+        hasData.append(True)
+        for lectureIterator in student.lectures.all():
+            # check if lecture is ongoing at the current week
+            if lectureIterator.isActive(weekIterator.monday()) or lectureIterator.isActive(weekIterator.sunday()): 
+                # if an ongoing lecture has not data for the current week, the week is considered to be missing data
+                if not WorkingHoursEntry.objects.filter(week=weekIterator.monday(),student=student,lecture=lectureIterator): 
+                    hasData[-1] = False
+                    continue
+        weekIterator = weekIterator+1
 
     template = loader.get_template('workloadApp/calendar.html')
     context = RequestContext(request, {
+        "weeksHaveData" : zip(weeks, hasData)
+
     })
     return HttpResponse(template.render(context))
 

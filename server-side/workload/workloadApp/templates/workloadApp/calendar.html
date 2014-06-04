@@ -4,16 +4,16 @@
 
 {% block content %}
 	<div id="calendar">
-		{% for week in user.student.getCalendarWeeks %}
-			<a href="../selectLecture?year={{week.getYear}}&week={{week.getWeekNumber}}">
-					{%if week.hasData %}
+		{% for weekData in weeksHaveData %}
+			<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
+					{%if weekData.1 %}
 				<div class="weekButton button green">
 					{%else%}
 				<div class="weekButton button red">
 					{%endif%}
-					{{week.getYear}}
+					{{weekData.0.year}}
 					<div class="weekNumber">
-						{{week.getWeekNumber}} 
+						{{weekData.0.week}} 
 					</div>
 				</div>
 			</a>
