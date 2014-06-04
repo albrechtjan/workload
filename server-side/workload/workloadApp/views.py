@@ -10,7 +10,7 @@ from workloadApp.models import WorkingHoursEntry, Lecture
 def calendar(request):
 
     if not request.user.student.lectures.all():   # If the user 
-        return HttpResponse("No lectures chosen. TODO: Redirect to page where lectures can be chosen")
+        return HttpResponse("No lectures chosen. TODO: Show this as a notification and offer link to options page for choosing lectures")
 
     student = request.user.student
 
@@ -34,7 +34,6 @@ def calendar(request):
     template = loader.get_template('workloadApp/calendar.html')
     context = RequestContext(request, {
         "weeksHaveData" : zip(weeks, hasData)
-
     })
     return HttpResponse(template.render(context))
 

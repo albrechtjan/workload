@@ -15,8 +15,8 @@ class Lecture(models.Model):
         return (self.startDay<=date and date <=self.endDay)
 
 
-
 # The Student model is possibly going to be written as an extension of the user model once the shibboleth login has been implemented
+# But in fact it works pretty well to associate user and student by a one-to-one relationship
 class Student(models.Model):
     permanentId = models.IntegerField()
     lectures = models.ManyToManyField(Lecture,blank=True)
