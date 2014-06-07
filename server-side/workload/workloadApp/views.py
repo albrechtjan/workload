@@ -3,46 +3,49 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
-from isoweek import Week # I should have a close look at this class when refactoring
+import isoweek# I should have a close look at this class when refactoring
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
+
+# Exend week class
+class Week(isoweek.Week):
+    def hasData(self,student):
+        for lectureIterator in student.lectures.all():
+            if lectureIterator.isActive(self.monday()) or lectureIterator.isActive(self.sunday()): 
+                # if an ongoing lecture has not data for the week, the week is considered to be missing data
+                if not WorkingHoursEntry.objects.filter(week=self.monday(),student=student,lecture=lectureIterator): 
+                    return False
+        return True
 
 @login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
 def calendar(request):
-
     # This line is kind of needed in all view functions that make user of the student object
     student , foo = Student.objects.get_or_create(user=request.user)
     
-    if not student.lectures.all():   # If the user 
-
-
+    if not student.lectures.all():   # If the user has no lecture selected
         return HttpResponseRedirect("/workload/options/chosenLectures/?notification=You need to select a lecture to get started.")
 
+    start = Week.withdate(student.startOfLectures())
+    end = Week.withdate(student.endOfLectures())
+    weeks = [start+x for x in range(end-start+1)]
 
-    weekIterator = Week.withdate(student.startOfLectures())
-    endWeek   = Week.withdate(student.endOfLectures())
 
-    
-    weeks = []
-    hasData = []
-    while weekIterator <= endWeek:
-        weeks.append(weekIterator)
-        hasData.append(True)
-        for lectureIterator in student.lectures.all():
-            # check if lecture is ongoing at the current week
-            if lectureIterator.isActive(weekIterator.monday()) or lectureIterator.isActive(weekIterator.sunday()): 
-                # if an ongoing lecture has not data for the current week, the week is considered to be missing data
-                if not WorkingHoursEntry.objects.filter(week=weekIterator.monday(),student=student,lecture=lectureIterator): 
-                    hasData[-1] = False
-                    continue
-        weekIterator = weekIterator+1
+    weeksHaveData = zip(weeks, [week.hasData(student) for week in weeks])
 
-    template = loader.get_template('workloadApp/calendar.html')
+    #subdivide the list of week-hasData tuples into a list of lists where the sublists contain only events of a certain year
+    shaped = []
+    years = [x[0].year for x in weeksHaveData ]
+    for year in sorted(list(set(years))):
+        shaped.append([x for x in weeksHaveData if x[0].year == year])
+
     context = RequestContext(request, {
-        "weeksHaveData" : zip(weeks, hasData)
+        "weeksHaveDataShaped" : shaped
     })
 
     context.update(decorateWithNotification(request))
+    template = loader.get_template('workloadApp/calendar.html')
     return HttpResponse(template.render(context))
+
+
 
 
 
@@ -137,10 +140,6 @@ def addLecture(request):
         context.update(decorateWithNotification(request))
         return HttpResponse(template.render(context))
     else:
-        if "addLecture" in request.GET.keys():
-            lecture = Lecture.objects.get(pk=request.GET["addLecture"])
-            request.user.student.lectures.add(lecture)
-            request.user.student.save()
 
         template = loader.get_template('workloadApp/addLecture/selectSemester.html')
         context = RequestContext(request,{
@@ -164,12 +163,17 @@ def options(request):
 
 @login_required
 def chosenLectures(request):
-
     # TODO: Move this function into API
-    if "lectureId" in request.GET:
+    if "lectureId" in request.GET: # TODO: rename this parameter to remvoeLecture
         lectureToRemove = Lecture.objects.get(id=request.GET["lectureId"])
         request.user.student.lectures.remove(lectureToRemove)
         return HttpResponseRedirect("/workload/options/chosenLectures/?notification=Lecture removed from list")
+
+     # TODO: Move this function into API
+    if "addLecture" in request.GET.keys():
+        lecture = Lecture.objects.get(pk=request.GET["addLecture"])
+        request.user.student.lectures.add(lecture)
+        request.user.student.save()
 
 
     template = loader.get_template('workloadApp/options/chosenLectures.html')    

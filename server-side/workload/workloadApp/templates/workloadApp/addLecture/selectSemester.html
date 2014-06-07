@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Choose Semester 	UserID: {{ user.student.permanentId }} Status: logged in.{% endblock %}
+{% block title %}Choose Semester{% endblock %}
 
 {% block content %}
-	Please select the semester in which the lecture occurs</br>
-
 	{% for semester in allSemesters%}
 		<div class="button wideButton">
 			<div class="buttonText">

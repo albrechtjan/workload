@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Select Lecture 	UserID: {{ user.student.permanentId }} Status: logged in.{% endblock %}
+{% block title %} Select Lecture{% endblock %}
 
 {% block content %}
 	{% for lecture in lecturesToDisplay %} <!--# "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)-->

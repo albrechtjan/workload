@@ -1,22 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}UserID: {{ user.student.permanentId }} Status: logged in.{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
 	<div id="calendar">
-		{% for weekData in weeksHaveData %}
-			<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
-					{%if weekData.1 %}
-				<div class="weekButton button green">
-					{%else%}
-				<div class="weekButton button red">
-					{%endif%}
-					{{weekData.0.year}}
-					<div class="weekNumber">
-						{{weekData.0.week}} 
+		{% for year in weeksHaveDataShaped %}
+			<div class="calendarYearDivider">{{year.0.0.year}}</div>
+			{% for weekData in year %}
+				<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
+						{%if weekData.1 %}
+					<div class="weekButton button green">
+						{%else%}
+					<div class="weekButton button red">
+						{%endif%}
+						<div class="weekNumber">
+							{{weekData.0.week}} 
+						</div>
+						<div class="calendarDates">
+							{{weekData.0.monday.day}}.{{weekData.0.monday.month}}. - <br/> {{weekData.0.sunday.day}}.{{weekData.0.sunday.month}}.
+						</div>
 					</div>
-				</div>
-			</a>
+				</a>
+			{% endfor %}
 		{% endfor %}
 	</div>
 {% endblock %}

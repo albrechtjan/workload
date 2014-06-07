@@ -8,7 +8,10 @@
     <body>
         <div id="header">
             <div id="headerBar">
-                <div id="homeButton"><a href="/workload/">HOME</a></div>{% block title %}{% endblock %}
+                <div id="homeButton"><a href="/workload/">HOME</a></div>
+                <div id="title">
+                {% block title %}{% endblock %}
+                </div >
             </div>
             <a href="/workload/options/">
                 <div id="optionsButton">
