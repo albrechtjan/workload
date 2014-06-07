@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE htclass>
 <body>
 
     <head>
@@ -8,8 +8,7 @@
     <body>
         <div id="header">
             <div id="headerBar">
-                <div id="homeButton"><a href="/workload/">HOME</a></div>
-                {% block title %}{% endblock %}
+                <div id="homeButton"><a href="/workload/">HOME</a></div>{% block title %}{% endblock %}
             </div>
             <a href="/workload/options/">
                 <div id="optionsButton">
@@ -19,6 +18,12 @@
         </div><!-- close header -->
 
         <div id="content">
+            {% if hasNotification %}
+                <div class="notification">
+                    Notification:
+                    {{notification}}
+                </div>
+            {% endif %}
             {% block content %}{% endblock %}
         </div>
 

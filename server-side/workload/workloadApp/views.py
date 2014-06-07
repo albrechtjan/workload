@@ -4,19 +4,24 @@ from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 from isoweek import Week # I should have a close look at this class when refactoring
-from workloadApp.models import WorkingHoursEntry, Lecture
+from workloadApp.models import WorkingHoursEntry, Lecture, Student
 
 @login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
 def calendar(request):
 
-    if not request.user.student.lectures.all():   # If the user 
-        return HttpResponse("No lectures chosen. TODO: Show this as a notification and offer link to options page for choosing lectures")
+    # This line is kind of needed in all view functions that make user of the student object
+    student , foo = Student.objects.get_or_create(user=request.user)
+    
+    if not student.lectures.all():   # If the user 
 
-    student = request.user.student
+
+        return HttpResponseRedirect("/workload/options/chosenLectures/?notification=You need to select a lecture to get started.")
+
 
     weekIterator = Week.withdate(student.startOfLectures())
     endWeek   = Week.withdate(student.endOfLectures())
 
+    
     weeks = []
     hasData = []
     while weekIterator <= endWeek:
@@ -35,12 +40,17 @@ def calendar(request):
     context = RequestContext(request, {
         "weeksHaveData" : zip(weeks, hasData)
     })
+
+    context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
 
 
 
 @login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
 def selectLecture(request):
+
+    #This line is kind of needed in all view functions that make user of the student object
+    student , foo = Student.objects.get_or_create(user=request.user)
 
     
     #TODO: Sourround the next two lines with a try-catch and handle the case that the url parameters are not given properly
@@ -62,6 +72,8 @@ def selectLecture(request):
         "week" : week,
         "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)
     })
+
+    context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
 
 @login_required
@@ -103,6 +115,10 @@ def postWorkloadDataEntry(request):
 
 @login_required
 def addLecture(request):
+
+    # This line is kind of needed in all view functions that make user of the student object. I'm not very happy about the amount of duplicate code it introduces.
+    student , foo = Student.objects.get_or_create(user=request.user)
+
     # Here the student can choose the list of lectures for which he wants to collect data
     #lectures are sorted by semester
 
@@ -117,20 +133,20 @@ def addLecture(request):
             # list of lectures which are given in the stated semester and which have not yet been selected by the user
             "lectures" : Lecture.objects.filter(semester=request.GET["semester"]).exclude(student=request.user.student)
         })
+
+        context.update(decorateWithNotification(request))
         return HttpResponse(template.render(context))
     else:
-        addedLecture = False
         if "addLecture" in request.GET.keys():
             lecture = Lecture.objects.get(pk=request.GET["addLecture"])
             request.user.student.lectures.add(lecture)
             request.user.student.save()
-            addedLecture = True
 
         template = loader.get_template('workloadApp/addLecture/selectSemester.html')
         context = RequestContext(request,{
             "allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct(),
-            "addedLecture" : addedLecture
             })
+        context.update(decorateWithNotification(request))
         return HttpResponse(template.render(context))
 
 @login_required
@@ -141,6 +157,7 @@ def options(request):
 
         })
 
+    context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
 
 
@@ -148,11 +165,30 @@ def options(request):
 @login_required
 def chosenLectures(request):
 
+    # TODO: Move this function into API
+    if "lectureId" in request.GET:
+        lectureToRemove = Lecture.objects.get(id=request.GET["lectureId"])
+        request.user.student.lectures.remove(lectureToRemove)
+        return HttpResponseRedirect("/workload/options/chosenLectures/?notification=Lecture removed from list")
+
+
     template = loader.get_template('workloadApp/options/chosenLectures.html')    
 
     chosenLectures = list(request.user.student.lectures.all())
     context = RequestContext(request,{
         "chosenLectures" : chosenLectures
         })
-
+    context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
+
+
+
+#Helper functions
+
+def decorateWithNotification(request):
+    if "notification" in request.GET:
+        return {"hasNotification" : True, "notification" : request.GET["notification"] }
+    elif "notification" in request.POST:
+        return { "hasNotification" : True, "notification" : request.POST["notification"] }
+    else:
+        return { "hasNotification" : False }

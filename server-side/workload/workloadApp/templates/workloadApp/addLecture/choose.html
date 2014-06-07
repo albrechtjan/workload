@@ -5,7 +5,7 @@
 {% block content %}
 		Please choose a lecture to add:
 		{% for lecture in lectures%}
-			<a href="?addLecture={{lecture.id}}">
+			<a href="?addLecture={{lecture.id}}&notification=Lecture was added to your list">
 				<div class="button wideButton">
 					<div class="buttonText">
 						Add {{lecture.name}}

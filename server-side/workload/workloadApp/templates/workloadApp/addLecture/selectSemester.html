@@ -4,14 +4,6 @@
 
 {% block content %}
 	Please select the semester in which the lecture occurs</br>
-	{% if addedLecture %}
-		<div class="wideItem green">
-			<div class="itemText ">
-				Lecture was added!
-			</div>
-		</div>
-
-	{% endif %}
 
 	{% for semester in allSemesters%}
 		<div class="button wideButton">

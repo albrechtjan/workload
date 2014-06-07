@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Lecture(models.Model):
     #TODO: Add Lecture ID
-    semester = models.CharField(max_length=6) #e.g. WS2014
+    semester = models.CharField(max_length=9) #e.g. WS2014/15 or SS2018
     name = models.CharField(max_length=200)
     startDay = models.DateField() # The day of the first lecture event. Or the monday of the week when the lecture starts.
     endDay = models.DateField()   # The day of the last lecture event. Or the day of the exam. Something like this.
@@ -18,12 +18,11 @@ class Lecture(models.Model):
 # The Student model is possibly going to be written as an extension of the user model once the shibboleth login has been implemented
 # But in fact it works pretty well to associate user and student by a one-to-one relationship
 class Student(models.Model):
-    permanentId = models.IntegerField()
     lectures = models.ManyToManyField(Lecture,blank=True)
     user = models.OneToOneField(User)
 
     def __unicode__(self):  # Python 3: def __str__(self):
-        return "student id "+str(self.permanentId);
+        return "student id "+str(self.pk);
 
     def startOfLectures(self):
         # returns a datetime.date a day in the first week of lectures
