@@ -85,14 +85,19 @@ def enterWorkloadData(request):
     #TODO: Sourround the next two lines with a try-catch and handle the case that the url parameters are not given properly
     week = int(request.GET['week'])
     year = int(request.GET['year'])
-    lectureId = int(request.GET['lectureId'])
+    lecture = Lecture.objects.get(id=int(request.GET['lectureId'])) 
+    dataEntry, hasBeenCreated = WorkingHoursEntry.objects.get_or_create( week=Week(year,week).monday() , student=request.user.student , lecture=lecture)
 
     template = loader.get_template('workloadApp/enterWorkloadData.html')
 
     context = RequestContext(request,{
         "year" : year,
         "week" : week,
-        "lectureId" : lectureId
+        "lectureId" : lecture.id,
+        "hoursInLecture" : dataEntry.hoursInLecture,
+        "hoursForHomework" : dataEntry.hoursForHomework,
+        "hoursStudying" : dataEntry.hoursStudying,
+
     })
 
     return HttpResponse(template.render(context))
