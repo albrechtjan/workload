@@ -1,5 +1,4 @@
 Django==1.6.5
 argparse==1.2.1
-django-shibboleth-remoteuser==0.5
 isoweek==1.3.0
 wsgiref==0.1.2
