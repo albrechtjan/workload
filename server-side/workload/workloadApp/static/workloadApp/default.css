@@ -14,11 +14,6 @@ body{
 	width: 100%;
 }
 
-#headerBar{
-	width: auto;
-	height: 100%;
-	float: left;
-}
 
 #optionsButton{
 	width: 11em;
@@ -32,18 +27,25 @@ body{
 	width: 11em;
 }
 
-#title{
+#homeButton{
 	height: 100%;
+	float: left;
+	border-right-style: solid;
+}
+
+
+#homeButtonGraphic{
+	margin: 0.5em;
+	height: 9em;
+}
+
+#title{
+	height: 10em;
 	float: left;
 	margin-right: 4em;
 }
 
-#homeButton{
-	font-size: 400%;
-	height: 100%;
-	float: left;
-	margin-right: 4em;
-}
+
 
 .weekButton{
 	float:left;

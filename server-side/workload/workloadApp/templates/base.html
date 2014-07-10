@@ -7,12 +7,14 @@
     </head>
     <body>
         <div id="header">
-            <div id="headerBar">
-                <div id="homeButton"><a href="/workload/">HOME</a></div>
-                <div id="title">
-                {% block title %}{% endblock %}
-                </div >
-            </div>
+            <a href="/workload/">
+                <div id="homeButton">
+                    <img id="homeButtonGraphic" src="/static/workloadApp/calendarIcon.svg">
+                </div>
+            </a>
+            <div id="title">
+            {% block title %}{% endblock %}
+            </div >
             <a href="/workload/options/">
                 <div id="optionsButton">
                     <img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
