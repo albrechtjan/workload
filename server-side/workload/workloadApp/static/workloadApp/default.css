@@ -10,7 +10,7 @@ body{
 
 #header{
 	border-bottom-style: solid;
-	height: 5em;
+	height: 10em;
 	width: 100%;
 }
 
@@ -21,15 +21,15 @@ body{
 }
 
 #optionsButton{
-	width: 6em;
+	width: 11em;
 	height: 100%;
 	float: right;
 	border-left-style: solid;
 }
 
 #optionsButtonGraphic{
-	height: 5em;
-	width: 6em;
+	height: 10em;
+	width: 11em;
 }
 
 #title{
