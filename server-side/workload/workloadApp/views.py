@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from datetime import date, timedelta
-import isoweek# I should have a close look at this class when refactoring
+import isoweek
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
@@ -39,7 +40,7 @@ class Week(isoweek.Week):
 
 
 @login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
-@method_decorator(never_ever_cache)
+@method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
     # This line is kind of needed in all view functions that make user of the student object
     student , foo = Student.objects.get_or_create(user=request.user)
