@@ -7,10 +7,34 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    width="431.3125"
    height="301.28125"
-   id="svg4699">
+   id="svg4699"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="calendarIcon.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1014"
+     id="namedview13"
+     showgrid="false"
+     inkscape:zoom="0.70250688"
+     inkscape:cx="-34.163366"
+     inkscape:cy="150.64063"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4699" />
   <defs
      id="defs4701" />
   <metadata
@@ -21,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -34,11 +58,11 @@
        x="186.4286"
        y="323.79074"
        id="rect3840"
-       style="fill:#0000ff;fill-opacity:0;stroke:#000000;stroke-width:21.29999924;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#0000ff;fill-opacity:0;stroke:#000000;stroke-width:21.29999923999999822;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none" />
     <rect
        width="60"
        height="60.000011"
-       ry="0"
+       ry="15.65821"
        x="483.79074"
        y="-536.42853"
        transform="matrix(0,1,-1,0,0,0)"
@@ -47,7 +71,7 @@
     <rect
        width="60.000015"
        height="60.000011"
-       ry="0"
+       ry="14.234756"
        x="383.79074"
        y="-536.42853"
        transform="matrix(0,1,-1,0,0,0)"
@@ -56,7 +80,7 @@
     <rect
        width="59.999981"
        height="60.000011"
-       ry="0"
+       ry="15.658222"
        x="383.79074"
        y="-426.42853"
        transform="matrix(0,1,-1,0,0,0)"
@@ -65,7 +89,7 @@
     <rect
        width="59.999989"
        height="60.000011"
-       ry="0"
+       ry="17.081684"
        x="383.79074"
        y="-306.42853"
        transform="matrix(0,1,-1,0,0,0)"
@@ -74,7 +98,7 @@
     <rect
        width="60"
        height="60.000011"
-       ry="0"
+       ry="15.658206"
        x="483.79074"
        y="-306.42853"
        transform="matrix(0,1,-1,0,0,0)"
@@ -83,7 +107,7 @@
     <rect
        width="60"
        height="60.000011"
-       ry="0"
+       ry="18.505157"
        x="483.79074"
        y="-426.42853"
        transform="matrix(0,1,-1,0,0,0)"
