@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'workloadApp',
+    'shibboleth',
     #'south',
 
 )
@@ -48,6 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
 )
 
 ROOT_URLCONF = 'workload.urls'
@@ -83,3 +85,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+# Settings for shibboleth
+
+SHIBBOLETH_ATTRIBUTE_MAP = {
+   "Shibboleth-permanentId": (True, "username")
+}
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+# The following are commented out since they seem to introduce an error currently
+#TEMPLATE_CONTEXT_PROCESSORS += (
+#   'shibboleth.context_processors.login_link',
+#   'shibboleth.context_processors.logout_link'
+#)
+
+from django.conf.global_settings import AUTHENTICATION_BACKENDS
+AUTHENTICATION_BACKENDS += (
+  'shibboleth.backends.ShibbolethRemoteUserBackend',
+)
+
+LOGIN_URL = 'https://school.edu/Shibboleth.sso/Login'
