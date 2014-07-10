@@ -5,6 +5,25 @@ from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 import isoweek# I should have a close look at this class when refactoring
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
+from django.views.decorators.cache import patch_cache_control
+from functools import wraps
+
+def never_ever_cache(decorated_function):
+    """Like Django @never_cache but sets more valid cache disabling headers.
+
+    @never_cache only sets Cache-Control:max-age=0 which is not
+    enough. For example, with max-axe=0 Firefox returns cached results
+    of GET calls when it is restarted.
+    """
+    @wraps(decorated_function)
+    def wrapper(*args, **kwargs):
+        response = decorated_function(*args, **kwargs)
+        patch_cache_control(
+            response, no_cache=True, no_store=True, must_revalidate=True,
+            max_age=0)
+        return response
+    return wrapper
+
 
 # Exend week class
 class Week(isoweek.Week):
@@ -16,7 +35,11 @@ class Week(isoweek.Week):
                     return False
         return True
 
+
+
+
 @login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
+@method_decorator(never_ever_cache)
 def calendar(request):
     # This line is kind of needed in all view functions that make user of the student object
     student , foo = Student.objects.get_or_create(user=request.user)
