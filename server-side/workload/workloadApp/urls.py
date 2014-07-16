@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'postWorkloadDataEntry', views.postWorkloadDataEntry,name='postWorkloadDataEntry'),
     url(r'options/chosenLectures/addLecture/', views.addLecture,name='addLecture'),
     url(r'options/chosenLectures/', views.chosenLectures, name="chosenLectures"),
+    url(r'options/logout/', views.logoutView, name="logoutView"),
     url(r'options/', views.options, name="options"),
     url(r'^$', RedirectView.as_view(url='calendar/',permanent=False), name='index')
 )

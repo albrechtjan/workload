@@ -8,6 +8,7 @@ import isoweek
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
+from django.contrib.auth import logout
 
 def never_ever_cache(decorated_function):
     """Like Django @never_cache but sets more valid cache disabling headers.
@@ -214,6 +215,10 @@ def chosenLectures(request):
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
 
+def logoutView(request):
+    logout(request)
+    return HttpResponseRedirect("/workload/?notification=You have been logged out.")
+
 
 
 #Helper functions
@@ -225,3 +230,4 @@ def decorateWithNotification(request):
         return { "hasNotification" : True, "notification" : request.POST["notification"] }
     else:
         return { "hasNotification" : False }
+
