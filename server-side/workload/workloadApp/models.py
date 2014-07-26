@@ -20,6 +20,7 @@ class Lecture(models.Model):
 class Student(models.Model):
     lectures = models.ManyToManyField(Lecture,blank=True)
     user = models.OneToOneField(User)
+    agreedToTermnsAndConditions = models.BooleanField(default=False)
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student id "+str(self.pk);
@@ -38,9 +39,9 @@ class Student(models.Model):
 
 
 class WorkingHoursEntry(models.Model):
-    hoursInLecture=models.IntegerField(default=0)
-    hoursForHomework=models.IntegerField(default=0) 
-    hoursStudying=models.IntegerField(default=0)
+    hoursInLecture=models.FloatField(default=0)
+    hoursForHomework=models.FloatField(default=0) 
+    hoursStudying=models.FloatField(default=0)
     lecture = models.ForeignKey(Lecture)
     student = models.ForeignKey(Student)
     week = models.DateField() # A datetime.date object. The Monday (!!!) of the week for which the working hours are entered 

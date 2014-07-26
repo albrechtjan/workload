@@ -137,9 +137,9 @@ def postWorkloadDataEntry(request):
 
     dataEntry, hasBeenCreated = WorkingHoursEntry.objects.get_or_create( week=Week(int(request.POST['year']),int(request.POST['week'])).monday() , student=request.user.student , lecture=lecture)
 
-    dataEntry.hoursInLecture   = int(request.POST["hoursInLecture"])
-    dataEntry.hoursForHomework = int(request.POST["hoursForHomework"])
-    dataEntry.hoursStudying    = int(request.POST["hoursStudying"])
+    dataEntry.hoursInLecture   = float(request.POST["hoursInLecture"])
+    dataEntry.hoursForHomework = float(request.POST["hoursForHomework"])
+    dataEntry.hoursStudying    = float(request.POST["hoursStudying"])
     dataEntry.save()
 
     return HttpResponseRedirect('selectLecture/?year='+request.POST['year']+'&week='+request.POST['week'])
