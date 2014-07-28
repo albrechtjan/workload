@@ -20,7 +20,6 @@ class Lecture(models.Model):
 class Student(models.Model):
     lectures = models.ManyToManyField(Lecture,blank=True)
     user = models.OneToOneField(User)
-    agreedToTermnsAndConditions = models.BooleanField(default=False)
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student id "+str(self.pk);
