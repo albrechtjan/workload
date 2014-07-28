@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'workloadApp',
     'shibboleth',
-    #'south',
+    'south',
 
 )
 
