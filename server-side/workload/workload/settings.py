@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'workloadApp',
     'shibboleth',
-    'south',
+#    'south',
 
 )
 
@@ -47,9 +47,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
 )
 
 ROOT_URLCONF = 'workload.urls'
@@ -91,19 +91,19 @@ STATIC_URL = '/static/'
 # Settings for shibboleth
 
 SHIBBOLETH_ATTRIBUTE_MAP = {
-   "Shibboleth-permanentId": (True, "username")
+   "entitlement": (True, "username")
 }
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-# The following are commented out since they seem to introduce an error currently
-#TEMPLATE_CONTEXT_PROCESSORS += (
-#   'shibboleth.context_processors.login_link',
-#   'shibboleth.context_processors.logout_link'
-#)
+TEMPLATE_CONTEXT_PROCESSORS += (
+   'shibboleth.context_processors.login_link',
+   'shibboleth.context_processors.logout_link'
+)
 
 from django.conf.global_settings import AUTHENTICATION_BACKENDS
 AUTHENTICATION_BACKENDS += (
   'shibboleth.backends.ShibbolethRemoteUserBackend',
 )
 
-LOGIN_URL = 'https://school.edu/Shibboleth.sso/Login'
+
+LOGIN_URL = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Login'

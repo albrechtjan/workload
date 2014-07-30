@@ -4,7 +4,7 @@
 
 {% block content %}
 		{% for lecture in lectures%}
-			<a href="/workload/options/chosenLectures/?addLecture={{lecture.id}}&notification=Lecture was added to your list">
+			<a href="../chosenLectures/?addLecture={{lecture.id}}&notification=Lecture was added to your list">
 				<div class="button wideButton">
 					<div class="buttonText">
 						Add {{lecture.name}}

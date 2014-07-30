@@ -40,14 +40,14 @@ class Week(isoweek.Week):
 
 
 
-@login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
+@login_required(redirect_field_name='target') # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
 @method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
     # This line is kind of needed in all view functions that make user of the student object
     student , foo = Student.objects.get_or_create(user=request.user)
     
     if not student.lectures.all():   # If the user has no lecture selected
-        return HttpResponseRedirect("/workload/options/chosenLectures/?notification=You need to select a lecture to get started.")
+        return HttpResponseRedirect("../options/chosenLectures/?notification=You need to select a lecture to get started.")
 
     start = Week.withdate(student.startOfLectures())
     end = Week.withdate(student.endOfLectures())
@@ -216,8 +216,9 @@ def chosenLectures(request):
     return HttpResponse(template.render(context))
 
 def logoutView(request):
+    #this is pretty broken and probably does not work with shibboleth
     logout(request)
-    return HttpResponseRedirect("/workload/?notification=You have been logged out.")
+    return HttpResponseRedirect("/app/workload/?notification=You have been logged out.")
 
 
 
