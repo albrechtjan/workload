@@ -1,16 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %} OPTIONS 	UserID: {{ user.student.permanentId }} Status: logged in.{% endblock %}
+{% block header %} 
+
+    <a href="/app/workload/">
+        <div id="homeButton">
+            <img id="homeButtonGraphic" src="/static/workloadApp/backButton.svg">
+        </div>
+    </a>
+
+<div id="advise">
+OPTIONS
+</div>
+
+{% endblock %}
 
 {% block content %}
 	<a href='chosenLectures/'>
 		<div class="button wideButton">
 			<div class="buttonText">
-				My Lectures
+				Manage Lectures
 			</div>
 		</div>
 	</a>
-	<a href='logout/'>
+	<a href='{{logout_link}}'>
 		<div class="button wideButton">
 			<div class="buttonText">
 				Logout

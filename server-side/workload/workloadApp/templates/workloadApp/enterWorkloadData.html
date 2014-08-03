@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Enter workload data {% endblock %}
+{% block header %} 
+
+    <a href="/app/workload/">
+        <div id="homeButton">
+            <img id="homeButtonGraphic" src="/static/workloadApp/backButton.svg">
+        </div>
+    </a>
+
+<div id="advice">
+... enter your data ...
+</div>
+
+{% endblock %}
 
 {% block content %}
 <form action="../postWorkloadDataEntry" method="post" >

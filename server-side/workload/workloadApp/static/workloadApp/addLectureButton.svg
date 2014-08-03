@@ -9,24 +9,24 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="300"
-   height="250"
+   width="260.35724"
+   height="260.35724"
    id="svg2993"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="optionsButton.svg">
+   sodipodi:docname="addLectureButton.svg">
   <defs
      id="defs2995" />
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
+     pagecolor="#5e5e5e"
      bordercolor="#ffffff"
      borderopacity="0.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="0.44313725"
      inkscape:pageshadow="0"
      inkscape:zoom="2.8"
-     inkscape:cx="245.44805"
-     inkscape:cy="140.70393"
+     inkscape:cx="94.198097"
+     inkscape:cy="139.48139"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -35,10 +35,10 @@
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-top="20"
+     fit-margin-left="20"
+     fit-margin-right="20"
+     fit-margin-bottom="20" />
   <metadata
      id="metadata2998">
     <rdf:RDF>
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,30 +55,25 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(1374.7813,202.84375)">
-    <rect
-       style="fill:#ffffff;fill-opacity:1"
-       id="rect3777"
-       width="62.857124"
-       height="57.142853"
-       x="-1257.1429"
-       y="-187.63782"
-       ry="15.000005" />
+     transform="translate(1223.5314,214.42352)">
     <rect
        style="fill:#ffffff;fill-opacity:1"
        id="rect3777-5"
-       width="62.857124"
-       height="57.142853"
-       x="-1257.1428"
-       y="-104.78067"
-       ry="14.28571" />
+       width="64.285728"
+       height="220.35724"
+       x="-1127.8571"
+       y="-194.42352"
+       ry="14.28571"
+       rx="13.928572" />
     <rect
        style="fill:#ffffff;fill-opacity:1"
-       id="rect3777-8"
-       width="62.857124"
-       height="57.142853"
-       x="-1257.1429"
-       y="-24.780672"
-       ry="14.285715" />
+       id="rect3777-5-1"
+       width="64.285728"
+       height="220.35724"
+       x="54.629459"
+       y="-1203.5314"
+       ry="14.28571"
+       rx="13.928572"
+       transform="matrix(0,-1,1,0,0,0)" />
   </g>
 </svg>

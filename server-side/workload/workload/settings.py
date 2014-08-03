@@ -105,5 +105,6 @@ AUTHENTICATION_BACKENDS += (
   'shibboleth.backends.ShibbolethRemoteUserBackend',
 )
 
-
-LOGIN_URL = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Login'
+LOGIN_URL = '/app/shib/login/'
+SHIBBOLETH_LOGIN_URL  = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Login'
+SHIBBOLETH_LOGOUT_URL = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Logout'

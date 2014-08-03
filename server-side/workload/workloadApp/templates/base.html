@@ -7,19 +7,15 @@
     </head>
     <body>
         <div id="header">
-            <a href="/app/workload/">
-                <div id="homeButton">
-                    <img id="homeButtonGraphic" src="/static/workloadApp/calendarIcon.svg">
-                </div>
-            </a>
-            <div id="title">
-            {% block title %}{% endblock %}
-            </div >
-            <a href="/app/workload/options/">
-                <div id="optionsButton">
-                    <img id="optionsButtonGraphic" src="/static/workloadApp/optionsButton.svg">
-                </div>
-            </a>
+            {% block header %}{% endblock %}
+
+            
+        <a href="/app/workload/options/">
+            <div class="iconButton">
+                <img class="iconButtonGraphic" src="/static/workloadApp/optionsButton.svg">
+            </div>
+        </a>
+
         </div><!-- close header -->
 
         <div id="content">

@@ -2,27 +2,27 @@
 
 body{
 	margin: 0;
-
+	font-family: "Arial";
 	background-color: white;
 }
 
 
 
 #header{
-	border-bottom-style: solid;
+	background-color: #2F4067;
 	height: 10em;
 	width: 100%;
+	color: white;
 }
 
 
-#optionsButton{
+.iconButton{
 	width: 11em;
 	height: 100%;
 	float: right;
-	border-left-style: solid;
 }
 
-#optionsButtonGraphic{
+.iconButtonGraphic{
 	height: 10em;
 	width: 11em;
 }
@@ -30,7 +30,6 @@ body{
 #homeButton{
 	height: 100%;
 	float: left;
-	border-right-style: solid;
 }
 
 
@@ -39,9 +38,17 @@ body{
 }
 
 #title{
-	height: 10em;
+	margin: 0.2em;
+	font-size: 6em;
 	float: left;
-	margin-right: 4em;
+}
+
+
+#advice{
+	margin: 0.2em;
+	font-size: 6em;
+	float: left;
+
 }
 
 
@@ -103,11 +110,13 @@ a{max-width:100%; max-height:100%;
 
 
 .red{
-	background-color: #FF6840;
+	color: black;
+	background-color: #F0F2F6;
 }
 
 .green{
-	background-color: #62DA97;
+	color: black;
+	background-color: #8B94B1;
 
 }
 

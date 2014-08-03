@@ -40,7 +40,7 @@ class Week(isoweek.Week):
 
 
 
-@login_required(redirect_field_name='target') # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
+@login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
 @method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
     # This line is kind of needed in all view functions that make user of the student object
