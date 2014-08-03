@@ -7,14 +7,13 @@
     </head>
     <body>
         <div id="header">
-            {% block header %}{% endblock %}
-
-            
-        <a href="/app/workload/options/">
+            <a href="/app/workload/options/">
             <div class="iconButton">
                 <img class="iconButtonGraphic" src="/static/workloadApp/optionsButton.svg">
             </div>
-        </a>
+            </a>
+            {% block header %}{% endblock %}
+
 
         </div><!-- close header -->
 
