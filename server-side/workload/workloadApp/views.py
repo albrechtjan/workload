@@ -27,7 +27,7 @@ def never_ever_cache(decorated_function):
     return wrapper
 
 
-# Exend week class
+# Exend week class. This shoudln't be in the views-file in fact
 class Week(isoweek.Week):
     def hasData(self,student):
         for lectureIterator in student.lectures.all():
@@ -38,7 +38,7 @@ class Week(isoweek.Week):
         return True
 
     def isCurrentWeek(self):
-        return True
+        return self == isoweek.Week.thisweek()
 
 
 
@@ -200,7 +200,7 @@ def chosenLectures(request):
     if "lectureId" in request.GET: # TODO: rename this parameter to remvoeLecture
         lectureToRemove = Lecture.objects.get(id=request.GET["lectureId"])
         request.user.student.lectures.remove(lectureToRemove)
-        return HttpResponseRedirect("/workload/options/chosenLectures/?notification=Lecture removed from list")
+        return HttpResponseRedirect("/app/workload/options/chosenLectures/?notification=Lecture removed from list")
 
      # TODO: Move this function into API
     if "addLecture" in request.GET.keys():
