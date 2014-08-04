@@ -37,6 +37,9 @@ class Week(isoweek.Week):
                     return False
         return True
 
+    def isCurrentWeek(self):
+        return True
+
 
 
 
@@ -54,7 +57,7 @@ def calendar(request):
     weeks = [start+x for x in range(end-start+1)]
 
 
-    weeksHaveData = zip(weeks, [week.hasData(student) for week in weeks])
+    weeksHaveData = zip(weeks, [ "green" if week.hasData(student) else "red" for week in weeks], ["isCurrentWeek" if week.isCurrentWeek() else "" for week in weeks])
 
     #subdivide the list of week-hasData tuples into a list of lists where the sublists contain only events of a certain year
     shaped = []

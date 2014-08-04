@@ -16,11 +16,7 @@
 			<div class="calendarYearDivider">{{year.0.0.year}}</div>
 			{% for weekData in year %}
 				<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
-						{%if weekData.1 %}
-					<div class="weekButton button green">
-						{%else%}
-					<div class="weekButton button red">
-						{%endif%}
+					<div class="weekButton button {{weekData.1}} {{weekData.2}}">
 						<div class="weekNumber">
 							{{weekData.0.week}} 
 						</div>
