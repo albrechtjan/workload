@@ -10,7 +10,7 @@
     </a>
 
 <div id="advice">
- ... add or remove lectures ...
+ ... add or remove ...
 </div>
 
 {% endblock %}
@@ -19,7 +19,7 @@
 	{% for lecture in chosenLectures %}
 		<div class=" wideItem">
 			<div class="itemText">
-				{{lecture.name}} <a href=/workload/options/chosenLectures/?lectureId={{lecture.id}}&redirectTo=/workload/options/chosenLectures/><img class="removeLectureButton"src="/static/workloadApp/deleteIcon.png"></a>
+				{{lecture.name}} <a href=/app/workload/options/chosenLectures/?lectureId={{lecture.id}}&redirectTo=/workload/options/chosenLectures/><img class="removeLectureButton"src="/static/workloadApp/deleteIcon.png"></a>
 			</div>
 		</div>
 	{% endfor %}

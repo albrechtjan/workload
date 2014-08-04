@@ -25,7 +25,8 @@
 							{{weekData.0.week}} 
 						</div>
 						<div class="calendarDates">
-							{{weekData.0.monday.day}}.{{weekData.0.monday.month}}. - <br/> {{weekData.0.sunday.day}}.{{weekData.0.sunday.month}}.
+							{{weekData.0.monday | date:"d.m."}} - <br/> 	
+							{{weekData.0.sunday | date:"d.m."}}	
 						</div>
 					</div>
 				</a>
