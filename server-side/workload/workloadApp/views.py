@@ -145,7 +145,7 @@ def postWorkloadDataEntry(request):
     dataEntry.hoursStudying    = float(request.POST["hoursStudying"])
     dataEntry.save()
 
-    return HttpResponseRedirect('selectLecture/?year='+request.POST['year']+'&week='+request.POST['week'])
+    return HttpResponse("success")
 
 
 

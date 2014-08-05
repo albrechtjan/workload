@@ -1,9 +1,39 @@
 {% extends "base.html" %}
 
+{% block headExtension %}
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script>
+$(function(){
+
+$("#workingHoursEntryForm").keyup(function() {
+
+
+    var url = "../postWorkloadDataEntry"; 
+
+    $("#status").html("submitting")
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: $("#workingHoursEntryForm").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               $("#status").html("")
+           }
+         });
+
+    return false; // avoid to execute the actual submit of the form.
+});
+
+
+})
+ </script>
+{%endblock%}
+
 {% block header %} 
 
-    <a href="/app/workload/">
-        <div id="homeButton">
+    <a href="../selectLecture/?year={{year}}&week={{week}}">
+        <div id="homeButton">	
             <img id="homeButtonGraphic" src="/static/workloadApp/backButton.svg">
         </div>
     </a>
@@ -15,7 +45,8 @@
 {% endblock %}
 
 {% block content %}
-<form action="../postWorkloadDataEntry" method="post" >
+<div id="status"></div>
+<form id="workingHoursEntryForm" >
 {% csrf_token %}
 	<div class="wideItem">
 		<div class="itemText">
@@ -42,13 +73,6 @@
 	<input type="hidden" name="year" value="{{year}}">
 	<input type="hidden" name="week" value="{{week}}">
 	<input type="hidden" name="lectureId" value="{{lectureId}}">
-
-
-	<button class="button wideButton" type="submit" >
-		<div class="buttonText">
-			Submit
-		</div>
-	</button>
 
 </form>
 
