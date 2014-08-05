@@ -5,12 +5,31 @@
  <script>
 $(function(){
 
+
+function isValid(){
+
+	var isValid = true;
+	$('#workingHoursEntryForm .timeInput').each(function(){
+		if (! $(this).val().match(/^\d+\.?\d*$/) ){
+			isValid = false;
+			$(this).addClass("inputInvalid");
+		}
+		else{
+			$(this).removeClass("inputInvalid");
+		}
+	});
+	return  isValid;
+}
+
 $("#workingHoursEntryForm").keyup(function() {
 
+	if( ! isValid()){ //if the entries are not valid, we mark them and do not submit
+		return false;
+	}
 
-    var url = "../postWorkloadDataEntry"; 
+    var url = "../postWorkloadDataEntry";
 
-    $("#status").html("submitting")
+    $("#loaderGifBackground").addClass("loaderGif")
 
     $.ajax({
            type: "POST",
@@ -18,7 +37,7 @@ $("#workingHoursEntryForm").keyup(function() {
            data: $("#workingHoursEntryForm").serialize(), // serializes the form's elements.
            success: function(data)
            {
-               $("#status").html("")
+               $("#loaderGifBackground").removeClass("loaderGif")
            }
          });
 
@@ -45,13 +64,15 @@ $("#workingHoursEntryForm").keyup(function() {
 {% endblock %}
 
 {% block content %}
-<div id="status"></div>
+
+<div id="loaderGifBackground"></div>
+
 <form id="workingHoursEntryForm" >
 {% csrf_token %}
 	<div class="wideItem">
 		<div class="itemText">
 		    <label for="hoursInLecture">hours spent attending</label>
-			<input type="number" step="any" name="hoursInLecture" id="hoursInLecture" min="0" max="99" value="{{hoursInLecture}}"></br>
+			<input type="number" step="any" name="hoursInLecture" class ="timeInput" id="hoursInLecture" min="0" max="99" value="{{hoursInLecture}}"></br>
 		</div>
 	</div>
 
@@ -59,14 +80,14 @@ $("#workingHoursEntryForm").keyup(function() {
 	<div class="wideItem">
 		<div class="itemText">
 			<label for="hoursForHomework">hours spent doing homework</label>
-			<input type="number" step="any" name="hoursForHomework" id="hourForHomework" min="0" max="99" value="{{hoursForHomework}}"></br>
+			<input type="number" step="any" name="hoursForHomework" class ="timeInput" id="hourForHomework" min="0" max="99" value="{{hoursForHomework}}"></br>
 		</div>
 	</div>
 
 	<div class="wideItem">
 		<div class="itemText">
 			<label for="hoursStudying">hours spent studying</label>
-			<input type="number" step="any" name="hoursStudying" id="hoursStudying" min="0" max="99" value="{{hoursStudying}}"></br>
+			<input type="number" step="any" name="hoursStudying" class ="timeInput" id="hoursStudying" min="0" max="99" value="{{hoursStudying}}"></br>
 		</div>
 	</div>
 

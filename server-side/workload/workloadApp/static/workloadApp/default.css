@@ -179,9 +179,34 @@ input{
 	background-color: white;
 }
 
+.inputInvalid{
+	background-color: #C8A2C8;
+}
+
 button{
 	border  : none;
     margin      : 0px;
     padding     : 0px;
     width: 90%;
+}
+
+
+#loaderGifBackground {
+    transition: background-image 0.5s ease-in-out;
+    -moz-transition: background-image 0.5s ease-in-out;
+    -webkit-transition: background-miage 0.5s ease-in-out;
+	height: 2em;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 1em;
+	margin-bottom: 0em;
+
+	background-repeat:no-repeat;
+	background-position: center center;
+}
+.loaderGif {
+    background-image: url('/static/workloadApp/loader.gif');
+
+	background-repeat:no-repeat;
+	background-position: center center;
 }
