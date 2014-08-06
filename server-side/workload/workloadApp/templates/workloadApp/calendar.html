@@ -14,6 +14,7 @@
 	<div id="calendar">
 		{% for year in weeksHaveDataShaped %}
 			<div class="calendarYearDivider">{{year.0.0.year}}</div>
+			<div class="calendarYearContent">
 			{% for weekData in year %}
 				<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
 					<div class="weekButton button {{weekData.1}} {{weekData.2}}">
@@ -27,6 +28,7 @@
 					</div>
 				</a>
 			{% endfor %}
+			</div>
 		{% endfor %}
 	</div>
 {% endblock %}

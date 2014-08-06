@@ -24,19 +24,26 @@ function isValid(){
 $("#workingHoursEntryForm").keyup(function() {
 
 	if( ! isValid()){ //if the entries are not valid, we mark them and do not submit
+		$("#status").fadeOut(600, function() {
+        	$(this).text('Invalid entry.').fadeIn(600);
+    	});
 		return false;
 	}
 
     var url = "../postWorkloadDataEntry";
 
-    $("#status").html("saving")
+    $("#status").fadeOut(500, function() {
+        	$(this).text('Saving...').fadeIn(500);
+    	});
     $.ajax({
            type: "POST",
            url: url,
            data: $("#workingHoursEntryForm").serialize(), // serializes the form's elements.
            success: function(data)
            {
-               $("#status").html("All changes saved")
+               $("#status").stop().fadeOut(400, function() {
+        			$(this).text('All changes saved.').fadeIn(500);
+    			});
            }
          });
 
