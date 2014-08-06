@@ -29,15 +29,14 @@ $("#workingHoursEntryForm").keyup(function() {
 
     var url = "../postWorkloadDataEntry";
 
-    $("#loaderGifBackground").addClass("loaderGif")
-
+    $("#status").html("saving")
     $.ajax({
            type: "POST",
            url: url,
            data: $("#workingHoursEntryForm").serialize(), // serializes the form's elements.
            success: function(data)
            {
-               $("#loaderGifBackground").removeClass("loaderGif")
+               $("#status").html("All changes saved")
            }
          });
 
@@ -65,7 +64,7 @@ $("#workingHoursEntryForm").keyup(function() {
 
 {% block content %}
 
-<div id="loaderGifBackground"></div>
+<div id="status" class="notification"></div>
 
 <form id="workingHoursEntryForm" >
 {% csrf_token %}
