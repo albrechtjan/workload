@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'options/chosenLectures/', views.chosenLectures, name="chosenLectures"),
     url(r'options/logout/', views.logoutView, name="logoutView"),
     url(r'options/', views.options, name="options"),
+    url(r'^privacyAgreement/', views.privacyAgreement, name="privacyAgreement"),
     url(r'^$', RedirectView.as_view(url='calendar/',permanent=False), name='index')
 )

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import Group
 from django.utils.decorators import method_decorator
 from datetime import date, timedelta
 import isoweek
@@ -9,6 +10,23 @@ from workloadApp.models import WorkingHoursEntry, Lecture, Student
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
 from django.contrib.auth import logout
+
+
+
+#Helper functions
+
+def decorateWithNotification(request):
+    if "notification" in request.GET:
+        return {"hasNotification" : True, "notification" : request.GET["notification"] }
+    elif "notification" in request.POST:
+        return { "hasNotification" : True, "notification" : request.POST["notification"] }
+    else:
+        return { "hasNotification" : False }
+
+def privacy_agreement(user):
+    if user:
+        return user.groups.filter(name='has_agreed_to_privacy_agreement').count() != 0
+    return False
 
 def never_ever_cache(decorated_function):
     """Like Django @never_cache but sets more valid cache disabling headers.
@@ -43,10 +61,11 @@ class Week(isoweek.Week):
 
 
 
-@login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
+@login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 @method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
-    # This line is kind of needed in all view functions that make user of the student object
+    # This line is kind of needed in all view functions that make user of the student object 
     student , foo = Student.objects.get_or_create(user=request.user)
     
     if not student.lectures.all():   # If the user has no lecture selected
@@ -78,6 +97,7 @@ def calendar(request):
 
 
 @login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def selectLecture(request):
 
     #This line is kind of needed in all view functions that make user of the student object
@@ -108,6 +128,7 @@ def selectLecture(request):
     return HttpResponse(template.render(context))
 
 @login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def enterWorkloadData(request):
 
     #TODO: Sourround the next two lines with a try-catch and handle the case that the url parameters are not given properly
@@ -131,6 +152,7 @@ def enterWorkloadData(request):
     return HttpResponse(template.render(context))
 
 @login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def postWorkloadDataEntry(request):
 
     #TODO: Make sure ALL post variables are set
@@ -150,6 +172,7 @@ def postWorkloadDataEntry(request):
 
 
 @login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def addLecture(request):
 
     # This line is kind of needed in all view functions that make user of the student object. I'm not very happy about the amount of duplicate code it introduces.
@@ -182,6 +205,7 @@ def addLecture(request):
         return HttpResponse(template.render(context))
 
 @login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def options(request):
     template = loader.get_template('workloadApp/options.html')
 
@@ -195,6 +219,7 @@ def options(request):
 
 
 @login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def chosenLectures(request):
     # TODO: Move this function into API
     if "lectureId" in request.GET: # TODO: rename this parameter to remvoeLecture
@@ -224,14 +249,25 @@ def logoutView(request):
     return HttpResponseRedirect("/app/workload/?notification=You have been logged out.")
 
 
+@login_required
+# here, agreemetn to the privacy agreement is obviously not required
+def privacyAgreement(request):
 
-#Helper functions
+    if request.method =="POST":  #the user has responed to the form
+        if "privacy" in request.POST:
+            g = Group.objects.get(name='has_agreed_to_privacy_agreement')
+            g.user_set.add(request.user)
+            return HttpResponseRedirect("/app/workload/calendar?notification=You have agreed to the privacy agreement")
+        else:
+            return HttpResponseRedirect("./?notification=You must check the checkbox.")
 
-def decorateWithNotification(request):
-    if "notification" in request.GET:
-        return {"hasNotification" : True, "notification" : request.GET["notification"] }
-    elif "notification" in request.POST:
-        return { "hasNotification" : True, "notification" : request.POST["notification"] }
-    else:
-        return { "hasNotification" : False }
+
+    template = loader.get_template('workloadApp/privacyAgreement.html')
+
+    context = RequestContext(request,{ # it would be a good idea to pass here the users insitution
+        })
+
+    context.update(decorateWithNotification(request))
+    return HttpResponse(template.render(context))
+
 

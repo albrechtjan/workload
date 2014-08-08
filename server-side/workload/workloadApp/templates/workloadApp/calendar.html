@@ -13,7 +13,7 @@
 {% block content %}
 	<div id="calendar">
 		{% for year in weeksHaveDataShaped %}
-			<div class="calendarYearDivider">{{year.0.0.year}}</div>
+			<div class="calendarYearDivider"> {{year.0.0.year}}</div>
 			<div class="calendarYearContent">
 			{% for weekData in year %}
 				<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
