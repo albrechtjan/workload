@@ -265,6 +265,7 @@ def privacyAgreement(request):
     template = loader.get_template('workloadApp/privacyAgreement.html')
 
     context = RequestContext(request,{ # it would be a good idea to pass here the users insitution
+         "has_agreed_to_privacy_agreement" : privacy_agreement(request.user)
         })
 
     context.update(decorateWithNotification(request))

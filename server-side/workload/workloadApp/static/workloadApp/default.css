@@ -236,6 +236,10 @@ footer a {
 	font-size: 1.5em;
 }
 
+#privacyText a {
+	text-decoration: underline;
+}
+
 input[type="submit"]{
 	height: 1.6em;
 	padding: 0.3em;
