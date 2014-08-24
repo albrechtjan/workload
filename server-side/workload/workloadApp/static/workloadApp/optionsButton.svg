@@ -7,12 +7,65 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="300"
    height="250"
-   id="svg2993">
+   id="svg2993"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="optionsButton.svg">
   <defs
      id="defs2995" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#101823"
+     bordercolor="#ffffff"
+     borderopacity="0.0"
+     inkscape:pageopacity="0.48235294"
+     inkscape:pageshadow="0"
+     inkscape:zoom="2.8"
+     inkscape:cx="160.44805"
+     inkscape:cy="124.03958"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1014"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-global="true">
+    <sodipodi:guide
+       position="0,0"
+       orientation="0,300"
+       id="guide3010" />
+    <sodipodi:guide
+       position="300,0"
+       orientation="-250,0"
+       id="guide3012" />
+    <sodipodi:guide
+       position="300,250"
+       orientation="0,-300"
+       id="guide3014" />
+    <sodipodi:guide
+       position="0,250"
+       orientation="250,0"
+       id="guide3016" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid3130"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
   <metadata
      id="metadata2998">
     <rdf:RDF>
@@ -26,31 +79,33 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(1374.7813,202.84375)"
-     id="layer1">
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(1374.7813,202.84375)">
     <rect
-       width="269.99994"
-       height="50"
-       ry="15.000005"
-       x="-1359.7812"
-       y="-112.84375"
+       style="fill:#ffffff;fill-opacity:1"
        id="rect3777-8"
-       style="fill:#ffffff;fill-opacity:1" />
-    <rect
        width="269.99994"
        height="50"
-       ry="15.000005"
+       x="-1359.7812"
+       y="-107.84375"
+       ry="15.000005" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1"
+       id="rect3777-8-9"
+       width="269.99994"
+       height="50"
        x="-1359.7812"
        y="-182.84375"
-       id="rect3777-8-9"
-       style="fill:#ffffff;fill-opacity:1" />
+       ry="15.000005" />
     <rect
-       width="264.99994"
-       height="50"
-       ry="15.000005"
-       x="-1359.7812"
-       y="-42.84375"
+       style="fill:#ffffff;fill-opacity:1"
        id="rect3777-8-90"
-       style="fill:#ffffff;fill-opacity:1" />
+       width="269.99994"
+       height="50"
+       x="-1359.7812"
+       y="-32.84375"
+       ry="15.000005" />
   </g>
 </svg>
