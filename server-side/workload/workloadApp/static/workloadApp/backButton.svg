@@ -14,7 +14,7 @@
    id="svg2993"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="addLectureButton.svg">
+   sodipodi:docname="backButton.svg">
   <defs
      id="defs2995">
     <marker
@@ -130,7 +130,7 @@
      inkscape:pageopacity="0.44313725"
      inkscape:pageshadow="0"
      inkscape:zoom="2.8"
-     inkscape:cx="93.840954"
+     inkscape:cx="94.55524"
      inkscape:cy="139.48139"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -152,7 +152,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -162,22 +162,22 @@
      id="layer1"
      transform="translate(1223.5314,214.42352)">
     <rect
-       style="fill:#ffffff;fill-opacity:1;stroke-width:100;stroke-miterlimit:4;stroke-dasharray:none;stroke:none"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
        id="rect3777-5-1"
-       width="64.285728"
-       height="220.35724"
+       width="64.285736"
+       height="217.32146"
        x="54.629459"
-       y="-1203.5314"
+       y="-1200.4956"
        ry="14.28571"
        rx="13.928572"
        transform="matrix(0,-1,1,0,0,0)" />
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        id="rect3777-5-1-6"
-       width="61.428577"
-       height="130.35724"
-       x="867.63293"
-       y="-779.9884"
+       width="59.787121"
+       height="156.49489"
+       x="869.27441"
+       y="-806.1261"
        ry="14.28571"
        rx="13.928572"
        transform="matrix(-0.70710678,-0.70710678,0.70710678,-0.70710678,0,0)" />
