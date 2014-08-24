@@ -1,10 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Choose Lecture {% endblock %}
+{% block header %} 
+
+    <a href="/app/workload/options/chosenLectures/addLecture/">
+        <div id="homeButton">
+            <img id="homeButtonGraphic" src="/static/workloadApp/backButton.png">
+        </div>
+    </a>
+
+<div id="advice">
+... choose a lecture ...
+</div>
+
+{% endblock %}
 
 {% block content %}
 		{% for lecture in lectures%}
-			<a href="../chosenLectures/?addLecture={{lecture.id}}&notification=Lecture was added to your list">
+			<a href="../?addLecture={{lecture.id}}&notification=Lecture was added to your list">
 				<div class="button wideButton">
 					<div class="buttonText">
 						Add {{lecture.name}}

@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Choose Semester{% endblock %}
+{% block header %} 
+
+    <a href="/app/workload/options/chosenLectures/">
+        <div id="homeButton">
+            <img id="homeButtonGraphic" src="/static/workloadApp/backButton.png">
+        </div>
+    </a>
+
+<div id="advice">
+... choose a semester ...
+</div>
+
+{% endblock %}
 
 {% block content %}
 	{% for semester in allSemesters%}
