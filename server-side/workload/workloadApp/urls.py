@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'options/logout/', views.logoutView, name="logoutView"),
     url(r'options/', views.options, name="options"),
     url(r'^privacyAgreement/', views.privacyAgreement, name="privacyAgreement"),
+    url(r'^visualizeData/',views.visualizeData,name="visualizeData"),
     url(r'^$', RedirectView.as_view(url='calendar/',permanent=False), name='index')
 )

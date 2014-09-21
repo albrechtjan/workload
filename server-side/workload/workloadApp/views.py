@@ -272,3 +272,19 @@ def privacyAgreement(request):
     return HttpResponse(template.render(context))
 
 
+
+@login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+def visualizeData(request):
+
+   
+    template = loader.get_template('workloadApp/visualizeData.html')
+
+    context = RequestContext(request,{
+        })
+
+    context.update(decorateWithNotification(request))
+    return HttpResponse(template.render(context))
+
+
+

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block headExtension %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+	<script type="text/javascript">
+        $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'area'
+            },
+            title: {
+                text: 'Time spent on lectures'
+            },
+            subtitle: {
+                text: 'Source: Wikipedia.org'
+            },
+            xAxis: {
+                categories: ['Week 12', 'Week 13', '1850', '1900', '1950', '1999', '2050'],
+                tickmarkPlacement: 'on',
+                title: {
+                    enabled: false
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Billions'
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value / 1000;
+                    }
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' millions'
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'normal',
+                    lineColor: '#666666',
+                    lineWidth: 1,
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: '#666666'
+                    }
+                }
+            },
+            series: [{
+                name: 'Lecture1',
+                data: [502, 635, 809, 947, 1402, 3634, 5268]
+            }, {
+                name: 'Lecture2',
+                data: [106, 107, 111, 133, 221, 767, 1766]
+            }, {
+                name: 'Europe',
+                data: [163, 203, 276, 408, 547, 729, 628]
+            }, {
+                name: 'America',
+                data: [18, 31, 54, 156, 339, 818, 1201]
+            }, {
+                name: 'Oceania',
+                data: [2, 2, 2, 6, 13, 30, 46]
+            }]
+        });
+    });
+
+
+    $(function () {
+        $('#container2').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Time spent per Lecture'
+            },
+            xAxis: {
+                categories: ['Lecture1', 'Lecture2', 'Pears', 'Grapes', 'Bananas']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total time invested '
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'visiting',
+                data: [5, 3, 4, 7, 2]
+            }, {
+                name: 'homework',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'studies',
+                data: [3, 4, 4, 2, 5]
+            }]
+        });
+    });
+
+	</script>
+{% endblock %}
+
+{% block header %} 
+
+    <a href="../">
+        <div id="homeButton">	
+            <img id="homeButtonGraphic" src="/static/workloadApp/backButton.png">
+        </div>
+    </a>
+
+<div id="advice">
+ Your statistics
+</div>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="container2" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+
+
+{% endblock %}
