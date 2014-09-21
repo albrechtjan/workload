@@ -5,11 +5,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.utils.decorators import method_decorator
 from datetime import date, timedelta
-import isoweek
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
 from django.contrib.auth import logout
+from objects import Week
 
 
 
@@ -45,18 +45,7 @@ def never_ever_cache(decorated_function):
     return wrapper
 
 
-# Exend week class. This shoudln't be in the views-file in fact
-class Week(isoweek.Week):
-    def hasData(self,student):
-        for lectureIterator in student.lectures.all():
-            if lectureIterator.isActive(self.monday()) or lectureIterator.isActive(self.sunday()): 
-                # if an ongoing lecture has not data for the week, the week is considered to be missing data
-                if not WorkingHoursEntry.objects.filter(week=self.monday(),student=student,lecture=lectureIterator): 
-                    return False
-        return True
 
-    def isCurrentWeek(self):
-        return self == isoweek.Week.thisweek()
 
 
 
@@ -71,14 +60,10 @@ def calendar(request):
     if not student.lectures.all():   # If the user has no lecture selected
         return HttpResponseRedirect("../options/chosenLectures/?notification=You need to select a lecture to get started.")
 
-    start = Week.withdate(student.startOfLectures())
-    end = Week.withdate(student.endOfLectures())
-    weeks = [start+x for x in range(end-start+1)]
+    weeks = student.getWeeksWithLectures()
+    weeksHaveData = zip(weeks, [ "green" if student.hasData(week) else "red" for week in weeks], ["isCurrentWeek" if week.isCurrentWeek() else "" for week in weeks])
 
-
-    weeksHaveData = zip(weeks, [ "green" if week.hasData(student) else "red" for week in weeks], ["isCurrentWeek" if week.isCurrentWeek() else "" for week in weeks])
-
-    #subdivide the list of week-hasData tuples into a list of lists where the sublists contain only events of a certain year
+    #subdivide the list of student-hasData tuples into a list of lists where the sublists contain only events of a certain year
     shaped = []
     years = [x[0].year for x in weeksHaveData ]
     for year in sorted(list(set(years))):

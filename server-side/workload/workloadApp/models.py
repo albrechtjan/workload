@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from objects import Week
 
 class Lecture(models.Model):
-    #TODO: Add Lecture ID
     semester = models.CharField(max_length=9) #e.g. WS2014/15 or SS2018
     name = models.CharField(max_length=200)
     startDay = models.DateField() # The day of the first lecture event. Or the monday of the week when the lecture starts.
@@ -37,6 +37,24 @@ class Student(models.Model):
         return max([lecture.endDay for lecture in list(self.lectures.all())])
 
 
+    def hasData(self,week):
+        for lectureIterator in self.lectures.all():
+            if lectureIterator.isActive(week.monday()) or lectureIterator.isActive(week.sunday()): 
+                # if an ongoing lecture has not data for the week, the week is considered to be missing data
+                if not WorkingHoursEntry.objects.filter(week=week.monday(),student=self,lecture=lectureIterator): 
+                    return False
+        return True
+
+
+    def getWeeksWithLectures(self):
+        #returns all weeks between and including the week of the first and the last lecture associated with the student
+        start = Week.withdate(self.startOfLectures())
+        end = Week.withdate(self.endOfLectures())
+        return [start+x for x in range(end-start+1)]
+
+
+
+
 class WorkingHoursEntry(models.Model):
     hoursInLecture=models.FloatField(default=0)
     hoursForHomework=models.FloatField(default=0) 
@@ -47,3 +65,4 @@ class WorkingHoursEntry(models.Model):
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student" + str(self.student.permanentId) + "in week number" + str(self.week.isocalendar()[1])
+
