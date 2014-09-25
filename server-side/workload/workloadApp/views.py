@@ -262,10 +262,34 @@ def privacyAgreement(request):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def visualizeData(request):
 
+
+    #gathering data for first diagram
+
+    weeks = request.user.student.getWeeksWithLectures()
+    weekData = []
+    for lecture in request.user.student.lectures.all():
+        dictionary = { "name": str(lecture.name), "data":[]}
+        for week in weeks:
+            try:
+                hours = WorkingHoursEntry.objects.get(week=week.monday(),student=request.user.student,lecture=lecture).getTotalHours()
+            except WorkingHoursEntry.DoesNotExist:
+                hours = 0
+            dictionary["data"].append(hours)
+        weekData.append(dictionary)
+
+    diagram1 = {
+        "categories" : [week.monday().strftime('%b') for week in weeks],
+        "series" : weekData
+    }
+
+    # #gathering data for second diagram
+
+    #TODO
    
     template = loader.get_template('workloadApp/visualizeData.html')
 
     context = RequestContext(request,{
+        "diagram1" : diagram1
         })
 
     context.update(decorateWithNotification(request))

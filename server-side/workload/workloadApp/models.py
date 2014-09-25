@@ -53,16 +53,19 @@ class Student(models.Model):
         return [start+x for x in range(end-start+1)]
 
 
-
-
 class WorkingHoursEntry(models.Model):
     hoursInLecture=models.FloatField(default=0)
     hoursForHomework=models.FloatField(default=0) 
     hoursStudying=models.FloatField(default=0)
     lecture = models.ForeignKey(Lecture)
     student = models.ForeignKey(Student)
-    week = models.DateField() # A datetime.date object. The Monday (!!!) of the week for which the working hours are entered 
+    week = models.DateField() # A datetime.date object. The Monday (!!!) of the week for which the working hours are entered
 
+    def getTotalHours(self):
+        return self.hoursStudying+self.hoursForHomework+self.hoursInLecture
+        
     def __unicode__(self):  # Python 3: def __str__(self):
-        return "student" + str(self.student.permanentId) + "in week number" + str(self.week.isocalendar()[1])
+        return "student" + str(self.student.id) + "in week number" + str(self.week.isocalendar()[1])
+
+    
 
