@@ -52,6 +52,16 @@ class Student(models.Model):
         end = Week.withdate(self.endOfLectures())
         return [start+x for x in range(end-start+1)]
 
+    def getHoursSpent(self, lecture): # returns dictionary with times for "inLecture, forHomework, studying"
+
+        workingHours =  WorkingHoursEntry.objects.filter(lecture=lecture,student=self)
+        totalHours = { 
+            "inLecture"    : sum( [entry.hoursInLecture   for entry in workingHours ]),
+            "forHomework"  : sum( [entry.hoursForHomework for entry in workingHours ]),
+            "studying"     : sum( [entry.hoursStudying    for entry in workingHours ])
+        }
+        return totalHours
+
 
 class WorkingHoursEntry(models.Model):
     hoursInLecture=models.FloatField(default=0)

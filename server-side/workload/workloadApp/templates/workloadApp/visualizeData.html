@@ -15,7 +15,7 @@
                 text: 'Time spent on lectures'
             },
             subtitle: {
-                text: 'Source: Wikipedia.org'
+                text: ''
             },
             xAxis: {
                 categories: {{diagram1.categories | safe}},
@@ -26,17 +26,17 @@
             },
             yAxis: {
                 title: {
-                    text: 'Billions'
+                    text: 'Hours per Week'
                 },
                 labels: {
                     formatter: function () {
-                        return this.value / 1000;
+                        return this.value ;
                     }
                 }
             },
             tooltip: {
                 shared: true,
-                valueSuffix: ' millions'
+                valueSuffix: ' hours'
             },
             plotOptions: {
                 area: {
@@ -63,7 +63,7 @@
                 text: 'Time spent per Lecture'
             },
             xAxis: {
-                categories: ['Lecture1', 'Lecture2', 'Pears', 'Grapes', 'Bananas']
+                categories: {{diagram2.categories | safe}}
             },
             yAxis: {
                 min: 0,
@@ -79,16 +79,7 @@
                     stacking: 'normal'
                 }
             },
-            series: [{
-                name: 'visiting',
-                data: [5, 3, 4, 7, 2]
-            }, {
-                name: 'homework',
-                data: [2, 2, 3, 2, 1]
-            }, {
-                name: 'studies',
-                data: [3, 4, 4, 2, 5]
-            }]
+            series: {{diagram2.series | safe}}
         });
     });
 
@@ -112,6 +103,9 @@
 
 {% block content %}
 
+series: {{diagram2.series | safe}}
+
+categories: {{diagram2.categories | safe}}
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <div id="container2" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
 

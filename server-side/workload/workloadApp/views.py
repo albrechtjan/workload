@@ -284,12 +284,27 @@ def visualizeData(request):
 
     # #gathering data for second diagram
 
+    categories = request.user.student.lectures.all()
+
+    series = [
+
+        {"name": "attending", "data": [request.user.student.getHoursSpent(lecture)["inLecture"] for lecture in categories] }, 
+        {"name": "homework" , "data": [request.user.student.getHoursSpent(lecture)["forHomework"] for lecture in categories]},
+        {"name": "studies"  , "data": [request.user.student.getHoursSpent(lecture)["studying"] for lecture in categories]}]
+
+
+    diagram2={
+        "categories" :  [str(lecture.name) for lecture in categories],
+        "series" : series
+    }
+
     #TODO
    
     template = loader.get_template('workloadApp/visualizeData.html')
 
     context = RequestContext(request,{
-        "diagram1" : diagram1
+        "diagram1" : diagram1,
+        "diagram2" : diagram2
         })
 
     context.update(decorateWithNotification(request))
