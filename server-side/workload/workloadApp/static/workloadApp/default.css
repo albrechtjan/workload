@@ -166,15 +166,12 @@ a{max-width:100%; max-height:100%;
 
 
 .calendarDates{
-	font-size: 200%;
+	font-size: 220%;
 	text-align: center;
+	margin-bottom: auto;
+	margin-top: 0.5em;
 }
 
-.weekNumber{
-	text-align: center;
-	margin: auto;
-	font-size: 300%;	
-}
 
 
 input::-webkit-outer-spin-button,
