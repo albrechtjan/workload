@@ -168,10 +168,8 @@ a{max-width:100%; max-height:100%;
 .calendarDates{
 	font-size: 220%;
 	text-align: center;
-	margin-bottom: auto;
 	margin-top: 0.5em;
 }
-
 
 
 input::-webkit-outer-spin-button,
@@ -255,4 +253,9 @@ input[type="checkbox"]{
 	width: 1em;
 	text-decoration: none;
 	font-size: 100%;
+}
+
+
+.chart{
+	margin: 3em;
 }

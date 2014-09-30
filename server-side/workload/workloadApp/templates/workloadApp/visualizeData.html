@@ -12,7 +12,11 @@
                 type: 'area'
             },
             title: {
-                text: 'Time spent on lectures'
+                text: 'Time Spent Each Week',
+                    style:{
+                    	fontSize:'2.5em'
+                    }
+
             },
             subtitle: {
                 text: ''
@@ -22,15 +26,26 @@
                 tickmarkPlacement: 'on',
                 title: {
                     enabled: false
+                },
+                labels: {
+                    style:{
+                    	fontSize:'1.5em'
+                    }
                 }
             },
             yAxis: {
                 title: {
-                    text: 'Hours per Week'
+                    text: 'hours',
+                    style:{
+                    	fontSize:'1.5em'
+                    }
                 },
                 labels: {
                     formatter: function () {
                         return this.value ;
+                    },
+                    style:{
+                    	fontSize:'1.5em'
                     }
                 }
             },
@@ -60,7 +75,10 @@
                 type: 'bar'
             },
             title: {
-                text: 'Time spent per Lecture'
+                text: 'Total Time per Lecture',
+                style:{
+                    	fontSize:'2.5em'
+                    }
             },
             xAxis: {
                 categories: {{diagram2.categories | safe}}
@@ -68,7 +86,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Total time invested '
+                    text: 'hours'
                 }
             },
             legend: {
@@ -102,9 +120,12 @@
 
 
 {% block content %}
+<div class="chart">
+	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-<div id="container2" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
-
+<div class="chart">
+	<div id="container2" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+</div>
 
 {% endblock %}
