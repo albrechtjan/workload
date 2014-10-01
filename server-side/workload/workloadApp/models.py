@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from objects import Week
+from objects import Week, Semester
 
 class Lecture(models.Model):
     semester = models.CharField(max_length=9) #e.g. WS2014/15 or SS2018
@@ -51,6 +51,15 @@ class Student(models.Model):
         start = Week.withdate(self.startOfLectures())
         end = Week.withdate(self.endOfLectures())
         return [start+x for x in range(end-start+1)]
+
+    def getSemestersWithLectures(self):
+        semesters = []
+        current = Semester.withdate(self.startOfLectures())
+        while(current<=Semester.withdate(self.endOfLectures())):
+            semesters.append(current)
+            current = current.getNextSemester();
+        return semesters
+
 
     def getHoursSpent(self, lecture): # returns dictionary with times for "inLecture, forHomework, studying"
 
