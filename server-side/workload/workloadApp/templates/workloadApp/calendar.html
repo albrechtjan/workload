@@ -12,16 +12,16 @@
 
 {% block content %}
 	<div id="calendar">
-		{% for year in weeksHaveDataShaped %}
-			<div class="calendarYearDivider"> {{year.0.0.year}}</div>
+		{% for semester in semesters %}
+			<div class="calendarYearDivider"> {{semester.0.name}}</div>
 			<div class="calendarYearContent">
-			{% for weekData in year %}
+ 			{% for weekData in semester.1 %}
 				<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
 					<div class="weekButton button {{weekData.1}} {{weekData.2}}">
 						<div class="calendarDates">
 							{{weekData.0.monday | date:"d. M."}} </br>
 								- <br/> 	
-							{{weekData.0.sunday | date:"d. M."}} </br> <!-- wihtout the line break the last line is shifted versus the first line -->
+							{{weekData.0.sunday | date:"d. M."}} </br> <!-- wihtout the line break the last line is shifted versus the first line-->
 						</div>
 					</div>
 				</a>

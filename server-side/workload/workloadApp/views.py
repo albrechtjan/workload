@@ -9,7 +9,7 @@ from workloadApp.models import WorkingHoursEntry, Lecture, Student
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
 from django.contrib.auth import logout
-from objects import Week
+from objects import Week, Semester
 
 
 
@@ -65,12 +65,12 @@ def calendar(request):
 
     #subdivide the list of student-hasData tuples into a list of lists where the sublists contain only events of a certain year
     shaped = []
-    years = [x[0].year for x in weeksHaveData ]
-    for year in sorted(list(set(years))):
-        shaped.append([x for x in weeksHaveData if x[0].year == year])
+    semesters = sorted(list(set([Semester.withDate(x[0].friday()) for x in weeksHaveData ]))) # If the friday is in the new semester then the whole week is counted as being in the new semester
+    for semester in semesters:
+        shaped.append([semester,[x for x in weeksHaveData if Semester.withDate(x[0].friday()) == semester]])
 
     context = RequestContext(request, {
-        "weeksHaveDataShaped" : shaped
+        "semesters" : shaped
     })
 
     context.update(decorateWithNotification(request))
