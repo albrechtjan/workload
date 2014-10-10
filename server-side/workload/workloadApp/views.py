@@ -268,7 +268,7 @@ def visualizeData(request):
     weeks = request.user.student.getWeeksWithLectures()
     weekData = []
     for lecture in request.user.student.lectures.all():
-        dictionary = { "name": str(lecture.name), "data":[]}
+        dictionary = { "name": lecture.name, "data":[]} 
         for week in weeks:
             try:
                 hours = WorkingHoursEntry.objects.get(week=week.monday(),student=request.user.student,lecture=lecture).getTotalHours()
@@ -294,7 +294,7 @@ def visualizeData(request):
 
 
     diagram2={
-        "categories" :  [str(lecture.name) for lecture in categories],
+        "categories" :  [lecture.name for lecture in categories], #hack to prevent a crash
         "series" : series
     }
 

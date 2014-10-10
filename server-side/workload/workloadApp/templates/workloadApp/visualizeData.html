@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load json_filters %}
 
 {% block headExtension %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -22,7 +23,7 @@
                 text: ''
             },
             xAxis: {
-                categories: {{diagram1.categories | safe}},
+                categories: {{diagram1.categories | jsonify| safe }},
                 tickmarkPlacement: 'on',
                 title: {
                     enabled: false
@@ -64,7 +65,7 @@
                     }
                 }
             },
-            series: {{diagram1.series | safe}}
+            series: {{diagram1.series | jsonify|safe}}
         });
     });
 
@@ -81,7 +82,7 @@
                     }
             },
             xAxis: {
-                categories: {{diagram2.categories | safe}}
+                categories: {{diagram2.categories | jsonify | safe}}
             },
             yAxis: {
                 min: 0,
@@ -97,7 +98,7 @@
                     stacking: 'normal'
                 }
             },
-            series: {{diagram2.series | safe}}
+            series: {{diagram2.series | jsonify | safe}}
         });
     });
 
