@@ -57,14 +57,14 @@ $("#workingHoursEntryForm").keyup(function() {
 
 {% block header %} 
 
-    <a href="../selectLecture/?year={{year}}&week={{week}}">
+    <a href="../selectLecture/?year={{week.year}}&week={{week.week}}">
         <div id="homeButton">	
             <img id="homeButtonGraphic" src="/static/workloadApp/backButton.png">
         </div>
     </a>
 
 <div id="advice">
-... enter your data ...
+{{lecture.name}} : {{week.monday | date:"d. M"}} - {{week.sunday| date:"d. M"}}
 </div>
 
 {% endblock %}
@@ -97,9 +97,9 @@ $("#workingHoursEntryForm").keyup(function() {
 		</div>
 	</div>
 
-	<input type="hidden" name="year" value="{{year}}">
-	<input type="hidden" name="week" value="{{week}}">
-	<input type="hidden" name="lectureId" value="{{lectureId}}">
+	<input type="hidden" name="year" value="{{week.year}}">
+	<input type="hidden" name="week" value="{{week.week}}">
+	<input type="hidden" name="lectureId" value="{{lecture.id}}">
 
 </form>
 

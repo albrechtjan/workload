@@ -116,18 +116,17 @@ def selectLecture(request):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def enterWorkloadData(request):
 
-    #TODO: Sourround the next two lines with a try-catch and handle the case that the url parameters are not given properly
-    week = int(request.GET['week'])
-    year = int(request.GET['year'])
+    #TODO: Sourround the next lines with a try-catch and handle the case that the url parameters are not given properly
+    week = Week(int(request.GET['year']),int(request.GET['week'])) # create isoweek object
     lecture = Lecture.objects.get(id=int(request.GET['lectureId'])) 
-    dataEntry, hasBeenCreated = WorkingHoursEntry.objects.get_or_create( week=Week(year,week).monday() , student=request.user.student , lecture=lecture)
+    dataEntry, hasBeenCreated = WorkingHoursEntry.objects.get_or_create( week=week.monday() , student=request.user.student , lecture=lecture)
 
     template = loader.get_template('workloadApp/enterWorkloadData.html')
 
     context = RequestContext(request,{
-        "year" : year,
         "week" : week,
-        "lectureId" : lecture.id,
+        "lecture" : lecture,
+        # it is probably smarter to simply return the full dataEntry object
         "hoursInLecture" : dataEntry.hoursInLecture,
         "hoursForHomework" : dataEntry.hoursForHomework,
         "hoursStudying" : dataEntry.hoursStudying,
