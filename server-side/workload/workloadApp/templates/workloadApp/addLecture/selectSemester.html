@@ -16,13 +16,13 @@
 
 {% block content %}
 	{% for semester in allSemesters%}
-		<div class="button wideButton">
-			<a href="?semester={{semester}}">
+		<a href="?semester={{semester}}">
+			<div class="button wideButton">
 				<div class="buttonText">
 					{{semester}}</br>
 				</div>
-			</a>
-		</div>
+			</div>
+		</a>
 	{% endfor %}
 	<!-- in case of higher hirarchies, resubmit all categories selected in the previous step -->
 
