@@ -21,7 +21,7 @@ function isValid(){
 	return  isValid;
 }
 
-$("#workingHoursEntryForm").keyup(function() {
+$("#workingHoursEntryForm").on('input', function() {
 
 	if( ! isValid()){ //if the entries are not valid, we mark them and do not submit
 		$("#status").stop().fadeOut(700, function() {
@@ -79,7 +79,7 @@ $("#workingHoursEntryForm").keyup(function() {
 		<div class="itemText">
 		    <label for="hoursInLecture">Attending: </label>
 			<input type="number" step="any" name="hoursInLecture" class ="timeInput" id="hoursInLecture" min="0" max="99" value="{{hoursInLecture}}">
-			<label> hours</label></br>
+			<label> hours</label>
 		</div>
 	</div>
 
@@ -96,7 +96,7 @@ $("#workingHoursEntryForm").keyup(function() {
 		<div class="itemText">
 			<label for="hoursStudying">Studying: </label>
 			<input type="number" step="any" name="hoursStudying" class ="timeInput" id="hoursStudying" min="0" max="99" value="{{hoursStudying}}">
-			<label>hours</label></br>
+			<label>hours</label>	</br>
 		</div>
 	</div>
 
