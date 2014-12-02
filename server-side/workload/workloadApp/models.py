@@ -27,13 +27,13 @@ class Student(models.Model):
     def startOfLectures(self):
         # returns a datetime.date a day in the first week of lectures
         if not self.lectures.all():
-            raise Exception("no lectures found")
+            raise NoLecturesFound
         return min([lecture.startDay for lecture in list(self.lectures.all())])
 
     def endOfLectures(self):
         # returns a datetime.date of a day in the last week of lectures
         if not self.lectures.all():
-            raise Exception("no lectures found")
+            raise NoLecturesFound
         return max([lecture.endDay for lecture in list(self.lectures.all())])
 
 
@@ -48,9 +48,12 @@ class Student(models.Model):
 
     def getWeeksWithLectures(self):
         #returns all weeks between and including the week of the first and the last lecture associated with the student
-        start = Week.withdate(self.startOfLectures())
-        end = Week.withdate(self.endOfLectures())
-        return [start+x for x in range(end-start+1)]
+        try:
+            start = Week.withdate(self.startOfLectures())
+            end = Week.withdate(self.endOfLectures())
+            return [start+x for x in range(end-start+1)]
+        except NoLecturesFound:
+            return []
 
     # def getSemestersWithLectures(self):
     #     semesters = []
@@ -86,5 +89,7 @@ class WorkingHoursEntry(models.Model):
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student" + str(self.student.id) + "in week number" + str(self.week.isocalendar()[1])
 
+class NoLecturesFound(Exception):
+    pass
     
 

@@ -94,9 +94,9 @@ STATIC_URL = '/static/'
 
 
 # Settings for shibboleth
-
+SHIBBOLETH_USER_KEY = "persistent-id"
 SHIBBOLETH_ATTRIBUTE_MAP = {
-   "HTTP_PERSISTENT_ID": (True, "username")
+   #"interesting-attribute": (True, "attribute") # replace the username here with the SHIBBOLETH_USER_KEY
 }
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS

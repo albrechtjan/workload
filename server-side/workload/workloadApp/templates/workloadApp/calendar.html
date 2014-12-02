@@ -28,5 +28,8 @@
 			{% endfor %}
 			</div>
 		{% endfor %}
+		{% if not semesters%}
+		 It seems you have no lectures added yet. You can get started by clicking on the options button in the upper right corner.
+		{% endif %}
 	</div>
 {% endblock %}
