@@ -51,18 +51,10 @@ class Student(models.Model):
         try:
             start = Week.withdate(self.startOfLectures())
             end = Week.withdate(self.endOfLectures())
-            return [start+x for x in range(end-start+1)]
+            weeks = [start+x for x in range(end-start+1)]
         except NoLecturesFound:
-            return []
-
-    # def getSemestersWithLectures(self):
-    #     semesters = []
-    #     current = Semester.withdate(self.startOfLectures())
-    #     while(current<=Semester.withdate(self.endOfLectures())):
-    #         semesters.append(current)
-    #         current = current.getNextSemester();
-    #     return semesters
-
+            weeks = []
+        return weeks
 
     def getHoursSpent(self, lecture): # returns dictionary with times for "inLecture, forHomework, studying"
 
