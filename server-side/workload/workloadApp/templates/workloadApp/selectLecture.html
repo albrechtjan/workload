@@ -18,9 +18,9 @@
 	{% for lecture in lecturesToDisplay %} <!--# "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)-->
 	<a href="../enterWorkloadData/?year={{year}}&week={{week}}&lectureId={{lecture.0.pk}}">
 		{%if lecture.1 %} <!-- if lecture has data for this week and student -->
-		<div class="green wideButton button ">
+		<div class="green wideItem button ">
 		{% else %}
-		<div class="red wideButton button ">
+		<div class="red wideItem button ">
 		{% endif %}
 			<div class="buttonText">
 				{{lecture.0.name}}

@@ -88,6 +88,7 @@ body{
 
 .weekButton{
 	float:left;
+	height: 10em;
 	width: 10em;
 	margin: 1em;
 	border-width: 0.3em;
@@ -98,18 +99,7 @@ body{
 	border-style: dotted !important;
 }
 
-
-.wideButton{
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	border-radius: 1em;
-}
-
-
 .button{
-	height: 10em;
 	border-style: solid;
 	text-align: center;
 	background-color: #D8D8D8;
@@ -118,7 +108,6 @@ body{
 
 .buttonText{
 	font-size: 3em;
-	margin-top: 1em; 
 }
 
 .wideItem{
