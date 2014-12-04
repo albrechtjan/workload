@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+    
     <head>
         <title> Workload-Umfrage TU Dresden</title>
         <link href="/static/workloadApp/default.css" rel="stylesheet" type="text/css"/>
@@ -8,6 +8,7 @@
         {% endblock %}
     </head>
     <body>
+    <div id="wrapper">
         <div id="header">
             <a href="/app/workload/options/">
             <div class="iconButton">
@@ -28,18 +29,19 @@
             {% endif %}
             {% block content %}{% endblock %}
         </div>
-    <footer>
-        <div id="impressum" class="footerElement">
-        Impressum:<br/>
-        <a href="http://tu-dresden.de/die_tu_dresden/zentrale_einrichtungen/zqa">Zentrum für Qualitätsanalyse</a><br/>
-        Technische Universität Dresden
-        </div>
-        <div id="webmaster" class="footerElement">
-            This website was designed and created by Konstantin Schubert. For bug reports and other inquiries, send an email to <a href="mailto:schubert.konstantin@gmail.com"> schubert.konstantin@gmail.com</a>.
-        </div>
-        <div id="dataProtection" class="footerElement">
-            <a href="/app/workload/privacyAgreement/">Informationen zum Datenschutz</a>
-        </div>
-    </footer>
+        <footer>
+            <div id="impressum" class="footerElement">
+            Impressum:<br/>
+            <a href="http://tu-dresden.de/die_tu_dresden/zentrale_einrichtungen/zqa">Zentrum für Qualitätsanalyse</a><br/>
+            Technische Universität Dresden
+            </div>
+            <div id="webmaster" class="footerElement">
+                This website was designed and created by Konstantin Schubert. For bug reports and other inquiries, send an email to <a href="mailto:schubert.konstantin@gmail.com"> schubert.konstantin@gmail.com</a>.
+            </div>
+            <div id="dataProtection" class="footerElement">
+                <a href="/app/workload/privacyAgreement/">Informationen zum Datenschutz</a>
+            </div>
+        </footer>
+    <div>
     </body>
 </html>
