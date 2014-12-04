@@ -15,30 +15,7 @@ body{
 	height: 10em;
 	width: 100%;
 	color: white;
-}
-
-#content{
-	min-height: 100%;
-	overflow: hidden;
-
-}
-
-#calendar{
-	overflow: hidden;
-	margin-top: 1em;
-}
-
-.calendarYearContent{
-	display: inline-block;
-	margin: 0 1em;
-}
-
-.calendarYearDivider{
-	overflow: hidden;
-	width: 100%;
-	text-align: center;
-	font-size: 400%;
-	margin: 0 0.5em;
+	overflow: hidden; /*this is supposed to cause a block formatting context where all elements are vertically aligned, but I do not see this happening*/
 }
 
 .iconButton{
@@ -64,6 +41,30 @@ body{
 	padding: 1em;
 	height: 8em;
 	width: 8em;
+}
+
+#content{
+	min-height: 100%;
+	overflow: hidden;
+
+}
+
+#calendar{
+	overflow: hidden;
+	margin-top: 1em;
+}
+
+.calendarYearContent{
+	display: inline-block;
+	margin: 0 1em;
+}
+
+.calendarYearDivider{
+	overflow: hidden;
+	width: 100%;
+	text-align: center;
+	font-size: 400%;
+	margin: 0 0.5em;
 }
 
 #title{
