@@ -110,7 +110,13 @@ body{
 	font-size: 3em;
 }
 
+
+.nobutton{
+	/*this class will take anything that belongs to a list item but not to a button*/
+}
+
 .wideItem{
+	/*this class takes anything that belongs to a wide element, be it a button or a list item*/
 	padding: 3em;
 	text-align: center;
 	margin-left: 5%;
@@ -126,8 +132,8 @@ body{
 }
 
 .removeLectureButton{
-	max-height:1em;
-	margin-left: 0.5em;
+	max-height:0.7em;
+	margin-left: 2em;
 }
 
 a{max-width:100%; max-height:100%;
@@ -177,7 +183,7 @@ input::-webkit-inner-spin-button {
 
 
 input[type="number"]{
-	height: 1.6em;
+	height: 1em;
 	width: 3em;
 	padding: 0.3em;
 	margin: 0 0.3em 0 0.3em;

@@ -17,7 +17,7 @@
 
 {% block content %}
 	{% for lecture in chosenLectures %}
-		<div class=" wideItem">
+		<div class="wideItem nobutton">
 			<div class="itemText">
 				{{lecture.name}} <a href=/app/workload/options/chosenLectures/?lectureId={{lecture.id}}&redirectTo=/workload/options/chosenLectures/><img class="removeLectureButton"src="/static/workloadApp/deleteIcon.png"></a>
 			</div>

@@ -80,7 +80,7 @@ $("#workingHoursEntryForm").on('input', function() {
 	<div class="wideItem">
 		<div class="itemText">
 		    <label for="hoursInLecture">Attending: </label>
-			<input type="number" step="any" name="hoursInLecture" class ="timeInput" id="hoursInLecture" min="0" max="99" value="{{hoursInLecture}}">
+			<input type="number" step="any" name="hoursInLecture" class ="timeInput" id="hoursInLecture" min="0" max="99" value="{{hoursInLecture}}" onclick="select()">
 			<label>hours</label> <label class="tip" data-tip="Amout of hours you spent in a lecure, in an exercise group or in front of a lab bench. Anything that can be 'attended' probaby goes here.">?</label>
 		</div>
 	</div>
@@ -89,7 +89,7 @@ $("#workingHoursEntryForm").on('input', function() {
 	<div class="wideItem">
 		<div class="itemText">
 			<label for="hoursForHomework">Homework: </label>
-			<input type="number" step="any" name="hoursForHomework" class ="timeInput" id="hourForHomework" min="0" max="99" value="{{hoursForHomework}}">
+			<input type="number" step="any" name="hoursForHomework" class ="timeInput" id="hourForHomework" min="0" max="99" value="{{hoursForHomework}}" onclick="select()">
 			<label>hours</label> <label class="tip" data-tip="Homework for the tutorials, protocols, mandatory work to hand in. This is the time you spent on mandatory stuff at home. " >?</label>
 		</div>
 	</div>
@@ -97,7 +97,7 @@ $("#workingHoursEntryForm").on('input', function() {
 	<div class="wideItem">
 		<div class="itemText">
 			<label for="hoursStudying">Studying: </label>
-			<input type="number" step="any" name="hoursStudying" class ="timeInput" id="hoursStudying" min="0" max="99" value="{{hoursStudying}}">
+			<input type="number" step="any" name="hoursStudying" class ="timeInput" id="hoursStudying" min="0" max="99" value="{{hoursStudying}}" onclick="select()">
 			<label>hours</label> <label class="tip" data-tip="Time you spent trying to understand the lecture and preparing for exams. Reading the lecture notes, doing exercises that were not part of the tutorials, reading books about the subject." >?</label>
 		</div>
 	</div>
