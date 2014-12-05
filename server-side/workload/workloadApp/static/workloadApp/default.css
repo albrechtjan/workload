@@ -7,12 +7,15 @@ body{
 	margin: 0;
 	font-family: "Arial";
 	background-color: white;
-	height: 100%;
+	/*we are using the modern flexbox solution for the footer: https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/*/
+	display: flex;
+  	min-height: 100vh;
+  	flex-direction: column;
 }
 
+
 #wrapper {
-	min-height:100%;
-	position:relative;
+flex: 1;
 }
 
 #header{
@@ -49,13 +52,11 @@ body{
 }
 
 #content{
-	padding-bottom: 35em; /*3 * maximum height of footer + etwas*/
 	overflow: hidden;
 }
 
 footer{
-	position:absolute;
-	bottom: 0;
+	margin-top: 2em;
 	background-color: #2F4067;
 	overflow: hidden;
 	padding: 1em 0em;
@@ -69,7 +70,6 @@ footer{
  footer .footerElement{
  	flex-basis: 18em;
  	padding: 1em;
-	height: 8em;
 }
 
 footer a {
@@ -292,7 +292,6 @@ input[type="checkbox"]{
 	font-family: Comic Sans;
 	width: 60%;
 	float: left;
-	margin-bottom: 8em; /*quick fix because footer won't stay down*/
 }
 
 .help-overlay-image{
