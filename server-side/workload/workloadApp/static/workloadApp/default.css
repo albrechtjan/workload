@@ -20,35 +20,35 @@ flex: 1;
 
 #header{
 	background-color: #2F4067;
-	height: 10em;
+	height: 9em;
 	width: 100%;
 	color: white;
 	overflow: hidden; /*this is supposed to cause a block formatting context where all elements are vertically aligned, but I do not see this happening*/
 }
 
 .iconButton{
-	width: 10em;
-	height: 10em;
+	width: 9em;
+	height: 9em;
 	float: right;
 }
 
 .iconButtonGraphic{
-	height: 8em;
-	width: 8em;
-	padding: 1em;
+	height: 6em;
+	width: 6em;
+	padding: 1.5em;
 }
 
 #homeButton{
-	height: 10em;
-	width: 10em;
+	height: 9em;
+	width: 9em;
 	float: left;
 }
 
 
 #homeButtonGraphic{
-	padding: 1em;
-	height: 8em;
-	width: 8em;
+	padding: 1.5em;
+	height: 6em;
+	width: 6em;
 }
 
 #content{
@@ -95,7 +95,7 @@ footer a {
 }
 
 #title{
-	margin: 0.2em 0.333333em;
+	margin: 0.15em 0.333333em;
 	font-size: 6em;
 	float: left;
 }
