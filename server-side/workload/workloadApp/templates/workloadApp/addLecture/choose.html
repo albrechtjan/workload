@@ -24,5 +24,7 @@
 				</div>
 			</a>
 		{% endfor %}
-
+		{% if not lectures%}
+			<div class="notification"> You have already added all available lectures in this semester.</div>
+		{%endif%}
 {% endblock %}
