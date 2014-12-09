@@ -113,3 +113,4 @@ AUTHENTICATION_BACKENDS += (
 LOGIN_URL = '/app/shib/login/'
 SHIBBOLETH_LOGIN_URL  = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Login'
 SHIBBOLETH_LOGOUT_URL = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Logout'
+SHIBBOLETH_LOGOUT_REDIRECT_URL = "https://survey.zqa.tu-dresden.de/" # this is not actually respected by the current shibboleth installation of TU Dresden
