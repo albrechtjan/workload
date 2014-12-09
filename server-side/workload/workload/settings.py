@@ -13,18 +13,14 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'v%^fldq-ctp7a6g6!ciw1p*_h7j!&3lxojj5(bm#kzwh*!s9^w'
+with open('/home/ks/secret_key_django.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".tu-dresden.de",".tu-dresden.de."]
 
 
 # Application definition
@@ -53,24 +49,28 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'workload.urls'
-
 WSGI_APPLICATION = 'workload.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+with open('/home/ks/WORKLOAD_DB_PASSWORD.txt') as f:
+    WORKLOAD_DB_PASSWORD = f.read().strip()
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'WORKLOAD_DB',
         'USER': 'WORKLOAD_USER',
-        'PASSWORD': '0CHVezBAzq',
+        'PASSWORD': WORKLOAD_DB_PASSWORD,
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
