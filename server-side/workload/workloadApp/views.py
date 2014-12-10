@@ -15,13 +15,19 @@ from objects import Week, Semester
 
 #Helper functions
 
+# I would like to extend this to support an arbitrary number of notifications 
+# It should also treat the notifications from multiple sources equally
+# The InoreData - Thing should come as a normal notification from a helper function
+# the base.html would have to be updated accordingly
 def decorateWithNotification(request):
-    if "notification" in request.GET:
-        return {"hasNotification" : True, "notification" : request.GET["notification"] }
-    elif "notification" in request.POST:
-        return { "hasNotification" : True, "notification" : request.POST["notification"] }
+    moreContext = { "ignoreData" : request.user.student.ignoreData }
+    params = dict(list(request.GET.items()) + list(request.POST.items()))
+    if "notification" in params:
+        moreContext.update({"hasNotification" : True , "notification" : params["notification"]})
+        return moreContext
     else:
-        return { "hasNotification" : False }
+        moreContext.update({"hasNotification" : False})
+        return moreContext
 
 def privacy_agreement(user):
     if user:
@@ -43,8 +49,6 @@ def never_ever_cache(decorated_function):
             max_age=0)
         return response
     return wrapper
-
-
 
 
 
@@ -73,6 +77,7 @@ def calendar(request):
         "semesters" : shaped
     })
 
+    tst = decorateWithNotification(request)
     context.update(decorateWithNotification(request))
     template = loader.get_template('workloadApp/calendar.html')
     return HttpResponse(template.render(context))
@@ -251,7 +256,6 @@ def privacyAgreement(request):
     context = RequestContext(request,{ # it would be a good idea to pass here the users insitution
          "has_agreed_to_privacy_agreement" : privacy_agreement(request.user)
         })
-
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
 

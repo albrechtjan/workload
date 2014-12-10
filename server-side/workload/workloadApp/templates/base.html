@@ -19,11 +19,14 @@
 
 
         </div><!-- close header -->
-
         <div id="content">
+            {% if ignoreData %}
+                <div class="notification">
+                    Test account. Entries being ignored.
+                </div>
+            {%endif%}
             {% if hasNotification %}
                 <div class="notification">
-                    Notification:
                     {{notification}}
                 </div>
             {% endif %}
