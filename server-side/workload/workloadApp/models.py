@@ -18,7 +18,8 @@ class Lecture(models.Model):
 class Student(models.Model):
     lectures = models.ManyToManyField(Lecture,blank=True)
     user = models.OneToOneField(User)
-    semesterOfStudy = models.IntegerField(default=0) # default 0 means the semester has not been set.
+    semesterOfStudy = models.IntegerField(default=0) # default 0 means the semester has not been set. # should have used none for that. oh well.
+    ignoreData = models.BooleanField(default=False) # users accounts for testing who's data entries we should ignore during evaluation
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student id "+str(self.pk);
