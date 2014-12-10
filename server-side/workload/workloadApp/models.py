@@ -14,12 +14,11 @@ class Lecture(models.Model):
     def isActive(self,date):
         return (self.startDay<=date and date <=self.endDay)
 
-
-# The Student model is possibly going to be written as an extension of the user model once the shibboleth login has been implemented
-# But in fact it works pretty well to associate user and student by a one-to-one relationship
+# Student is in a one-to-one relationship with user
 class Student(models.Model):
     lectures = models.ManyToManyField(Lecture,blank=True)
     user = models.OneToOneField(User)
+    semesterOfStudy = models.IntegerField(default=0) # default 0 means the semester has not been set.
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student id "+str(self.pk);
