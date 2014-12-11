@@ -222,9 +222,6 @@ input[type="number"]{
 	background-color: white;
 }
 
-.inputInvalid{
-	background-color: #C8A2C8;
-}
 
 button{
 	border  : none;
@@ -253,6 +250,10 @@ input[type="submit"]{
 	border-color: black;
 	text-align: center;
 	background-color: #D0D0D0;
+}
+
+.inputInvalid{
+	background-color: #C8A2C8 !important;
 }
 
 input[type="checkbox"]{
