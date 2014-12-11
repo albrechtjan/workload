@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block headExtension %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link href="/static/workloadApp/tipr.css" rel="stylesheet">
+<script src="/static/workloadApp/tipr.js"></script>
+<script>
+$(function(){
+
+
+function isValid(){
+
+	var isValid = true;
+	$('#settingsForm .semesterInput').each(function(){
+		if (! $(this).val().match(/^\d+$/) ){
+			isValid = false;
+			$(this).addClass("inputInvalid");
+		}
+		else{
+			$(this).removeClass("inputInvalid");
+		}
+	});
+	return  isValid;
+}
+
+$("#settingsForm").on('input', function() {
+
+	if( ! isValid()){ //if the entries are not valid, we mark them and do not submit
+		$("#status").stop().fadeOut(700, function() {
+        	$(this).text('Invalid entry.').fadeIn(700);
+    	});
+		return false;
+	}
+
+    var url = "../changeSettings/";
+
+    $("#status").stop().fadeOut(500, function() {
+        	$(this).text('Saving...').fadeIn(500);
+    	});
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: $("#settingsForm").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               $("#status").stop().fadeOut(700, function() {
+        			$(this).text('All changes saved.').fadeIn(700);
+    			});
+           }
+         });
+
+    return false; // avoid to execute the actual submit of the form.
+});
+
+
+})
+ </script>
+{%endblock%}
+
+{% block header %} 
+
+    <a href="../">
+        <div id="homeButton">
+            <img id="homeButtonGraphic" src="/static/workloadApp/backButton.png">
+        </div>
+    </a>
+
+<div id="advice">
+Settings
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div id="status" class="notification"></div>
+
+
+<form id="settingsForm" >
+	<div class=" wideItem">
+		<div class="itemText">
+			<label for="SemesterOfStudy">Semester of study: </label>
+				<input type="number" step="1" name="SemesterOfStudy" class ="semesterInput" id="SemesterOfStudy" min="0" max="20" value="{{semesterOfStudy}}" onclick="select()">
+		</div>
+	</div>
+</form>
+
+<div class=" wideItem">
+	<div class="itemText">
+		Account ID: {{studentID}}
+	</div>
+</div>
+
+{% endblock %}
+
+

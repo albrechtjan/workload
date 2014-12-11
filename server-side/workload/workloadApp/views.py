@@ -205,6 +205,17 @@ def options(request):
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
 
+@login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+def settings(request):
+    template = loader.get_template('workloadApp/options/settings.html')
+    context = RequestContext(request,{
+        "studentID" : request.user.student.id,
+        "semesterOfStudy" : request.user.student.semesterOfStudy
+        })
+    context.update(decorateWithNotification(request))
+    return HttpResponse(template.render(context))
+
 
 
 @login_required
