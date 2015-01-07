@@ -16,6 +16,10 @@ function isValid(){
 			isValid = false;
 			$(this).addClass("inputInvalid");
 		}
+		else if(parseFloat($(this).val())>186){ // these two lines are for kevin, he wanted that limit.I think it is a bit silly. Maybe I should also include it in the model? Not worth the effort right now.
+			isValid = false;
+			$(this).addClass("inputInvalid");
+		}
 		else{
 			$(this).removeClass("inputInvalid");
 		}
