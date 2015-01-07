@@ -32,7 +32,7 @@ $("#settingsForm").on('input', function() {
 		return false;
 	}
 
-    var url = "../changeSettings/";
+    var url = "updateSettings";
 
     $("#status").stop().fadeOut(500, function() {
         	$(this).text('Saving...').fadeIn(500);
@@ -75,8 +75,8 @@ Settings
 
 <div id="status" class="notification"></div>
 
-
 <form id="settingsForm" >
+{% csrf_token %}
 	<div class=" wideItem">
 		<div class="itemText">
 			<label for="SemesterOfStudy">Semester of study: </label>

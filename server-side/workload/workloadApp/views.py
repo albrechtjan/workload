@@ -143,7 +143,6 @@ def enterWorkloadData(request):
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def postWorkloadDataEntry(request):
-
     #TODO: Make sure ALL post variables are set
 
     year = int(request.POST['year'])
@@ -155,7 +154,15 @@ def postWorkloadDataEntry(request):
     dataEntry.hoursForHomework = float(request.POST["hoursForHomework"])
     dataEntry.hoursStudying    = float(request.POST["hoursStudying"])
     dataEntry.save()
+    return HttpResponse("success")
 
+
+@login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+def updateSettings(request):
+    student = request.user.student
+    student.semesterOfStudy = int(request.POST["SemesterOfStudy"])
+    student.save()
     return HttpResponse("success")
 
 
