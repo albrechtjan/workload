@@ -223,6 +223,25 @@ def settings(request):
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
 
+@login_required
+@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+def permanentDelete(request):
+    template = loader.get_template('workloadApp/options/settings/permanentDelete.html')
+
+    context = RequestContext(request,{
+        "chosenLectures" : list(request.user.student.lectures.all())
+        })
+    context.update(decorateWithNotification(request))
+    return HttpResponse(template.render(context))
+
+@login_required
+def doPermanentDelete(request):
+    lectureToRemove = Lecture.objects.get(id=request.POST["lectureId"])
+    request.user.student.lectures.remove(lectureToRemove)
+    WorkingHoursEntry.objects.filter(lecture__id=request.POST["lectureId"]).delete()
+    return HttpResponse("success")
+
+
 
 
 @login_required
@@ -243,9 +262,8 @@ def chosenLectures(request):
 
     template = loader.get_template('workloadApp/options/chosenLectures.html')    
 
-    chosenLectures = list(request.user.student.lectures.all())
     context = RequestContext(request,{
-        "chosenLectures" : chosenLectures
+        "chosenLectures" : list(request.user.student.lectures.all())
         })
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
