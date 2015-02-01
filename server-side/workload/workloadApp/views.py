@@ -238,7 +238,7 @@ def permanentDelete(request):
 def doPermanentDelete(request):
     lectureToRemove = Lecture.objects.get(id=request.POST["lectureId"])
     request.user.student.lectures.remove(lectureToRemove)
-    WorkingHoursEntry.objects.filter(lecture__id=request.POST["lectureId"]).delete()
+    WorkingHoursEntry.objects.filter(lecture__id=request.POST["lectureId"],student=request.user.student).delete()
     return HttpResponse("success")
 
 
@@ -247,13 +247,13 @@ def doPermanentDelete(request):
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def chosenLectures(request):
-    # TODO: Move this function into API
-    if "lectureId" in request.GET: # TODO: rename this parameter to remvoeLecture
+    
+    if "lectureId" in request.GET: # TODO: Move this function into API. use ajax post for this
         lectureToRemove = Lecture.objects.get(id=request.GET["lectureId"])
         request.user.student.lectures.remove(lectureToRemove)
         return HttpResponseRedirect("/app/workload/options/chosenLectures/?notification=Lecture removed from list")
 
-     # TODO: Move this function into API
+     # TODO: Move this function into API. Somehow use ajax post for this
     if "addLecture" in request.GET.keys():
         lecture = Lecture.objects.get(pk=request.GET["addLecture"])
         request.user.student.lectures.add(lecture)
