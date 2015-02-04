@@ -10,6 +10,7 @@ from django.views.decorators.cache import patch_cache_control
 from functools import wraps
 from django.contrib.auth import logout
 from objects import Week, Semester
+from copy import deepcopy
 
 
 
@@ -81,8 +82,6 @@ def calendar(request):
     context.update(decorateWithNotification(request))
     template = loader.get_template('workloadApp/calendar.html')
     return HttpResponse(template.render(context))
-
-
 
 
 
@@ -300,13 +299,12 @@ def privacyAgreement(request):
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def visualizeData(request):
-
+    student = request.user.student
 
     #gathering data for first diagram
-
-    weeks = request.user.student.getWeeksWithLectures()
+    weeks = student.getWeeksWithLectures()
     weekData = []
-    for lecture in request.user.student.lectures.all():
+    for lecture in student.lectures.all():
         dictionary = { "name": lecture.name, "data":[]} 
         for week in weeks:
             try:
@@ -323,14 +321,11 @@ def visualizeData(request):
 
     # #gathering data for second diagram
 
-    categories = request.user.student.lectures.all()
-
+    categories = student.lectures.all()
     series = [
-
-        {"name": "attending", "data": [request.user.student.getHoursSpent(lecture)["inLecture"] for lecture in categories] }, 
-        {"name": "homework" , "data": [request.user.student.getHoursSpent(lecture)["forHomework"] for lecture in categories]},
-        {"name": "studies"  , "data": [request.user.student.getHoursSpent(lecture)["studying"] for lecture in categories]}]
-
+        {"name": "attending", "data": [student.getHoursSpent(lecture)["inLecture"] for lecture in categories] }, 
+        {"name": "homework" , "data": [student.getHoursSpent(lecture)["forHomework"] for lecture in categories]},
+        {"name": "studies"  , "data": [student.getHoursSpent(lecture)["studying"] for lecture in categories]}]
 
     diagram2={
         "categories" :  [lecture.name for lecture in categories], #hack to prevent a crash
@@ -341,10 +336,24 @@ def visualizeData(request):
    
     template = loader.get_template('workloadApp/visualizeData.html')
 
+    #gathering data for first pie chart
+    totalhours = deepcopy(series) # we re-use what we collected above
+    for activity in totalhours:
+        activity["y"] = sum(activity["data"])
+        activity.pop("data")
+
+    #gathering data for second pie chart
+    pie2 = [{"name" : lecture.name, "y" : sum(student.getHoursSpent(lecture).values())} for lecture in student.lectures.all()]
+
+
     context = RequestContext(request,{
         "diagram1" : diagram1,
-        "diagram2" : diagram2
+        "diagram2" : diagram2,
+        "pie1" : totalhours,
+        "pie2" : pie2
+
         })
+
 
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))

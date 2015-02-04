@@ -102,6 +102,77 @@
         });
     });
 
+
+    $(function () {
+    $('#container3').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Total time spent per activity'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Time per activity',
+            data: {{pie1 | jsonify | safe}}
+            }]
+        });
+    });
+
+    $(function () {
+    $('#container4').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Total time spent per Lecture'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Time per lecture',
+            data: {{pie2 | jsonify | safe}}
+            }]
+        });
+    });
+
+
+
 	</script>
 {% endblock %}
 
@@ -121,12 +192,14 @@
 
 
 {% block content %}
-<div class="chart">
-	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-</div>
+<div class="grid">
+    <div class="grid-cell chart pie" id="container3"></div>
 
-<div class="chart">
-	<div id="container2" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+    <div class="grid-cell chart pie" id="container4"></div> 
+
+    <div class="grid-cell chart histogram" id="container"></div>
+
+    <div class="grid-cell chart histogram" id="container2"></div>
 </div>
 
 {% endblock %}

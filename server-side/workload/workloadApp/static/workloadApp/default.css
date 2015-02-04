@@ -274,10 +274,6 @@ input[type="checkbox"]{
 }
 
 
-.chart{
-	margin: 3em;
-}
-
 .tip{
 	float: right; /*a hack that works in this case*/
 	background-color: #2F4067;
@@ -307,4 +303,30 @@ input[type="checkbox"]{
 	max-width: 25%;
 	max-height: 20em;
 	float: right;
+}
+
+
+.grid {
+  width: 90%;
+  margin: 0 5%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid-cell {
+  flex: 1;
+}
+
+
+#container{
+	min-width: 100%;
+}
+#container2{
+	min-width: 50em;
+}
+
+.pie{
+	min-width: 50em;
+	float: left;
 }
