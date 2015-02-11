@@ -59,9 +59,7 @@ def never_ever_cache(decorated_function):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 @method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
-    # This line is kind of needed in all view functions that make user of the student object 
-    student , foo = Student.objects.get_or_create(user=request.user)
-    
+    student = request.user.student    
     weeks = student.getWeeksWithLectures()
     weeksHaveData = zip(weeks, [ "green" if student.hasData(week) else "red" for week in weeks], ["isCurrentWeek" if week.isCurrentWeek() else "" for week in weeks])
 
@@ -86,10 +84,7 @@ def calendar(request):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def selectLecture(request):
 
-    #This line is kind of needed in all view functions that make user of the student object
-    student , foo = Student.objects.get_or_create(user=request.user)
-
-    
+    student = request.user.student
     #TODO: Sourround the next two lines with a try-catch and handle the case that the url parameters are not given properly
     week = int(request.GET['week'])
     year = int(request.GET['year'])
@@ -167,9 +162,7 @@ def updateSettings(request):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def addLecture(request):
 
-    # This line is kind of needed in all view functions that make user of the student object. I'm not very happy about the amount of duplicate code it introduces.
-    student , foo = Student.objects.get_or_create(user=request.user)
-
+    student = request.user.student
     # Here the student can choose the list of lectures for which he wants to collect data
     #lectures are sorted by semester
 
