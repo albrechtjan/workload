@@ -62,9 +62,6 @@ def calendar(request):
     # This line is kind of needed in all view functions that make user of the student object 
     student , foo = Student.objects.get_or_create(user=request.user)
     
-    # if not student.lectures.all():   # If the user has no lecture selected
-    #     return HttpResponseRedirect("../options/chosenLectures/?notification=You need to select a lecture to get started.")
-
     weeks = student.getWeeksWithLectures()
     weeksHaveData = zip(weeks, [ "green" if student.hasData(week) else "red" for week in weeks], ["isCurrentWeek" if week.isCurrentWeek() else "" for week in weeks])
 
