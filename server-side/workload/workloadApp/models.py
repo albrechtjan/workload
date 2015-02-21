@@ -74,6 +74,7 @@ class WorkingHoursEntry(models.Model):
     lecture = models.ForeignKey(Lecture)
     student = models.ForeignKey(Student)
     week = models.DateField() # A datetime.date object. The Monday (!!!) of the week for which the working hours are entered
+    semesterOfStudy = models.IntegerField(default=0)
 
     def getTotalHours(self):
         return self.hoursStudying+self.hoursForHomework+self.hoursInLecture

@@ -144,6 +144,7 @@ def postWorkloadDataEntry(request):
     dataEntry.hoursInLecture   = float(request.POST["hoursInLecture"])
     dataEntry.hoursForHomework = float(request.POST["hoursForHomework"])
     dataEntry.hoursStudying    = float(request.POST["hoursStudying"])
+    dataEntry.semesterOfStudy = request.user.student.semesterOfStudy # the semester of study of the student at the time when the dataEntry is created
     dataEntry.save()
     return HttpResponse("success")
 

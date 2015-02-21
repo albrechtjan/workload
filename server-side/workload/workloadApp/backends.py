@@ -19,7 +19,6 @@ class CustomShibboBackend(ShibbolethRemoteUserBackend):
         if created:
             user = self.configure_user(user,meta)
         student , _ = Student.objects.get_or_create(user=user)
-
         # every time, fill student with semester (and other) information from meta
         # is this the right place to do this?
         # I can again use a dictionary here, like I do for the user object
