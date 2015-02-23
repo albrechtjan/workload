@@ -1,12 +1,12 @@
 package com.gmail.konstantin.schubert.workload;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class calendar extends ActionBarActivity {
+public class calendar extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
