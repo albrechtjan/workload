@@ -151,16 +151,6 @@ def postWorkloadDataEntry(request):
 
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
-def updateSettings(request):
-    student = request.user.student
-    student.semesterOfStudy = int(request.POST["SemesterOfStudy"])
-    student.save()
-    return HttpResponse("success")
-
-
-
-@login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def addLecture(request):
 
     student = request.user.student
