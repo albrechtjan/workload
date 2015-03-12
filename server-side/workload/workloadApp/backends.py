@@ -20,7 +20,11 @@ class CustomShibboBackend(ShibbolethRemoteUserBackend):
             user = self.configure_user(user,meta)
         student , _ = Student.objects.get_or_create(user=user)
         # update student object on every load
-        student.semesterOfStudy = int(meta["terms-of-study"])
+        try:
+            student.semesterOfStudy = int(meta["terms-of-study"])
+        except KeyError:
+            # if the study term is not defined, set it to zero
+            student.semesterOfStudy = 0
         student.save()
         return user
 
