@@ -25,6 +25,9 @@ class CustomShibboBackend(ShibbolethRemoteUserBackend):
         except KeyError:
             # if the study term is not defined, set it to zero
             student.semesterOfStudy = 0
+        except ValueError:
+            #unable to convert value to integer
+            student.semesterOfStudy = 0
         student.save()
         return user
 
