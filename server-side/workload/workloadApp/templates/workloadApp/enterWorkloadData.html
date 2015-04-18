@@ -69,9 +69,14 @@ $("#workingHoursEntryForm").on('input', function() {
         </div>
     </a>
 
-<div id="advice">
-{{lecture.name}} :  {{week.monday | date:"d. M"}} - {{week.sunday| date:"d. M"}}
+<div id="headline1">
+  {{lecture.name}}
 </div>
+<div id="headline2">
+  {{week.monday | date:"d. M"}} - {{week.sunday| date:"d. M"}}
+</div>
+
+
 
 {% endblock %}
 

@@ -111,6 +111,27 @@ footer a {
 	margin-right: auto;
 }
 
+#headline1{
+	padding-top: 1em;
+	font-size: 2.2em;
+	width: 59%;
+	float: center;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+#headline2{
+	padding-top: 0.3em;
+	font-size: 1.9em;
+	width: 59%;
+	float: center;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
 
 
 .weekButton{
