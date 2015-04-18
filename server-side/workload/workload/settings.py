@@ -17,8 +17,8 @@ with open('/home/ks/secret_key_django.txt') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = [".tu-dresden.de",".tu-dresden.de."]
 
