@@ -46,7 +46,7 @@ Permanently Delete Data
     The data you enter on this website is stored in a pseudonymous form and not connected to your name. The Fachschaftsrat Physik uses it in cooperation with the ZENTRUM FÜR QUALITÄTSANALYSE in order to improve the quality of the teaching at TU Dresden for you and your fellow students. Please consider this before deleting your data. If you click on "delete permantely", all data you entered about the corresponding lecture will be deleted from the database, though we can not guarantee it might not remain on a backup copy for an undefined amount of time.
 </div>
 
-    {% for lecture in chosenLectures %}
+    {% for lecture in allLectures %}
         <div class="wideItem nobutton" id="lectureIDIs{{lecture.id}}">
             <div class="itemText">
                 <span>{{lecture.name}}</span>

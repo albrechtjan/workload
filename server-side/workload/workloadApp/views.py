@@ -209,7 +209,7 @@ def permanentDelete(request):
     template = loader.get_template('workloadApp/options/settings/permanentDelete.html')
 
     context = RequestContext(request,{
-        "chosenLectures" : list(request.user.student.lectures.all())
+        "allLectures" : list(set(Lecture.objects.filter(workinghoursentry__student=request.user.student)))
         })
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
@@ -312,8 +312,6 @@ def visualizeData(request):
         "categories" :  [lecture.name for lecture in categories], #hack to prevent a crash
         "series" : series
     }
-
-    #TODO
    
     template = loader.get_template('workloadApp/visualizeData.html')
 
