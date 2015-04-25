@@ -11,13 +11,13 @@
 		{% for semester in semesters %}
 			<div class="calendarYearDivider"> {{semester.0.name}}</div>
 			<div class="calendarYearContent">
- 			{% for weekData in semester.1 %}
-				<a href="../selectLecture?year={{weekData.0.year}}&week={{weekData.0.week}}">
-					<div class="weekButton button {{weekData.1}} {{weekData.2}}">
+ 			{% for week in semester.1 %}
+				<a href="../selectLecture?year={{week.year}}&week={{week.week}}">
+					<div class="weekButton button {% if week.hasData %} green {%else%} red {%endif%} {%if week.isCurrentWeek %} isCurrentWeek {%endif%}">
 						<div class="calendarDates">
-							{{weekData.0.monday | date:"d. M."}} </br>
+							{{week.monday | date:"d. M."}} </br>
 								- <br/> 	
-							{{weekData.0.sunday | date:"d. M."}} </br> <!-- wihtout the line break the last line is shifted versus the first line-->
+							{{week.sunday | date:"d. M."}} </br> <!-- wihtout the line break the last line is shifted versus the first line-->
 						</div>
 					</div>
 				</a>

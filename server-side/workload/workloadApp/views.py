@@ -57,17 +57,10 @@ def never_ever_cache(decorated_function):
 @method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
     student = request.user.student    
-    weeks = student.getWeeksWithLectures()
-    weeksHaveData = zip(weeks, [ "green" if student.hasData(week) else "red" for week in weeks], ["isCurrentWeek" if week.isCurrentWeek() else "" for week in weeks])
-
-    #subdivide the list of student-hasData tuples into a list of lists where the sublists contain only events of a certain year
-    shaped = []
-    semesters = sorted(list(set([Semester.withDate(x[0].friday()) for x in weeksHaveData ]))) # If the friday is in the new semester then the whole week is counted as being in the new semester
-    for semester in semesters:
-        shaped.append([semester,[x for x in weeksHaveData if Semester.withDate(x[0].friday()) == semester]])
+    weeks = student.getWeeks()
 
     context = RequestContext(request, {
-        "semesters" : shaped
+        "semesters" : Semester.groupWeeksBySemester(weeks)
     })
 
     tst = decorateWithNotification(request)
@@ -77,12 +70,11 @@ def calendar(request):
 
 
 
-@login_required # For making this work properly seehttps://docs.djangoproject.com/en/1.5/topics/auth/default/#the-login-required-decorator
+@login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def selectLecture(request):
 
     student = request.user.student
-    #TODO: Sourround the next two lines with a try-catch and handle the case that the url parameters are not given properly
     week = int(request.GET['week'])
     year = int(request.GET['year'])
 
@@ -94,7 +86,6 @@ def selectLecture(request):
         del lecturesThisWeek[i]
 
     lectureHasData = [ True if WorkingHoursEntry.objects.filter(week=Week(year,week).monday(),student=request.user.student,lecture=lecture) else False for lecture in lecturesThisWeek]
-
 
     context = RequestContext(request, {
         "year" : year,
@@ -109,7 +100,6 @@ def selectLecture(request):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def enterWorkloadData(request):
 
-    #TODO: Sourround the next lines with a try-catch and handle the case that the url parameters are not given properly
     week = Week(int(request.GET['year']),int(request.GET['week'])) # create isoweek object
     lecture = Lecture.objects.get(id=int(request.GET['lectureId'])) 
     dataEntry, hasBeenCreated = WorkingHoursEntry.objects.get_or_create( week=week.monday() , student=request.user.student , lecture=lecture)
@@ -123,7 +113,6 @@ def enterWorkloadData(request):
         "hoursInLecture" : dataEntry.hoursInLecture,
         "hoursForHomework" : dataEntry.hoursForHomework,
         "hoursStudying" : dataEntry.hoursStudying,
-
     })
 
     return HttpResponse(template.render(context))
@@ -182,9 +171,7 @@ def addLecture(request):
 def options(request):
     template = loader.get_template('workloadApp/options.html')
 
-    context = RequestContext(request,{
-
-        })
+    context = RequestContext(request, {})
 
     context.update(decorateWithNotification(request))
     return HttpResponse(template.render(context))
@@ -280,7 +267,7 @@ def visualizeData(request):
     student = request.user.student
 
     #gathering data for first diagram
-    weeks = student.getWeeksWithLectures()
+    weeks = student.getWeeks()
     weekData = []
     for lecture in student.lectures.all():
         dictionary = { "name": lecture.name, "data":[]} 

@@ -46,7 +46,7 @@ class Student(models.Model):
         return True
 
 
-    def getWeeksWithLectures(self):
+    def getWeeks(self):
         #returns all weeks between and including the week of the first and the last lecture associated with the student
         try:
             start = Week.withdate(self.startOfLectures())
@@ -54,6 +54,9 @@ class Student(models.Model):
             weeks = [start+x for x in range(end-start+1)]
         except NoLecturesFound:
             weeks = []
+
+        for week in weeks:
+            week.loadStudentInfo(self)
         return weeks
 
     def getHoursSpent(self, lecture): # returns dictionary with times for "inLecture, forHomework, studying"

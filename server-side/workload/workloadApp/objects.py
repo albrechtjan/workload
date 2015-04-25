@@ -3,14 +3,28 @@ import datetime
 
 
 class Week(isoweek.Week):
-    def isCurrentWeek(self):
-        return self == isoweek.Week.thisweek()
+
+    def loadStudentInfo(self, student):
+        self.hasData = student.hasData(self)
+        self.isCurrentWeek = (self==isoweek.Week.thisweek())
+
+
 
 
 class Semester:
     #Hardcoded semester starting days. Change as necessary
     startSS = datetime.date(2000,4,1)
     startWS = datetime.date(2000,10,1)
+
+    @classmethod
+    def groupWeeksBySemester(self, weeks):
+        # subdivide the list of weeks into a list of lists where the sublists contain only events of a certain semester
+        shaped = []
+        semesters = sorted(list(set([Semester.withDate(week.friday()) for week in weeks ]))) # If the friday is in the new semester then the whole week is counted as being in the new semester
+        for semester in semesters:
+            shaped.append([semester,[week for week in weeks if Semester.withDate(week.friday()) == semester]])
+        return shaped
+
 
     @classmethod
     def withDate(self,date):
