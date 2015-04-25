@@ -82,6 +82,11 @@ class WorkingHoursEntry(models.Model):
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student" + str(self.student.id) + "in week number" + str(self.week.isocalendar()[1])
 
+def privacy_agreement(user):
+    if user:
+        return user.groups.filter(name='has_agreed_to_privacy_agreement').count() != 0
+    return False
+
 class NoLecturesFound(Exception):
     pass
     

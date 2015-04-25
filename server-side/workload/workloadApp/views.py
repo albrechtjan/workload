@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.utils.decorators import method_decorator
 from datetime import date, timedelta
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
+from workloadApp.models import privacy_agreement
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
 from django.contrib.auth import logout
@@ -30,10 +31,6 @@ def decorateWithNotification(request):
         moreContext.update({"hasNotification" : False})
         return moreContext
 
-def privacy_agreement(user):
-    if user:
-        return user.groups.filter(name='has_agreed_to_privacy_agreement').count() != 0
-    return False
 
 def never_ever_cache(decorated_function):
     """Like Django @never_cache but sets more valid cache disabling headers.
