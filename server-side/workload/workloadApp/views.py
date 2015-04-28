@@ -56,9 +56,7 @@ def never_ever_cache(decorated_function):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 @method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
-    student = request.user.student    
-    weeks = student.getWeeks()
-
+    weeks = request.user.student.getWeeks()
     context = RequestContext(request, {
         "semesters" : Semester.groupWeeksBySemester(weeks)
     })
@@ -75,21 +73,18 @@ def calendar(request):
 def selectLecture(request):
 
     student = request.user.student
-    week = int(request.GET['week'])
-    year = int(request.GET['year'])
+    weekNumber = int(request.GET['week'])
+    yearNumber = int(request.GET['year'])
+    week = Week(yearNumber, weekNumber)
 
     template = loader.get_template('workloadApp/selectLecture.html')
+    lecturesThisWeek = student.lectures.filter(startDay__lte=week.sunday(),endDay__gte=week.monday())
 
-    lecturesThisWeek = list(request.user.student.lectures.all())
-    for i in reversed([ i for (i,lecture) in enumerate(lecturesThisWeek) if not (lecture.isActive(Week(year,week).monday()) or lecture.isActive(Week(year,week).friday())) ]):
-        # I got this from stackoverflow, not sure why the "reversed" is necessary, maybe it's supposed to speed things up?
-        del lecturesThisWeek[i]
-
-    lectureHasData = [ True if WorkingHoursEntry.objects.filter(week=Week(year,week).monday(),student=request.user.student,lecture=lecture) else False for lecture in lecturesThisWeek]
+    lectureHasData = [ True if WorkingHoursEntry.objects.filter(week=week.monday(), student=student,lecture=lecture) else False for lecture in lecturesThisWeek]
 
     context = RequestContext(request, {
-        "year" : year,
-        "week" : week,
+        "year" : yearNumber,
+        "week" : weekNumber,
         "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)
     })
 

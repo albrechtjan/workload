@@ -54,7 +54,6 @@ class Student(models.Model):
             weeks = [start+x for x in range(end-start+1)]
         except NoLecturesFound:
             weeks = []
-
         for week in weeks:
             week.loadStudentInfo(self)
         return weeks
@@ -70,13 +69,16 @@ class Student(models.Model):
         return totalHours
 
 
+
 class WorkingHoursEntry(models.Model):
     hoursInLecture=models.FloatField(default=0)
     hoursForHomework=models.FloatField(default=0) 
     hoursStudying=models.FloatField(default=0)
     lecture = models.ForeignKey(Lecture)
     student = models.ForeignKey(Student)
-    week = models.DateField() # A datetime.date object. The Monday (!!!) of the week for which the working hours are entered
+    week = models.DateField() 
+    # Week is a  datetime.date object. The Monday (!!!) of the week for which the working hours are entered
+    # I chose a datetime over isoweek.week for a reason I forgot. Maybe you can't save datatime.week as a model entry?
     semesterOfStudy = models.IntegerField(default=0)
 
     def getTotalHours(self):
