@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^api/menu/privacy/agree/$', api_views.menu_privacy_agree),
     url(r'^api/menu/settings/$', api_views.menu_settings),
     url(r'^api/menu/settings/deletable_lectures/$', api_views.menu_settings_deletableLectures),
-    url(r'^api/menu/settings/deletable_lectures/(?P<lecture_id>[0-9]+)/$', api_views.menu_settings_deletableLectures)
+    url(r'^api/menu/settings/deletable_lectures/(?P<lecture_id>[0-9]+)/$', api_views.menu_settings_deletableLectures),
+    url(r'^api/blank/$', api_views.blank)
 
 )

@@ -14,6 +14,12 @@ class Lecture(models.Model):
     def isActive(self,date):
         return (self.startDay<=date and date <=self.endDay)
 
+    def toJson(self):
+        lectureDict = self.__dict__
+        lectureDict.pop("_state")
+        return lectureDict
+
+
 # Student is in a one-to-one relationship with user
 class Student(models.Model):
     lectures = models.ManyToManyField(Lecture,blank=True)
@@ -36,8 +42,11 @@ class Student(models.Model):
             raise NoLecturesFound
         return max([lecture.endDay for lecture in list(self.lectures.all())])
 
+    def getLectures(self, week):
+        return self.lectures.filter(startDay__lte=week.sunday(),endDay__gte=week.monday())
 
-    def hasData(self,week):
+
+    def hasData(self, week):
         for lectureIterator in self.lectures.all():
             if lectureIterator.isActive(week.monday()) or lectureIterator.isActive(week.sunday()): 
                 # if an ongoing lecture has not data for the week, the week is considered to be missing data

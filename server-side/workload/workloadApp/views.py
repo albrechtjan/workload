@@ -78,8 +78,8 @@ def selectLecture(request):
     week = Week(yearNumber, weekNumber)
 
     template = loader.get_template('workloadApp/selectLecture.html')
-    lecturesThisWeek = student.lectures.filter(startDay__lte=week.sunday(),endDay__gte=week.monday())
-
+    
+    lecturesThisWeek = student.getLectures(week)
     lectureHasData = [ True if WorkingHoursEntry.objects.filter(week=week.monday(), student=student,lecture=lecture) else False for lecture in lecturesThisWeek]
 
     context = RequestContext(request, {

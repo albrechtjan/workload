@@ -7,8 +7,8 @@ GET /api  //this is the entry point
 The responses to the REST- API are specific to the authenticated user. The user token is always transmitted as a parameter
 
 GET /api/weeks/   returns: weeks
-GET /api/weeks/<year>/<week>/lectures/   returns: lectures 
-GET /api/weeks/<year>/<week>/lectures/<lecture_id>/ returns: lecture with attribute has_data
+GET /api/weeks/<year>/<week>/lectures/   returns: active lecturs of the user in this week lectures, with attribute has_data
+GET /api/weeks/<year>/<week>/lectures/<lecture_id>/ returns: workload-entry for the given lecture in the given week
 POST /api/weeks/<year>/<week>/lectures/ params: lecture-identifier, attending, homework, studying // this does not ADD a lecture, but it adds an entry
 
 
