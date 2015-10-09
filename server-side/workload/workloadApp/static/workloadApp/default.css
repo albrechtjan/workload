@@ -4,7 +4,7 @@ html{
 }
 
 body{
-	margin: 0;
+	margin: 0 auto;
 	font-family: "Arial";
 	background-color: white;
 	/*we are using the modern flexbox solution for the footer: https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/*/
@@ -22,10 +22,17 @@ flex: 1;
 	background-color: #2F4067;
 	height: 9em;
 	width: 100%;
+	
 	color: white;
 	overflow: hidden; /*this is supposed to cause a block formatting context where all elements are vertically aligned, but I do not see this happening*/
 }
 
+#header_inner{
+	max-width: 100rem;
+	margin: 0 auto ;
+	height: 9em;
+}
+ 
 .iconButton{
 	width: 9em;
 	height: 9em;
@@ -53,17 +60,26 @@ flex: 1;
 
 #content{
 	overflow: hidden;
+	max-width: 100rem;
+	margin: 0 auto;
+
 }
 
 footer{
 	margin-top: 2em;
 	background-color: #2F4067;
 	overflow: hidden;
-	padding: 1em 0em;
+	padding: 1em auto;
 	width: 100%;
+
 	color: white;
+}
+
+.footer_inner{
+	max-width: 100rem;
+	margin: 0 auto ;
+	height: 9em;
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: space-around;
 }
 
