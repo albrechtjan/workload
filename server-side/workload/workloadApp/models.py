@@ -14,7 +14,7 @@ class Lecture(models.Model):
     def isActive(self,date):
         return (self.startDay<=date and date <=self.endDay)
 
-    def toJson(self):
+    def toDict(self):
         lectureDict = self.__dict__
         lectureDict.pop("_state")
         return lectureDict
@@ -89,6 +89,12 @@ class WorkingHoursEntry(models.Model):
     # Week is a  datetime.date object. The Monday (!!!) of the week for which the working hours are entered
     # I chose a datetime over isoweek.week for a reason I forgot. Maybe you can't save datatime.week as a model entry?
     semesterOfStudy = models.IntegerField(default=0)
+
+
+    def toDict(self):
+        entryDict = self.__dict__
+        entryDict.pop("_state")
+        return entryDict
 
     def getTotalHours(self):
         return self.hoursStudying+self.hoursForHomework+self.hoursInLecture
