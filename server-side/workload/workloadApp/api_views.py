@@ -64,15 +64,19 @@ def workload_entries(request, year=None, week=None, lecture__id=None):
 @login_required
 def menu_lectures_all(request, lecture_id=None):
     if request.method == "GET":
+        lectureDicts = []
         for lecture in Lecture.objects.all():
             lectureDict = lecture.toDict()
-            lectureDict["isActive"] = lecture in student.lectures.all()
-        lectureDicts = [lecture.toDict() for lecture in Lecture.objects.all()]
+            lectureDict["isActive"] = lecture in request.user.student.lectures.all()
+            lectureDicts.append(lectureDict)
         return JsonResponse(lectureDicts, safe=False)
     elif request.method == "PATCH":
         raise HttpResponseNotAllowed('not yet implemented')
     else:
         return HttpResponseNotAllowed(['GET', 'PATCH'])
+
+
+
 
 
 @login_required
