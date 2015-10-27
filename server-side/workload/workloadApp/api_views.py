@@ -62,40 +62,17 @@ def workload_entries(request, year=None, week=None, lecture__id=None):
 
 
 @login_required
-def menu_lectures_all(request):
+def menu_lectures_all(request, lecture_id=None):
     if request.method == "GET":
+        for lecture in Lecture.objects.all():
+            lectureDict = lecture.toDict()
+            lectureDict["isActive"] = lecture in student.lectures.all()
         lectureDicts = [lecture.toDict() for lecture in Lecture.objects.all()]
         return JsonResponse(lectureDicts, safe=False)
+    elif request.method == "PATCH":
+        raise HttpResponseNotAllowed('not yet implemented')
     else:
-        return HttpResponseNotAllowed(['GET'])
-
-
-
-@login_required
-@user_passes_test(privacy_agreement)
-def menu_lectures_active(request, lecture_id=None):
-    student = request.user.student
-
-    if request.method == "GET":
-        lectureDicts = [lecture.toDict() for lecture in student.lectures.all()]
-        return JsonResponse(lectureDicts, safe=False)
-
-    elif request.method == "POST":
-        lectureDict = json.loads(request.body)
-        lecture = Lecture.objects.get(id=lectureDict["id"])
-        student.lectures.add(lecture)
-        student.save()
-        return HttpResponse
-
-    elif request.method == "DELTE":
-        if lecture_id:
-            lecture = Lecture.objects.get(id=lecture_id)
-            student.lectures.remove(lecture)
-            return HttpResponse
-        else:
-            raise Exception
-    else:
-        return HttpResponseNotAllowed(['GET', 'POST', 'DELTE'])
+        return HttpResponseNotAllowed(['GET', 'PATCH'])
 
 
 @login_required
