@@ -13,14 +13,15 @@ from django.views.decorators.csrf import csrf_exempt
 @login_required
 @user_passes_test(privacy_agreement)
 @csrf_exempt
-def workload_entries(request, year, week, lecture__id):
+def workload_entries(request, year=None, week=None, lecture__id=None):
     # require the full url in all cases
     student = request.user.student
     kwargs = {}
     isoweek = None
     if year and week:
         isoweek = Week(int(year), int(week))
-        kwargs["week"] = isoweek
+        kwargs["week"] = isoweek.monday() # the week in the WorkingHoursEntry is a datetime entry of the monday of the corresponding isoweek
+    if lecture__id:
         kwargs["lecture__id"] = lecture__id
         
 
@@ -29,27 +30,19 @@ def workload_entries(request, year, week, lecture__id):
         dicts =  [ entry.toDict() for entry in query_set.all()]    
         return JsonResponse( dicts, safe=False)
     
-    elif request.method == "POST" or request.method == "PUT":
+    elif request.method == "POST":
         if not (year and week and lecture__id):
             raise Exception
-        # POST creates a new entry
+        # we make no diference between POST and PUT
         #takes a json-dict similar to what is returned by the GET method when called with a lecture_id
         lecture = Lecture.objects.get(id=lecture__id)
-        if request.method == "POST":
-            dataEntry = WorkingHoursEntry(week=isoweek.monday(), student=student , lecture=lecture)
-	    dataEntry.hoursInLecture   = request.POST["hoursInLecture"]
-            dataEntry.hoursForHomework = request.POST["hoursForHomework"]
-            dataEntry.hoursStudying    = request.POST["hoursStudying"]
-        else: #if request.method == "PUT":
-            dataEntry.hoursInLecture   = request.PUT["hoursInLecture"]
-            dataEntry.hoursForHomework = request.PUT["hoursForHomework"]
-            dataEntry.hoursStudying    = request.PUT["hoursStudying"]
-            dataEntry = WorkingHoursEntry.objects.get( week=isoweek.monday() , student=student , lecture=lecture)
-
-        
+        dataEntry, has_been_created = WorkingHoursEntry.objects.get_or_create(week=isoweek.monday(), student=student , lecture=lecture) 
+        dataEntry.hoursInLecture   = request.POST["hoursInLecture"]
+        dataEntry.hoursForHomework = request.POST["hoursForHomework"]
+        dataEntry.hoursStudying    = request.POST["hoursStudying"]
         dataEntry.semesterOfStudy  = student.semesterOfStudy # the semester of study of the student at the time when the dataEntry is created
         dataEntry.save()
-        return 
+        return HttpResponse(status=204) #resource update successfully, no content returned
     else:
         return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 

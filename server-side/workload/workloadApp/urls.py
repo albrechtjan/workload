@@ -19,10 +19,10 @@ urlpatterns = patterns('',
     url(r'^visualizeData/$',views.visualizeData,name="visualizeData"),
     url(r'^$', RedirectView.as_view(url='calendar/',permanent=False), name='index'),
 
-    # RESTful API
+    # RESTful APIHeaders(url.toString());
 
     url(r'^api/entries/active/$', api_views.workload_entries),
-    url(r'^api/entries/active/year/(?P<year>[0-9]{4})/(?P<week>[0-9]+)/lectures/(?P<lecture_id>[0-9]+)/$', api_views.workload_entries),
+    url(r'^api/entries/active/year/(?P<year>[0-9]{4})/(?P<week>[0-9]+)/lectures/(?P<lecture__id>[0-9]+)/$', api_views.workload_entries),
     url(r'^api/lectures/all/$', api_views.menu_lectures_all),
     url(r'^api/lectures/all/(?P<lecture_id>[0-9]+)/$', api_views.menu_lectures_all),
     # url(r'^api/menu/statistics/$', api_views.menu_statistics),

@@ -71,7 +71,6 @@ def calendar(request):
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def selectLecture(request):
-
     student = request.user.student
     weekNumber = int(request.GET['week'])
     yearNumber = int(request.GET['year'])
@@ -118,10 +117,8 @@ def postWorkloadDataEntry(request):
     #TODO: Make sure ALL post variables are set
 
     year = int(request.POST['year'])
-    lecture = Lecture.objects.get(id=request.POST['lectureId']) 
-
+    lecture = Lecture.objects.get(id=request.POST['lectureId'])
     dataEntry, hasBeenCreated = WorkingHoursEntry.objects.get_or_create( week=Week(int(request.POST['year']),int(request.POST['week'])).monday() , student=request.user.student , lecture=lecture)
-
     dataEntry.hoursInLecture   = float(request.POST["hoursInLecture"])
     dataEntry.hoursForHomework = float(request.POST["hoursForHomework"])
     dataEntry.hoursStudying    = float(request.POST["hoursStudying"])
