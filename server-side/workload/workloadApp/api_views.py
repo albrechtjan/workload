@@ -57,7 +57,18 @@ def menu_lectures_all(request, lecture_id=None):
             lectureDicts.append(lectureDict)
         return JsonResponse(lectureDicts, safe=False)
     elif request.method == "PUT":
-        raise HttpResponseNotAllowed('not yet implemented')
+            if not lecture_id:
+                raise HttpResponseNotAllowed("you must specify the lecture id when activating/deactivating a lecture")
+            lecture = Lecture.objects.get(id=lecture_id)
+        if request.POST["isActive"]=="true":
+            # In case add is called on a lecture that has already been added,
+            # according to the stuff I am reading nothing should happen.
+            # This is what I want here.
+            request.user.student.lectures.add(lecture)
+        else:
+            request.user.student.lectures.remove(lecture)
+        request.user.student.save()
+        return HttpResponse(status=204)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
 
