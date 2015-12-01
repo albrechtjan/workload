@@ -44,7 +44,7 @@ def workload_entries(request, year=None, week=None, lecture__id=None):
         dataEntry.save()
         return HttpResponse(status=204) #resource update successfully, no content returned
     else:
-        return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 
 @login_required
@@ -56,21 +56,23 @@ def menu_lectures_all(request, lecture_id=None):
             lectureDict["isActive"] = lecture in request.user.student.lectures.all()
             lectureDicts.append(lectureDict)
         return JsonResponse(lectureDicts, safe=False)
-    elif request.method == "PUT":
-            if not lecture_id:
-                raise HttpResponseNotAllowed("you must specify the lecture id when activating/deactivating a lecture")
+    elif request.method == "POST":
+        if not lecture_id:
+            raise HttpResponseNotAllowed("you must specify the lecture id when activating/deactivating a lecture")
             lecture = Lecture.objects.get(id=lecture_id)
         if request.POST["isActive"]=="true":
             # In case add is called on a lecture that has already been added,
-            # according to the stuff I am reading nothing should happen.
+            # nothing should happen. (According to the stuff I am reading online.)
             # This is what I want here.
             request.user.student.lectures.add(lecture)
-        else:
+        elif request.POST["isActive"]=="false":
             request.user.student.lectures.remove(lecture)
+        else:
+            return HttpResponse(status=400)
         request.user.student.save()
         return HttpResponse(status=204)
     else:
-        return HttpResponseNotAllowed(['GET', 'PUT'])
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 
 
