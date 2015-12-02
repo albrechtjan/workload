@@ -48,6 +48,7 @@ def workload_entries(request, year=None, week=None, lecture__id=None):
 
 
 @login_required
+@csrf_exempt
 def menu_lectures_all(request, lecture_id=None):
     if request.method == "GET":
         lectureDicts = []
@@ -59,7 +60,7 @@ def menu_lectures_all(request, lecture_id=None):
     elif request.method == "POST":
         if not lecture_id:
             raise HttpResponseNotAllowed("you must specify the lecture id when activating/deactivating a lecture")
-            lecture = Lecture.objects.get(id=lecture_id)
+        lecture = Lecture.objects.get(id=lecture_id)
         if request.POST["isActive"]=="true":
             # In case add is called on a lecture that has already been added,
             # nothing should happen. (According to the stuff I am reading online.)
