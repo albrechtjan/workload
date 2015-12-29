@@ -80,8 +80,16 @@ def menu_lectures_all(request, lecture_id=None):
 
 
 @login_required
-def menu_privacy_agree(request):
-    pass
+@csrf_exempt
+def privacy_agree(request):
+    if request.method == "GET":
+        return HttpResponse(privacy_agreement(request.user))
+    elif request.method == "POST":
+        g = Group.objects.get(name='has_agreed_to_privacy_agreement')
+        g.user_set.add(request.user)
+        return HttpResponse(status=204) #resource update successfully, no content returned
+    else:
+        return HttpResponseNotAllowed(['GET','POST'])
 
 
 @login_required
