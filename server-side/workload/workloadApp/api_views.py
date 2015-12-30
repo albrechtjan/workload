@@ -11,7 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
-@user_passes_test(privacy_agreement)
+# @user_passes_test(privacy_agreement) The API does not check for the privacy agreement. The clients should do that themselves. 
+# There is no need to enforce the priavcy agreement against a rogue client. 
 @csrf_exempt
 def workload_entries(request, year=None, week=None, lecture__id=None):
     # require the full url in all cases
@@ -93,7 +94,6 @@ def privacy_agree(request):
 
 
 @login_required
-@user_passes_test(privacy_agreement)
 def blank(request):
     return HttpResponse("done")
 
