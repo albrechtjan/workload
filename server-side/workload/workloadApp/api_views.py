@@ -93,7 +93,6 @@ def privacy_agree(request):
         return HttpResponseNotAllowed(['GET','POST'])
 
 
-@login_required
 def blank(request):
     return HttpResponse("done")
 
