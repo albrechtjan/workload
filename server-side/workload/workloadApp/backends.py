@@ -2,6 +2,8 @@ from shibboleth.backends import ShibbolethRemoteUserBackend
 from models import Student
 from django.contrib.auth import get_user_model
 import re
+import logging
+logger = logging.getLogger(__name__)
 
 
 class CustomShibboBackend(ShibbolethRemoteUserBackend):
@@ -21,6 +23,7 @@ class CustomShibboBackend(ShibbolethRemoteUserBackend):
         student , _ = Student.objects.get_or_create(user=user)
         # update student object on every load
         try:
+            logger.info(meta)
             student.semesterOfStudy = int(meta["terms-of-study"])
         except KeyError:
             # if the study term is not defined, set it to zero
