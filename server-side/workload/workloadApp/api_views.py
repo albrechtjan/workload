@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from workloadApp.models import privacy_agreement
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
@@ -9,11 +9,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 
+def require_app_user_agent(view_function):
+    """
+    wrapper that checks for the apps user agent string to be set and
+    otherwise refuses access to the api
+    """
+    def checking_view(request, *args, **kwargs):
+        if "Workload_App_Android_CSRF_EXCEMPT" in request.META['HTTP_USER_AGENT']:
+            return view_function(request, args, kwargs)
+        else:
+            return HttpResponse(403)
+    return checking_view
+
 
 @login_required
-# @user_passes_test(privacy_agreement) The API does not check for the privacy agreement. The clients should do that themselves. 
 # There is no need to enforce the priavcy agreement against a rogue client. 
 @csrf_exempt
+@require_app_user_agent # should prevent csrf attacks
 def workload_entries(request, year=None, week=None, lecture__id=None):
     # require the full url in all cases
     student = request.user.student
@@ -50,6 +62,7 @@ def workload_entries(request, year=None, week=None, lecture__id=None):
 
 @login_required
 @csrf_exempt
+@require_app_user_agent # should prevent csrf attacks
 def menu_lectures_all(request, lecture_id=None):
     if request.method == "GET":
         lectureDicts = []
@@ -82,6 +95,7 @@ def menu_lectures_all(request, lecture_id=None):
 
 @login_required
 @csrf_exempt
+@require_app_user_agent # should prevent csrf attacks
 def privacy_agree(request):
     if request.method == "GET":
         return HttpResponse(privacy_agreement(request.user))
