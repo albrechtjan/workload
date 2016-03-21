@@ -24,7 +24,8 @@ class CustomShibboBackend(ShibbolethRemoteUserBackend):
         # update student object on every load
         try:
             logger.info(meta)
-            student.semesterOfStudy = int(meta["terms-of-study"])
+            regex = re.compile("\$ (\d*)") #capturing the semester of study which seems to follow a number indicating the course of study and a $ sign.
+            student.semesterOfStudy = int( regex.findall(meta["terms-of-study"])[0] )
         except KeyError:
             # if the study term is not defined, set it to zero
             student.semesterOfStudy = 0
