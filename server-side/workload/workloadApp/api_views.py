@@ -16,9 +16,9 @@ def require_app_user_agent(view_function):
     """
     def checking_view(request, *args, **kwargs):
         if "Workload_App_Android_CSRF_EXCEMPT" in request.META['HTTP_USER_AGENT']:
-            return view_function(request, args, kwargs)
+            return view_function(request, *args, **kwargs)
         else:
-            return HttpResponse(403)
+            return HttpResponse(status=403)
     return checking_view
 
 
