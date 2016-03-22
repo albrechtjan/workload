@@ -17,7 +17,7 @@ with open('/home/ks/secret_key_django.txt') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = [".tu-dresden.de",".tu-dresden.de."]
@@ -88,7 +88,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = "/var/www/static/"
 
-
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 
 # Settings for shibboleth
@@ -129,7 +130,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '/home/ks/workload/mysite.log',
+            'filename': '/home/ks/workload/workload.log',
             'formatter': 'verbose'
         },
     },
