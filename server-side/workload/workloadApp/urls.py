@@ -25,7 +25,6 @@ urlpatterns = patterns('',
     url(r'^api/entries/active/year/(?P<year>[0-9]{4})/(?P<week>[0-9]+)/lectures/(?P<lecture__id>[0-9]+)/$', api_views.workload_entries),
     url(r'^api/lectures/all/$', api_views.menu_lectures_all),
     url(r'^api/lectures/all/(?P<lecture_id>[0-9]+)/$', api_views.menu_lectures_all),
-    url(r'^api/privacyAgree/$', api_views.privacy_agree),
     url(r'^api/blank/$', api_views.blank)
 
 )

@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from workloadApp.models import privacy_agreement
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 
@@ -89,22 +88,6 @@ def menu_lectures_all(request, lecture_id=None):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-
-
-
-
-@login_required
-@csrf_exempt
-@require_app_user_agent # should prevent csrf attacks
-def privacy_agree(request):
-    if request.method == "GET":
-        return HttpResponse(privacy_agreement(request.user))
-    elif request.method == "POST":
-        g = Group.objects.get(name='has_agreed_to_privacy_agreement')
-        g.user_set.add(request.user)
-        return HttpResponse(status=204) #resource update successfully, no content returned
-    else:
-        return HttpResponseNotAllowed(['GET','POST'])
 
 
 def blank(request):
