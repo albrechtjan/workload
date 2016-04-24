@@ -2,21 +2,24 @@
 Django settings for workload project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
+https://docs.djangoproject.com/en/1.9/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
+https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
+# Django requires a secret key for cryptography
+# Because the settings.py file is commited to the git repository and not kept to a very high level of secrecy, 
+# the secret key is stored in a seperate file and loaded from there.
 with open('/home/ks/secret_key_django.txt') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# You can set these options to True to get very helpful error messages when Django hits a problem on page load.
 DEBUG = False
 TEMPLATE_DEBUG = False
 
@@ -26,13 +29,17 @@ ALLOWED_HOSTS = [".tu-dresden.de",".tu-dresden.de."]
 # Application definition
 
 INSTALLED_APPS = (
+    # these are django core apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # this is "our" app, the one which has the user-frontend and the web API
     'workloadApp',
+    # this is this here: https://github.com/KonstantinSchubert/django-shibboleth-adapter
+    # TODO: Explain how to install this!!!!
     'shibboleth',
 
 )
