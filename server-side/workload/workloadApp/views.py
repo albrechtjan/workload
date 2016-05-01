@@ -218,8 +218,11 @@ def permanentDelete(request):
     """
     template = loader.get_template('workloadApp/options/settings/permanentDelete.html')
 
+    # all lectures for which a working hour entry exists by the user
+    # this includes lectures which the user has un-selected before
+    all_user_lectures = list(set(Lecture.objects.filter(workinghoursentry__student=request.user.student)))
     context = RequestContext(request,{
-        "allLectures" : list(set(Lecture.objects.filter(workinghoursentry__student=request.user.student)))
+        "allLectures" : all_user_lectures
         })
     context.update(decorateWithNotification(request))
     context.update({ "ignoreData" : request.user.student.ignoreData })
@@ -229,11 +232,13 @@ def permanentDelete(request):
 def doPermanentDelete(request):
     """ This function deletes all information associated with one lecture.
 
-    It only works for POST requests that contain the "lectureId" in the POST dictionary
+    It only works for POST requests that contain the "lectureId" in the POST dictionary.
     """
-    lectureToRemove = Lecture.objects.get(id=request.POST["lectureId"])
+    lectureToRemove = Lecture.objects.get(id=int(request.POST["lectureId"]))
     request.user.student.lectures.remove(lectureToRemove)
+    before = WorkingHoursEntry.objects.filter(lecture__id=request.POST["lectureId"],student=request.user.student).count()
     WorkingHoursEntry.objects.filter(lecture__id=request.POST["lectureId"],student=request.user.student).delete()
+    after = WorkingHoursEntry.objects.filter(lecture__id=request.POST["lectureId"],student=request.user.student).count()
     return HttpResponseRedirect("/app/workload/options/settings/permanentDelete/")
 
 

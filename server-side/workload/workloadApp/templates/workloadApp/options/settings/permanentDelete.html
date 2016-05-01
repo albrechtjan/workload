@@ -1,32 +1,5 @@
 {% extends "base.html" %}
 
-
-{% block headExtension %}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="/static/workloadApp/jquery.cookie.js"></script> <!--requres jquery-->
-<script src="/static/workloadApp/csrfAjaxSettings.js"></script> <!--requires jquery and jquery.cookie-->
-<script>
-$(function(){
-
-    $(".permanentDeleteButton").click(
-        function() {
-
-            var clickedButton = $(this);
-
-            $.ajax({
-                    type: "POST",
-                    url: "doPermanentDelete/",
-                    data: { lectureId : clickedButton.attr("lectureId") },
-                    success: function(data){
-                        clickedButton.parent().parent().remove();
-                    }
-            });
-        }
-    );
-})
- </script>
-{%endblock%}
-
 {% block header %} 
 
     <a href="..">
@@ -48,10 +21,12 @@ Permanently Delete Data
 
     {% for lecture in allLectures %}
         <div class="wideItem nobutton" id="lectureIDIs{{lecture.id}}">
-            <div class="itemText">
+            <form class="itemText permanentDeleteForm" action="doPermanentDelete/" method="post">
                 <span>{{lecture.name}}</span>
-                <a href="javascript:void(0)"><span class="permanentDeleteButton" lectureId={{lecture.id}} >Delete</span></a>
-            </div>
+                {% csrf_token %}
+                <input type="hidden" name="lectureId" value="{{ lecture.id }}">
+                <input type="submit" class="permanentDeleteButton" value="Delete">
+            </form>
         </div>
     {% endfor %}
 

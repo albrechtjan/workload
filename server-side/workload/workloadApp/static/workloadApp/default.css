@@ -232,12 +232,12 @@ a{max-width:100%; max-height:100%;
 
 .permanentDeleteButton{
 	float: right;
-	background-color: #C8A2C8;
-	border-radius: 1.6em;
-	padding: 0.3em;
-	color: white;
+	cursor:pointer;
 }
 
+.permanentDeleteForm{
+	display: inline;
+}
 
 .calendarDates{
 	font-size: 220%;
