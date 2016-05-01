@@ -1,35 +1,49 @@
+"""
+The Django view functions for the Website
+
+The workload project provides a public-facing website which can be used by the students to enter
+their data. This file contains the view functions that make up the website. It uses the same
+models as the the view functions of the API, which are located in the api_views.py file.
+
+Above the view functions, this file also contains a number of relevant helpter functions.
+"""
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import patch_cache_control
+from objects import Week, Semester
 from datetime import date, timedelta
 from workloadApp.models import WorkingHoursEntry, Lecture, Student
-from workloadApp.models import privacy_agreement
-from django.views.decorators.cache import patch_cache_control
 from functools import wraps
-from django.contrib.auth import logout
-from objects import Week, Semester
 from copy import deepcopy
 
 
 
 #Helper functions
 
-# I would like to extend this to support an arbitrary number of notifications 
-# It should also treat the notifications from multiple sources equally
-# The InoreData - Thing should come as a normal notification from a helper function
-# the base.html would have to be updated accordingly
+def privacy_agreement(user):
+    """ Checks if user belongs to the group of users which have agreed to the privacy agreement"""
+    if user:
+        return user.groups.filter(name='has_agreed_to_privacy_agreement').exists()
+    return False
+
+
 def decorateWithNotification(request):
-    moreContext = { "ignoreData" : request.user.student.ignoreData }
+    """ This method allows to show the user a notification based on a POST or GET parameter
+
+    Unfortunately only a single notification per request is supported. It must be passed with key
+    "notification" in the GET or POST dictionary. 
+    """
     params = dict(list(request.GET.items()) + list(request.POST.items()))
     if "notification" in params:
-        moreContext.update({"hasNotification" : True , "notification" : params["notification"]})
-        return moreContext
+        return {"hasNotification" : True , "notification" : params["notification"]}
     else:
-        moreContext.update({"hasNotification" : False})
-        return moreContext
+        return {"hasNotification" : False}
 
 
 def never_ever_cache(decorated_function):
@@ -60,9 +74,8 @@ def calendar(request):
     context = RequestContext(request, {
         "semesters" : Semester.groupWeeksBySemester(weeks)
     })
-
-    tst = decorateWithNotification(request)
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     template = loader.get_template('workloadApp/calendar.html')
     return HttpResponse(template.render(context))
 
@@ -88,6 +101,7 @@ def selectLecture(request):
     })
 
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     return HttpResponse(template.render(context))
 
 @login_required
@@ -108,6 +122,8 @@ def enterWorkloadData(request):
         "hoursForHomework" : dataEntry.hoursForHomework,
         "hoursStudying" : dataEntry.hoursStudying,
     })
+    context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
 
     return HttpResponse(template.render(context))
 
@@ -148,6 +164,7 @@ def addLecture(request):
         })
 
         context.update(decorateWithNotification(request))
+        context.update({ "ignoreData" : request.user.student.ignoreData })
         return HttpResponse(template.render(context))
     else:
 
@@ -156,6 +173,7 @@ def addLecture(request):
             "allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct(),
             })
         context.update(decorateWithNotification(request))
+        context.update({ "ignoreData" : request.user.student.ignoreData })
         return HttpResponse(template.render(context))
 
 @login_required
@@ -166,6 +184,7 @@ def options(request):
     context = RequestContext(request, {})
 
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     return HttpResponse(template.render(context))
 
 @login_required
@@ -177,6 +196,7 @@ def settings(request):
         "semesterOfStudy" : request.user.student.semesterOfStudy
         })
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     return HttpResponse(template.render(context))
 
 @login_required
@@ -188,6 +208,7 @@ def permanentDelete(request):
         "allLectures" : list(set(Lecture.objects.filter(workinghoursentry__student=request.user.student)))
         })
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     return HttpResponse(template.render(context))
 
 @login_required
@@ -222,6 +243,7 @@ def chosenLectures(request):
         "chosenLectures" : list(request.user.student.lectures.all())
         })
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     return HttpResponse(template.render(context))
 
 def logoutView(request):
@@ -249,6 +271,7 @@ def privacyAgreement(request):
          "has_agreed_to_privacy_agreement" : privacy_agreement(request.user)
         })
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     return HttpResponse(template.render(context))
 
 
@@ -311,6 +334,7 @@ def visualizeData(request):
 
 
     context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
     return HttpResponse(template.render(context))
 
 

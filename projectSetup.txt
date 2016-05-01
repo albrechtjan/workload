@@ -1,7 +1,0 @@
-- install virtualenvwrapper
-
-- Add the following lines to the shell start-up file:
-
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/directory-you-do-development-in
-source /usr/local/bin/virtualenvwrapper.sh

@@ -2,6 +2,14 @@ import isoweek
 import datetime
 
 
+
+class NoLecturesFound(Exception):
+    """ Custom exception used in the Student model """
+    pass
+    
+
+
+
 class Week(isoweek.Week):
 
     def loadStudentInfo(self, student):

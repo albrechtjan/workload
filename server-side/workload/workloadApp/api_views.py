@@ -1,5 +1,5 @@
 """
-The Djgango view functions for the API
+The Django view functions for the API
 
 The workload project provides an API which is used by the workload Android app to read and write 
 data to the database. This file contains the view functions that make up the API. It uses the same

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from objects import Week, Semester
+from objects import Week, Semester, NoLecturesFound
 
 class Lecture(models.Model):
     semester = models.CharField(max_length=9) #e.g. WS2014/15 or SS2018
@@ -102,12 +102,4 @@ class WorkingHoursEntry(models.Model):
     def __unicode__(self):  # Python 3: def __str__(self):
         return "student" + str(self.student.id) + "in week number" + str(self.week.isocalendar()[1])
 
-def privacy_agreement(user):
-    if user:
-        return user.groups.filter(name='has_agreed_to_privacy_agreement').count() != 0
-    return False
-
-class NoLecturesFound(Exception):
-    pass
-    
 
