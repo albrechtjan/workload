@@ -62,22 +62,26 @@ def never_ever_cache(decorated_function):
         return response
     return wrapper
 
-
+def wrap(context, request):
+    """ Updates the context dictionary with the notification information and test account info """
+    context.update(decorateWithNotification(request))
+    context.update({ "ignoreData" : request.user.student.ignoreData })
+    return context
 
 
 
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
-@method_decorator(never_ever_cache) # Apparently since I added this, the other views seem to be updating nicely as well. Coincidence?
+@method_decorator(never_ever_cache) 
+# Apparently since I added never_ever_cache this here, 
+# the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
     weeks = request.user.student.getWeeks()
     context = RequestContext(request, {
         "semesters" : Semester.groupWeeksBySemester(weeks)
     })
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
     template = loader.get_template('workloadApp/calendar.html')
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(wrap(context, request)))
 
 
 
@@ -99,10 +103,7 @@ def selectLecture(request):
         "week" : weekNumber,
         "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)
     })
-
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(wrap(context, request)))
 
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
@@ -122,10 +123,7 @@ def enterWorkloadData(request):
         "hoursForHomework" : dataEntry.hoursForHomework,
         "hoursStudying" : dataEntry.hoursStudying,
     })
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
-
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(wrap(context, request)))
 
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
@@ -147,7 +145,6 @@ def postWorkloadDataEntry(request):
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def addLecture(request):
 
-    student = request.user.student
     # Here the student can choose the list of lectures for which he wants to collect data
     #lectures are sorted by semester
 
@@ -155,37 +152,21 @@ def addLecture(request):
     #if "studies" in request.GET.keys():
     #    # Can be "Master Physik" or "Bachelor Physik"
 
+    context = RequestContext(request,{})
     if "semester" in request.GET.keys():
         template = loader.get_template('workloadApp/addLecture/choose.html')
-
-        context = RequestContext(request,{
-            # list of lectures which are given in the stated semester and which have not yet been selected by the user
-            "lectures" : Lecture.objects.filter(semester=request.GET["semester"]).exclude(student=request.user.student)
-        })
-
-        context.update(decorateWithNotification(request))
-        context.update({ "ignoreData" : request.user.student.ignoreData })
-        return HttpResponse(template.render(context))
+        context.update({"lectures" : Lecture.objects.filter(semester=request.GET["semester"]).exclude(student=request.user.student)})
     else:
-
         template = loader.get_template('workloadApp/addLecture/selectSemester.html')
-        context = RequestContext(request,{
-            "allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct(),
-            })
-        context.update(decorateWithNotification(request))
-        context.update({ "ignoreData" : request.user.student.ignoreData })
-        return HttpResponse(template.render(context))
+        context.update({"allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct()})
+    return HttpResponse(template.render(wrap(context, request)))
 
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
 def options(request):
     template = loader.get_template('workloadApp/options.html')
-
     context = RequestContext(request, {})
-
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(wrap(context, request)))
 
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
@@ -195,9 +176,7 @@ def settings(request):
         "studentID" : request.user.student.id,
         "semesterOfStudy" : request.user.student.semesterOfStudy
         })
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(wrap(context, request)))
 
 @login_required
 @user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
@@ -239,12 +218,9 @@ def chosenLectures(request):
 
     template = loader.get_template('workloadApp/options/chosenLectures.html')    
 
-    context = RequestContext(request,{
-        "chosenLectures" : list(request.user.student.lectures.all())
-        })
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
-    return HttpResponse(template.render(context))
+    context = RequestContext(request,
+                             {"chosenLectures" : list(request.user.student.lectures.all())})
+    return HttpResponse(template.render(wrap(context, request)))
 
 def logoutView(request):
     #this is pretty broken and probably does not work with shibboleth
@@ -266,13 +242,10 @@ def privacyAgreement(request):
 
 
     template = loader.get_template('workloadApp/privacyAgreement.html')
-
     context = RequestContext(request,{ # it would be a good idea to pass here the users insitution
          "has_agreed_to_privacy_agreement" : privacy_agreement(request.user)
         })
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(wrap(context, request)))
 
 
 
@@ -332,10 +305,7 @@ def visualizeData(request):
 
         })
 
-
-    context.update(decorateWithNotification(request))
-    context.update({ "ignoreData" : request.user.student.ignoreData })
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(wrap(context, request)))
 
 
 
