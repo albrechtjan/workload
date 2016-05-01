@@ -73,9 +73,9 @@ def workload_entries(request, year=None, week=None, lecture__id=None):
         lecture = Lecture.objects.get(id=lecture__id)
         dataEntry, _ = WorkingHoursEntry.objects.get_or_create(
                                         week=isoweek.monday(), student=student, lecture=lecture)
-        dataEntry.hoursInLecture   = request.POST["hoursInLecture"]
-        dataEntry.hoursForHomework = request.POST["hoursForHomework"]
-        dataEntry.hoursStudying    = request.POST["hoursStudying"]
+        dataEntry.hoursInLecture   = float(request.POST["hoursInLecture"])
+        dataEntry.hoursForHomework = float(request.POST["hoursForHomework"])
+        dataEntry.hoursStudying    = float(request.POST["hoursStudying"])
         dataEntry.semesterOfStudy  = student.semesterOfStudy
         # We note the current semester of study of the student
         dataEntry.save()
