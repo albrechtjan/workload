@@ -24,13 +24,23 @@ from copy import deepcopy
 
 
 
-#Helper functions
+#Helper functions and view function wrappers
 
-def privacy_agreement(user):
-    """ Checks if user belongs to the group of users which have agreed to the privacy agreement"""
-    if user:
-        return user.groups.filter(name='has_agreed_to_privacy_agreement').exists()
-    return False
+
+def require_privacy_agreement(view_function):
+    """ View wrapper that checks if the user has agreed to the privacy agreement
+
+    More specifically, it checks if the user belongs to the 
+    'has_agreed_to_privacy_agreement' group
+    """
+    def checking_view(request, *args, **kwargs):
+        if request.user.groups.filter(name='has_agreed_to_privacy_agreement').exists():
+            return view_function(request, *args, **kwargs)
+        else:
+            target = ( "/app/workload/privacyAgreement/"
+                       "?notification=Please confirm the privacy policy.")
+            return HttpResponseRedirect(target)
+    return checking_view
 
 
 def decorateWithNotification(request):
@@ -62,31 +72,33 @@ def never_ever_cache(decorated_function):
         return response
     return wrapper
 
-def wrap(context, request):
+def add_info(context, request):
     """ Updates the context dictionary with the notification information and test account info """
     context.update(decorateWithNotification(request))
     context.update({ "ignoreData" : request.user.student.ignoreData })
     return context
 
 
+# View functions
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 @method_decorator(never_ever_cache) 
 # Apparently since I added never_ever_cache this here, 
 # the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
+    """ The view function for the calendar on the start page """
     weeks = request.user.student.getWeeks()
     context = RequestContext(request, {
         "semesters" : Semester.groupWeeksBySemester(weeks)
     })
     template = loader.get_template('workloadApp/calendar.html')
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def selectLecture(request):
     student = request.user.student
     weekNumber = int(request.GET['week'])
@@ -103,10 +115,10 @@ def selectLecture(request):
         "week" : weekNumber,
         "lecturesToDisplay" : zip(lecturesThisWeek, lectureHasData)
     })
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def enterWorkloadData(request):
 
     week = Week(int(request.GET['year']),int(request.GET['week'])) # create isoweek object
@@ -123,10 +135,10 @@ def enterWorkloadData(request):
         "hoursForHomework" : dataEntry.hoursForHomework,
         "hoursStudying" : dataEntry.hoursStudying,
     })
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def postWorkloadDataEntry(request):
     #TODO: Make sure ALL post variables are set
 
@@ -142,7 +154,7 @@ def postWorkloadDataEntry(request):
 
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def addLecture(request):
 
     # Here the student can choose the list of lectures for which he wants to collect data
@@ -159,27 +171,27 @@ def addLecture(request):
     else:
         template = loader.get_template('workloadApp/addLecture/selectSemester.html')
         context.update({"allSemesters" : Lecture.objects.all().values_list("semester", flat=True).distinct()})
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def options(request):
     template = loader.get_template('workloadApp/options.html')
     context = RequestContext(request, {})
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def settings(request):
     template = loader.get_template('workloadApp/options/settings.html')
     context = RequestContext(request,{
         "studentID" : request.user.student.id,
         "semesterOfStudy" : request.user.student.semesterOfStudy
         })
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def permanentDelete(request):
     template = loader.get_template('workloadApp/options/settings/permanentDelete.html')
 
@@ -201,7 +213,7 @@ def doPermanentDelete(request):
 
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def chosenLectures(request):
     
     if "lectureId" in request.GET: # TODO: Move this function into API. use ajax post for this
@@ -220,7 +232,7 @@ def chosenLectures(request):
 
     context = RequestContext(request,
                              {"chosenLectures" : list(request.user.student.lectures.all())})
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 def logoutView(request):
     #this is pretty broken and probably does not work with shibboleth
@@ -245,12 +257,12 @@ def privacyAgreement(request):
     context = RequestContext(request,{ # it would be a good idea to pass here the users insitution
          "has_agreed_to_privacy_agreement" : privacy_agreement(request.user)
         })
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 
 
 @login_required
-@user_passes_test(privacy_agreement, login_url='/app/workload/privacyAgreement/?notification=Please confirm the privacy policy.')
+@require_privacy_agreement
 def visualizeData(request):
     student = request.user.student
 
@@ -305,7 +317,7 @@ def visualizeData(request):
 
         })
 
-    return HttpResponse(template.render(wrap(context, request)))
+    return HttpResponse(template.render(add_info(context, request)))
 
 
 
