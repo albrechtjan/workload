@@ -13,7 +13,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Django requires a secret key for cryptography
-# Because the settings.py file is commited to the git repository and not kept to a very high level of secrecy, 
+# Because the settings.py file is committed to the git repository and not kept to a very high level of secrecy, 
 # the secret key is stored in a seperate file and loaded from there.
 with open('/home/ks/secret_key_django.txt') as f:
     SECRET_KEY = f.read().strip()
@@ -36,10 +36,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # this is "our" app, the one which has the user-frontend and the web API
+    # This is "our" app, the one which has the user-frontend and the web API.
     'workloadApp',
-    # this is this here: https://github.com/KonstantinSchubert/django-shibboleth-adapter
-    # TODO: Explain how to install this!!!!
+    # The shibboleth app is documented here: https://github.com/KonstantinSchubert/django-shibboleth-adapter.
+    # It provides a middleware for Shibboleth Authentication.
     'shibboleth',
 
 )
@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
+    'shibboleth.middleware.ShibbolethRemoteUserMiddleware', # https://github.com/KonstantinSchubert/django-shibboleth-adapter
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -58,9 +58,11 @@ ROOT_URLCONF = 'workload.urls'
 WSGI_APPLICATION = 'workload.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+# Databse settings
 
+# Because the settings.py file is committed to the git repository,
+# we do not want to include the database password here. It should be
+# stored in another location in the server and can be loaded from there.
 with open('/home/ks/WORKLOAD_DB_PASSWORD.txt') as f:
     WORKLOAD_DB_PASSWORD = f.read().strip()
 
@@ -92,14 +94,13 @@ USE_L10N = True
 USE_TZ = True
 
 
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = "/var/www/static/"
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+##########################################################################################################
+# Settings for the django-shibboleth-adapter https://github.com/KonstantinSchubert/django-shibboleth-adapter
 
-
-# Settings for shibboleth
 SHIBBOLETH_USER_KEY = "persistent-id"
 SHIBBOLETH_ATTRIBUTE_LIST = []
 
@@ -119,8 +120,10 @@ SHIBBOLETH_LOGIN_URL  = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Login'
 SHIBBOLETH_LOGOUT_URL = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Logout'
 SHIBBOLETH_LOGOUT_REDIRECT_URL = "https://survey.zqa.tu-dresden.de/" # this is not actually respected by the current shibboleth installation of TU Dresden
 SHIBBOLETH_DJANGO_SESSION_MAY_OUTLIVE_SHIBBOLETH_SESSION = True #we want to keep the users logged in even if the session cookie of shibboleth is gone.
+##########################################################################################################
 
-
+# Settings for logging
+# https://docs.djangoproject.com/en/1.9/topics/logging/
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -135,7 +138,8 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'INFO',
+            # Edit here if you want to change the logging level
+            'level': 'ERROR',
             'class': 'logging.FileHandler',
             'filename': '/home/ks/workload/workload.log',
             'formatter': 'verbose'

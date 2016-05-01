@@ -3,6 +3,9 @@ workload
 
 Website and API for workload monitoring of students at TU Dresden.
 
+Written by Konstantin Schubert.
+Email: konstantin@schubert.fr
+
 This repository containes the code to run the workload monitoring website and the Web-API that is needed by the corresponding workload monitoring Android app. The Android app has its [own repository (and documentation)](https://github.com/KonstantinSchubert/workload-android).
 
 ## Technology
