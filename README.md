@@ -25,15 +25,23 @@ The project settings are defined in [workload/settings.py](https://github.com/Ko
 
 
 ## Installation
-  * The website is using the [Django web framework](https://www.djangoproject.com/), version 1.7.1 Therefore a web server (apache2, nginx) with an installation of Django and all its dependencies is needed. Django is extremely well documented. For starters, here are:
+  * The website is using the [Django web framework](https://www.djangoproject.com/), version 1.9.7 Therefore a web server (apache2, nginx) with an installation of Django and all its dependencies is needed. Django is extremely well documented. For starters, here are:
     * [Installation instructions](https://docs.djangoproject.com/en/1.7/topics/install/)
     * [Deployment instructions](https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/)
     * [A beginners tutorial](https://docs.djangoproject.com/en/1.7/intro/tutorial01/) in case you are intersted in understanding the architecture of django projects and apps.
-   Please consider that Django is under active developmnent and despite the developer's care for backwards compatibility, newer versions of Django might not always work. 
-   This project targets version 1.7.1, you might have to update the code to run with newer versions. 
+  * Please consider that Django is under active developmnent and despite the developer's care for backwards compatibility, newer versions of Django might not always work. This project was tested with version 1.9.7, you might have to update the code to run with newer versions. 
   
   * To install the workload project, just clone the repository to your server. The Django project directory is `server-side/workload`.
   * You will also have to install the [`django-shibboleth-adapter`](https://github.com/KonstantinSchubert/django-shibboleth-adapter) Django app.
+
+
+## Currently installed setup for `survey.zqa.tu-dresden.de`
+ * The current setup is installed on a Debain machine with public DNS `survey.zqa.tu-dresden.de`.
+ * The django project is located in `/home/kon`
+ * Django is installed in a virtual environment which can be activated by entering `workon workload` in the shell.
+ * The `django-shibboleth-adapter` is cloned into `/home/kon` and its app directory is symlinked from the Django project directory,  `/home/kon/workload/server-side/workload`
+ * The project is configured to use a MySQL database which is daily backed up into `database-backup`. **This backup is not rotating and must therefore be purged regularily, especially if the database grows.
+ * An apache server is used to serve the site. The necessary configs can be found in `/etc/apache2/sites-enabled/`. Server logs are in `/var/log/apache2`.
   
 
 ## Download and analyse the data from the database
