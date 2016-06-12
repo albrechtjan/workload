@@ -40,13 +40,13 @@ The project settings are defined in [workload/settings.py](https://github.com/Ko
  * The django project is located in `/home/kon`
  * Django is installed in a virtual environment which can be activated by entering `workon workload` in the shell.
  * The `django-shibboleth-adapter` is cloned into `/home/kon` and its app directory is symlinked from the Django project directory,  `/home/kon/workload/server-side/workload`
- * The project is configured to use a MySQL database which is daily backed up into `database-backup`. **This backup is not rotating and must therefore be purged regularily, especially if the database grows.
+ * The project is configured to use a MySQL database which is daily backed up into `database-backup`. The file name of the backup which is stored contains the month and day of month. Therefore, once a year, the backup is overwritten. This rotation mechanism should prevent the server from running out of dsik if left unattended for a long time.
  * An apache server is used to serve the site. The necessary configs can be found in `/etc/apache2/sites-enabled/`. Server logs are in `/var/log/apache2`.
   
 
 ## Download and analyse the data from the database
 
-  [See here on instructions how to download the data. ](documentation/ReadoutDatabase.md)
-  [See here for description of the table structure in the database.](documentation/TableStructure.md)
+ * [See here for instructions on how to download the data. ](documentation/ReadoutDatabase.md)
+ * [See here for description of the table structure in the database.](documentation/TableStructure.md)
   
   
