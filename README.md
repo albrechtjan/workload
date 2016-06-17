@@ -33,12 +33,15 @@ For authentication, the
   * Please consider that Django is under active developmnent and despite the developer's care for backwards compatibility, newer versions of Django might not always work. This project was tested with version 1.9.7, you might have to update the code to run with newer versions. 
   
   * To install the workload project, just clone the repository to your server. The Django project directory is `server-side/workload`.
+  * Create an empty file called `workload.log` in the root directory of the repository and make sure that the server-user (usually `www-data`) can write to it. Django will log into this file.
+  * [Configure apache for the django project using mod_wsgi.](https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/modwsgi/)
   * If you are using Shibboleth, you will have to set it up for you apache server and make sure all necessary attributes are passed. Your shhibboleth identity provider should be able to assist you with that or point you to the right documentation. You will also have to install the [`django-shibboleth-adapter`](https://github.com/KonstantinSchubert/django-shibboleth-adapter) Django app and configure it to use the right attributes.
 
 
 ## Currently installed setup for `survey.zqa.tu-dresden.de`
  * The current setup is installed on a Debain machine with public DNS `survey.zqa.tu-dresden.de`.
- * The django project is located in `/home/kon`
+ * The repository which contains the django project is located in `/home/kon`.
+ * The django logger writes to `/home/kon/workload/workload.log`
  * Django is installed in a virtual environment which can be activated by entering `workon workload` in the shell.
  * The project is configured to use a MySQL database which is daily backed up into `database-backup`. The file name of the backup which is stored contains the month and day of month. Therefore, once a year, the backup is overwritten. This rotation mechanism should prevent the server from running out of dsik if left unattended for a long time.
  * An apache server is used to serve the site. The necessary configs can be found in `/etc/apache2/sites-enabled/`. Server logs are in `/var/log/apache2`.
