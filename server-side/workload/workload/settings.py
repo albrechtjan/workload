@@ -3,7 +3,7 @@ Django settings for workload project.
 
 This is the most important settings file.
 If deines the confuguration of the django project,
-as well as the configurations of the apps belonging to the 
+as well as the configurations of the apps belonging to the
 django project.
 
 For more information on this file, see
@@ -18,7 +18,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Django requires a secret key for cryptography
-# Because the settings.py file is committed to the git repository and not kept to a very high level of secrecy, 
+# Because the settings.py file is committed to the git repository and not kept to a very high level of secrecy,
 # the secret key is stored in a seperate file and loaded from there.
 with open('/home/ks/secret_key_django.txt') as f:
     SECRET_KEY = f.read().strip()
@@ -28,7 +28,7 @@ with open('/home/ks/secret_key_django.txt') as f:
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = [".tu-dresden.de",".tu-dresden.de."]
+ALLOWED_HOSTS = [".tu-dresden.de", ".tu-dresden.de."]
 
 
 # Application definition
@@ -54,7 +54,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'shibboleth.middleware.ShibbolethRemoteUserMiddleware', # https://github.com/KonstantinSchubert/django-shibboleth-adapter
+    # https://github.com/KonstantinSchubert/django-shibboleth-adapter
+    'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -73,7 +74,7 @@ with open('/home/ks/WORKLOAD_DB_PASSWORD.txt') as f:
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'WORKLOAD_DB',
         'USER': 'WORKLOAD_USER',
         'PASSWORD': WORKLOAD_DB_PASSWORD,
@@ -104,10 +105,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = "/var/www/static/"
 
 #########################################################################################################
-# Settings for the workloadApp django app 
+# Settings for the workloadApp django app
 
 
-# Unfortunately, the app currently makes the assumption that there are two semesters 
+# Unfortunately, the app currently makes the assumption that there are two semesters
 # per year with the same start dates every year.
 
 SUMMER_SEMESTER_START_MONTH = 4
@@ -118,11 +119,11 @@ WINTER_SEMESTER_START_DAY_OF_MONTH = 1
 ##########################################################################################################
 # Settings for the django-shibboleth-adapter https://github.com/KonstantinSchubert/django-shibboleth-adapter
 
-# This is the shibboleth attribute that is used to identify the user. 
-# The apps backend.py implements a method called `clean_username` which extracts a substring from this attribute 
-# which then becomes the actual user key. Depending on the user key that is used, this method must be 
+# This is the shibboleth attribute that is used to identify the user.
+# The apps backend.py implements a method called `clean_username` which extracts a substring from this attribute
+# which then becomes the actual user key. Depending on the user key that is used, this method must be
 # updated.
-SHIBBOLETH_USER_KEY = "persistent-id" 
+SHIBBOLETH_USER_KEY = "persistent-id"
 
 SHIBBOLETH_ATTRIBUTE_LIST = []
 
@@ -138,10 +139,12 @@ AUTHENTICATION_BACKENDS += (
 )
 
 LOGIN_URL = '/app/shib/login/'
-SHIBBOLETH_LOGIN_URL  = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Login'
+SHIBBOLETH_LOGIN_URL = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Login'
 SHIBBOLETH_LOGOUT_URL = 'https://survey.zqa.tu-dresden.de/Shibboleth.sso/Logout'
-SHIBBOLETH_LOGOUT_REDIRECT_URL = "https://survey.zqa.tu-dresden.de/" # this is not actually respected by the current shibboleth installation of TU Dresden
-SHIBBOLETH_DJANGO_SESSION_MAY_OUTLIVE_SHIBBOLETH_SESSION = True #we want to keep the users logged in even if the session cookie of shibboleth is gone.
+# this is not actually respected by the current shibboleth installation on survey.zqa.tu-dresden.de
+SHIBBOLETH_LOGOUT_REDIRECT_URL = "https://survey.zqa.tu-dresden.de/"
+# we want to keep the users logged in even if the session cookie of shibboleth is gone.
+SHIBBOLETH_DJANGO_SESSION_MAY_OUTLIVE_SHIBBOLETH_SESSION = True
 ##########################################################################################################
 
 # Settings for logging
@@ -151,8 +154,8 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -169,9 +172,9 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers':['file'],
+            'handlers': ['file'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
         'workloadApp': {
             'handlers': ['file'],

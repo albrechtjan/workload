@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class CustomShibboBackend(ShibbolethRemoteUserBackend):
     """ This class extends the use backend from the django-shibboleth-adapter app.
 
-        It implements the clean_username method and attempts to determine and save the 
+        It implements the clean_username method and attempts to determine and save the
         semester of study in the authenticate() method
         This also meant that the semester of study is only updated for the user when
         he authenticates.
@@ -34,33 +34,34 @@ class CustomShibboBackend(ShibbolethRemoteUserBackend):
             UserModel.USERNAME_FIELD: username
         })
         if created:
-            user = self.configure_user(user,meta)
-        student , _ = Student.objects.get_or_create(user=user)
+            user = self.configure_user(user, meta)
+        student, _ = Student.objects.get_or_create(user=user)
         # update student object on every load
         try:
             logger.info(meta)
-            regex = re.compile("\$ (\d*)") #capturing the semester of study which seems to follow a number indicating the course of study and a $ sign.
-            student.semesterOfStudy = int( regex.findall(meta["terms-of-study"])[0] )
+            regex = re.compile("\$ (\d*)")  # capturing the semester of study which seems to
+            # follow a number indicating the course of study and a $ sign.
+            student.semesterOfStudy = int(regex.findall(meta["terms-of-study"])[0])
         except KeyError:
             # if the study term is not defined, set it to zero
             student.semesterOfStudy = 0
         except ValueError:
-            #unable to convert value to integer
+            # unable to convert value to integer
             student.semesterOfStudy = 0
         student.save()
         return user
 
-    def clean_username(self,value):
+    def clean_username(self, value):
         """ This method extracts a substring from the shibboleth
             attribute used for user identification.
-            Its implementation must be updated depending the 
+            Its implementation must be updated depending the
             shibboleth attribute used for authentication.
 
-            This implmentation assumes that the 
+            This implmentation assumes that the
             `remote_user` attribute is passed as `value`.
-            This is a rather long string with many special characters. 
+            This is a rather long string with many special characters.
             A substring of it is enough to uniquely identify the user.
-            This substring is 
+            This substring is extracted using a regular expression.
         """
         # find relevant substring of shibboleth attribute
         regex = re.compile("de/shibboleth\!(.*)=")

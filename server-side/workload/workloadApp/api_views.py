@@ -1,7 +1,7 @@
 """
 The Django view functions for the API
 
-The workload project provides an API which is used by the workload Android app to read and write 
+The workload project provides an API which is used by the workload Android app to read and write
 data to the database. This file contains the view functions that make up the API. It uses the same
 models as the the view functions of the website, which are located in the views.py file.
 """
@@ -32,20 +32,20 @@ def require_app_user_agent(view_function):
 
 @login_required
 @csrf_exempt
-@require_app_user_agent # should prevent csrf attacks
+@require_app_user_agent  # should prevent csrf attacks
 # There is no need to enforce the priavcy agreement against a rogue client.
 def workload_entries(request, year=None, week=None, lecture__id=None):
     """
     This API view can be used to GET and POST the contents of a WorkingHoursEntry model.
 
     If the request.method is GET, this view will return a list of WorkingHoursEntry objects in json
-    format. The three arguments year, week and lecture__id are optional and are used to query the 
+    format. The three arguments year, week and lecture__id are optional and are used to query the
     WorkingHoursEntries from the database.
 
-    If the request.method is POST, this view is intended to write a single WorkingHoursEntry to the 
-    database. The function then expects the following keys to be set in the POST dictionary: 
-    hoursInLecture, hoursForHomework and hoursStudying. The function arguments year, week 
-    and lecture__id are then mandatory and select the database entry which will either be created 
+    If the request.method is POST, this view is intended to write a single WorkingHoursEntry to the
+    database. The function then expects the following keys to be set in the POST dictionary:
+    hoursInLecture, hoursForHomework and hoursStudying. The function arguments year, week
+    and lecture__id are then mandatory and select the database entry which will either be created
     or, if existing, be overwritten.
     """
     student = request.user.student
@@ -58,36 +58,35 @@ def workload_entries(request, year=None, week=None, lecture__id=None):
         kwargs["week"] = isoweek.monday()
     if lecture__id:
         kwargs["lecture__id"] = lecture__id
-        
 
     if request.method == "GET":
         query_set = WorkingHoursEntry.objects.filter(student=student, **kwargs)
-        dicts =  [ entry.toDict() for entry in query_set.all()]    
-        return JsonResponse( dicts, safe=False)
-    
+        dicts = [entry.toDict() for entry in query_set.all()]
+        return JsonResponse(dicts, safe=False)
+
     elif request.method == "POST":
         if (year is None or week is None or lecture__id is None):
             raise Exception("If the request.method is POST, no argument can be None.")
         # we make no diference between POST and PUT
-        #takes a json-dict similar to what is returned by the GET method when called with a lecture_id
+        # takes a json-dict similar to what is returned by the GET method when called with a lecture_id
         lecture = Lecture.objects.get(id=lecture__id)
         dataEntry, _ = WorkingHoursEntry.objects.get_or_create(
                                         week=isoweek.monday(), student=student, lecture=lecture)
-        dataEntry.hoursInLecture   = float(request.POST["hoursInLecture"])
+        dataEntry.hoursInLecture = float(request.POST["hoursInLecture"])
         dataEntry.hoursForHomework = float(request.POST["hoursForHomework"])
-        dataEntry.hoursStudying    = float(request.POST["hoursStudying"])
-        dataEntry.semesterOfStudy  = student.semesterOfStudy
+        dataEntry.hoursStudying = float(request.POST["hoursStudying"])
+        dataEntry.semesterOfStudy = student.semesterOfStudy
         # We note the current semester of study of the student
         dataEntry.save()
         return HttpResponse(status=204)
-        #resource update successfully, no content returned
+        # resource update successfully, no content returned
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
 
 @login_required
 @csrf_exempt
-@require_app_user_agent # should prevent csrf attacks
+@require_app_user_agent  # should prevent csrf attacks
 # There is no need to enforce the priavcy agreement against a rogue client.
 def menu_lectures_all(request, lecture_id=None):
     """
@@ -116,12 +115,12 @@ def menu_lectures_all(request, lecture_id=None):
             raise Exception(
                 "you must specify the lecture id when activating/deactivating a lecture")
         lecture = Lecture.objects.get(id=lecture_id)
-        if request.POST["isActive"]=="true":
+        if request.POST["isActive"] == "true":
             # In case add is called on a lecture that has already been added,
             # nothing should happen. (According to the stuff I am reading online.)
             # This is what I want here.
             request.user.student.lectures.add(lecture)
-        elif request.POST["isActive"]=="false":
+        elif request.POST["isActive"] == "false":
             request.user.student.lectures.remove(lecture)
         else:
             return HttpResponse(status=400)
@@ -131,7 +130,5 @@ def menu_lectures_all(request, lecture_id=None):
         return HttpResponseNotAllowed(['GET', 'POST'])
 
 
-
 def blank(request):
     return HttpResponse("done")
-
