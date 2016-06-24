@@ -73,7 +73,12 @@ def never_ever_cache(decorated_function):
     return wrapper
 
 def add_info(context, request):
-    """ Updates the context dictionary with the notification information and test account info """
+    """ This hacky function adds to the request context
+    a notificaiton and information whether the account is a test account.
+    This information can then be displayed to the user.
+    A test account is an account that is marked as such in the database 
+    and who's entries should be ingored.
+    """
     context.update(decorateWithNotification(request))
     context.update({ "ignoreData" : request.user.student.ignoreData })
     return context
@@ -83,7 +88,7 @@ def add_info(context, request):
 
 @login_required
 @require_privacy_agreement
-@method_decorator(never_ever_cache) 
+@method_decorator(never_ever_cache)
 # Apparently since I added never_ever_cache this here, 
 # the other views seem to be updating nicely as well. Coincidence?
 def calendar(request):
@@ -100,6 +105,12 @@ def calendar(request):
 @login_required
 @require_privacy_agreement
 def selectLecture(request):
+    """ This view displays the list of lectures for which data 
+    can be entered in a given year and week.
+    
+    Clicking on one of the lectures will then load a page where the user 
+    can enter data for this lecture in the given week and year.
+    """
     student = request.user.student
     # Build the week object
     weekNumber = int(request.GET['week']) # number of week in the year
@@ -125,7 +136,12 @@ def selectLecture(request):
 @require_privacy_agreement
 def enterWorkloadData(request):
 
-    """ View function for the page where the user actually enters his work data"""
+    """ View function for the page where the user actually enters his work data
+    
+    The page displays fields to enter the data for a given lecture in a given week and year.
+    The lecture and the week/year have been selected in previous steps and are passed to the
+    view as url parameters. (See also urls.py)
+    """
 
     week = Week(int(request.GET['year']),int(request.GET['week'])) # create isoweek object
     lecture = Lecture.objects.get(id=int(request.GET['lectureId'])) 
@@ -203,6 +219,11 @@ def options(request):
 @require_privacy_agreement
 def settings(request):
     """ Displays the settings page
+    
+    At the moment, this page displays the student id, which is the database id of the user, 
+    as well as the semesterOfStudy. The latter one is zero if it cannot be inferred from the 
+    Shibboleth metadata.
+    The only real available setting is the button to "Permanently delete data".
     """
     template = loader.get_template('workloadApp/options/settings.html')
     context = RequestContext(request,{
@@ -215,6 +236,10 @@ def settings(request):
 @require_privacy_agreement
 def permanentDelete(request):
     """ View function for the page where user can permanently delete his data
+    
+    All lectures for which the user has ever entered data are being shown. For each, the
+    user can click on a delete button to permamently delete all data. This will call the 
+    below view doPermanentDelete which then issues a redirect to this view again.
     """
     template = loader.get_template('workloadApp/options/settings/permanentDelete.html')
 
@@ -232,7 +257,8 @@ def permanentDelete(request):
 def doPermanentDelete(request):
     """ This function deletes all information associated with one lecture.
 
-    It only works for POST requests that contain the "lectureId" in the POST dictionary.
+    It requres the "lectureId" to be passed in the POST dictionary. After deleting all
+    associated workload entries, it issues a redirect back to options/settings/permanentDelete.
     """
     lectureToRemove = Lecture.objects.get(id=int(request.POST["lectureId"]))
     request.user.student.lectures.remove(lectureToRemove)
@@ -280,6 +306,15 @@ def chosenLectures(request):
 @login_required
 # here, the agreement to the privacy agreement is obviously not required
 def privacyAgreement(request):
+    """ This view displays the privacy agreement.
+    
+    The require_privacy_agreement wrapper redirecs here.
+    The user can read the agreement. If he has not yet agreed to the,
+    privacy agreement, the site will also show a checkbox and a form button to do so.
+    When the user agrees, the view is loaded again with a 'POST' request,
+    the user is added to the has_agreed_to_privacy_agreement group
+    and he is redirected to the start page.
+    """
 
     if request.method =="POST":  #the user has responed to the form
         if "privacy" in request.POST:
@@ -302,6 +337,13 @@ def privacyAgreement(request):
 @login_required
 @require_privacy_agreement
 def visualizeData(request):
+    """ This view displays some statistics based on the data entered by the user.
+    
+    For graphing, the http://www.highcharts.com/ javascript library is used. 
+    Most of the heavy lifting happens here in this view. In the template, the
+    lists and dictonary structures are mostly just converted into json and passed
+    to the highcharts library.
+    """
     student = request.user.student
 
     #gathering data for first diagram
