@@ -1,9 +1,19 @@
+"""The url definitions for the workload website
+
+This is the urls.py for the workloadApp Django app. There is also an urls.py for the workload 
+Django project which imports the urls.py from all apps that belong to the project.
+"""
+
+
+
 from django.conf.urls import patterns, url
 from workloadApp import views, api_views
 from django.views.generic.base import RedirectView
 
 
 urlpatterns = patterns('',
+
+    # Urls for the website, connecting to views from views.py
     url(r'^calendar/$', views.calendar, name='calendar'),
     url(r'^selectLecture/$', views.selectLecture,name='selectLecture'),
     url(r'^enterWorkloadData/$', views.enterWorkloadData,name='enterWorkloadData'),
@@ -19,7 +29,7 @@ urlpatterns = patterns('',
     url(r'^visualizeData/$',views.visualizeData,name="visualizeData"),
     url(r'^$', RedirectView.as_view(url='calendar/',permanent=False), name='index'),
 
-    # RESTful APIHeaders(url.toString());
+    # Urls for the web - API, connecting to views from api_views.py
 
     url(r'^api/entries/active/$', api_views.workload_entries),
     url(r'^api/entries/active/year/(?P<year>[0-9]{4})/(?P<week>[0-9]+)/lectures/(?P<lecture__id>[0-9]+)/$', api_views.workload_entries),
