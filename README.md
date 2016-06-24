@@ -3,11 +3,9 @@ workload
 
 Website and API for workload monitoring of students at TU Dresden.
 
-* Written by Konstantin Schubert.
+* Written by Konstantin Schubert
 * Email: konstantin@schubert.fr
 * Website: konstantinschubert.fr
-
-
 * *Do not hesitate to contact me with questions.*
 * *I am always interested in new projects.*
 
