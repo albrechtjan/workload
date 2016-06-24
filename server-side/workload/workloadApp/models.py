@@ -1,8 +1,22 @@
+""" Models are python classes with corresponding database tables.
+    
+    When a model is defined, Django creates a database for it.
+    An instance of the model class is a represenation of a single row
+    in the corresponding database table. This is one of the core
+    features of Django.
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 from objects import Week, Semester, NoLecturesFound
 
 class Lecture(models.Model):
+    """ Defines the model for a lecture
+
+    A lecture object is defined by its name and semester.
+    For example, Analysis in summer semester 2018 is a different table
+    entry than Analysis in winter semester 2019.
+    """
     semester = models.CharField(max_length=9) #e.g. WS2014/15 or SS2018
     name = models.CharField(max_length=200)
     startDay = models.DateField() # The day of the first lecture event. Or the monday of the week when the lecture starts.
@@ -20,9 +34,17 @@ class Lecture(models.Model):
         return lectureDict
 
 
-# Student is in a one-to-one relationship with user
 class Student(models.Model):
+    """ Defines the model for a student.
+
+    For every row in the user table, there is exactly one 
+    corresponding row in the Student table,
+    An alternative would have been to simply extend the native Django
+    user model. This was disfavoured due its complexity.
+    "Composition over inheritance, yada yada yada.."
+    """
     lectures = models.ManyToManyField(Lecture,blank=True)
+    # one-to-one relationship between user and student.
     user = models.OneToOneField(User)
     semesterOfStudy = models.IntegerField(default=0) # default 0 means the semester has not been set. # should have used none for that. oh well.
     ignoreData = models.BooleanField(default=False) # users accounts for testing who's data entries we should ignore during evaluation
@@ -47,16 +69,19 @@ class Student(models.Model):
 
 
     def hasData(self, week):
+        """ Returns true if the student has entered data for all his selected lectures in the week.
+        """
         for lectureIterator in self.lectures.all():
             if lectureIterator.isActive(week.monday()) or lectureIterator.isActive(week.sunday()): 
-                # if an ongoing lecture has not data for the week, the week is considered to be missing data
+                # if an ongoing lecture has no data for the week, the week is considered to be missing data
                 if not WorkingHoursEntry.objects.filter(week=week.monday(),student=self,lecture=lectureIterator): 
                     return False
         return True
 
 
     def getWeeks(self):
-        #returns all weeks between and including the week of the first and the last lecture associated with the student
+        """ Returns all weeks between and including the week of the first and the last lecture associated with the student
+        """
         try:
             start = Week.withdate(self.startOfLectures())
             end = Week.withdate(self.endOfLectures())
@@ -67,8 +92,9 @@ class Student(models.Model):
             week.loadStudentInfo(self)
         return weeks
 
-    def getHoursSpent(self, lecture): # returns dictionary with times for "inLecture, forHomework, studying"
-
+    def getHoursSpent(self, lecture): 
+        """  Returns dictionary with times for "inLecture, forHomework, studying"
+        """
         workingHours =  WorkingHoursEntry.objects.filter(lecture=lecture,student=self)
         totalHours = { 
             "inLecture"    : sum( [entry.hoursInLecture   for entry in workingHours ]),
@@ -80,6 +106,11 @@ class Student(models.Model):
 
 
 class WorkingHoursEntry(models.Model):
+    """ Defines the model for the working hours entry.
+
+    Each entry belongs to a specific combination of
+    studenht, lecture and week.
+    """
     hoursInLecture=models.FloatField(default=0)
     hoursForHomework=models.FloatField(default=0) 
     hoursStudying=models.FloatField(default=0)

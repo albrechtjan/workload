@@ -24,8 +24,7 @@ from copy import deepcopy
 
 
 
-#Helper functions and view function wrappers
-
+# Helper functions and view function wrappers
 
 def require_privacy_agreement(view_function):
     """ View wrapper that checks if the user has agreed to the privacy agreement

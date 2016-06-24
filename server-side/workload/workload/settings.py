@@ -1,6 +1,11 @@
 """
 Django settings for workload project.
 
+This is the most important settings file.
+If deines the confuguration of the django project,
+as well as the configurations of the apps belonging to the 
+django project.
+
 For more information on this file, see
 https://docs.djangoproject.com/en/1.9/topics/settings/
 
@@ -98,10 +103,27 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = "/var/www/static/"
 
+#########################################################################################################
+# Settings for the workloadApp django app 
+
+
+# Unfortunately, the app currently makes the assumption that there are two semesters 
+# per year with the same start dates every year.
+
+SUMMER_SEMESTER_START_MONTH = 4
+SUMMER_SEMESTER_START_DAY_OF_MONTH = 1
+WINTER_SEMESTER_START_MONTH = 10
+WINTER_SEMESTER_START_DAY_OF_MONTH = 1
+
 ##########################################################################################################
 # Settings for the django-shibboleth-adapter https://github.com/KonstantinSchubert/django-shibboleth-adapter
 
-SHIBBOLETH_USER_KEY = "persistent-id"
+# This is the shibboleth attribute that is used to identify the user. 
+# The apps backend.py implements a method called `clean_username` which extracts a substring from this attribute 
+# which then becomes the actual user key. Depending on the user key that is used, this method must be 
+# updated.
+SHIBBOLETH_USER_KEY = "persistent-id" 
+
 SHIBBOLETH_ATTRIBUTE_LIST = []
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS

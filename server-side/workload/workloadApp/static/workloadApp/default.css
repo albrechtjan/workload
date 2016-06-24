@@ -62,7 +62,6 @@ flex: 1;
 	overflow: hidden;
 	max-width: 100rem;
 	margin: 0 auto;
-
 }
 
 footer{
@@ -148,8 +147,6 @@ footer a {
 
 }
 
-
-
 .weekButton{
 	float:left;
 	height: 10em;
@@ -172,11 +169,6 @@ footer a {
 
 .buttonText{
 	font-size: 3em;
-}
-
-
-.nobutton{
-	/*this class will take anything that belongs to a list item but not to a button*/
 }
 
 .wideItem{
@@ -206,13 +198,12 @@ a{max-width:100%; max-height:100%;
 	color: inherit;
 }
 
-
-.red{
+.red{  /*not really red*/
 	color: black;
 	background-color: #F0F2F6;
 }
 
-.green{
+.green{ /* not really green */
 	color: black;
 	background-color: #8B94B1;
 
@@ -319,10 +310,6 @@ input[type="checkbox"]{
 	border-radius: 1.6em;
 	padding: 0.3em;
 	color: white;
-}
-
-.help-overlay{
-
 }
 
 

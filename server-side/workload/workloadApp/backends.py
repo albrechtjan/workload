@@ -7,8 +7,23 @@ logger = logging.getLogger(__name__)
 
 
 class CustomShibboBackend(ShibbolethRemoteUserBackend):
+    """ This class extends the use backend from the django-shibboleth-adapter app.
+
+        It implements the clean_username method and attempts to determine and save the 
+        semester of study in the authenticate() method
+        This also meant that the semester of study is only updated for the user when
+        he authenticates.
+    """
 
     def authenticate(self, remote_user, meta):
+        """ Returns the User object with the given username
+
+        The username passed as `remote_user` is considered trusted.  This
+        method simply returns the `User` object with the given username,
+        creating a new `User` object if `create_unknown_user` is `True`.
+        Returns None if `create_unknown_user` is `False` and a `User`
+        object with the given username is not found in the database.
+        """
         if not remote_user:
             return
         user = None
@@ -36,6 +51,17 @@ class CustomShibboBackend(ShibbolethRemoteUserBackend):
         return user
 
     def clean_username(self,value):
+        """ This method extracts a substring from the shibboleth
+            attribute used for user identification.
+            Its implementation must be updated depending the 
+            shibboleth attribute used for authentication.
+
+            This implmentation assumes that the 
+            `remote_user` attribute is passed as `value`.
+            This is a rather long string with many special characters. 
+            A substring of it is enough to uniquely identify the user.
+            This substring is 
+        """
         # find relevant substring of shibboleth attribute
         regex = re.compile("de/shibboleth\!(.*)=")
         value = regex.findall(value)[-1]

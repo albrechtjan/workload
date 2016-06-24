@@ -5,6 +5,11 @@ Website and API for workload monitoring of students at TU Dresden.
 
 Written by Konstantin Schubert.
 Email: konstantin@schubert.fr
+Website: konstantinschubert.fr
+
+Please do not hesitate to contact with questions.
+Also, I am always interested in new projects.
+
 
 This repository containes the code to run the workload monitoring website and the Web-API that is needed by the corresponding workload monitoring Android app. The Android app has its [own repository (and documentation)](https://github.com/KonstantinSchubert/workload-android).
 
@@ -17,20 +22,18 @@ Most of the code is written in Python, using the [Django web framework](https://
 A MySQL database is used to store the data which is entered by the students on the website and which is passed to the API. The database also contains information about the lectures which a student can take. 
 
 There are three main components that connect to the database: The user-facing website, the admin panel, and the API.
-This API is used by the [workload Android app](https://github.com/KonstantinSchubert/workload-android) to retrieve and store data. This means that all data is collected in a single place.
+This API is used by the [workload Android app](https://github.com/KonstantinSchubert/workload-android) to retrieve and store data. This means that all data is collected in a single place. All three components are written in Python as a single Django app.
 
-All three components use the the Django framework and are defined in a single *Django app*: [workloadApp](https://github.com/KonstantinSchubert/workload/tree/master/server-side/workload/workloadApp).
-
-The project settings are defined in [`workload/settings.py`](https://github.com/KonstantinSchubert/workload/blob/master/server-side/workload/workload/settings.py). You can also check there if you are interested in the configuration of the database that Django uses.
-
-For authentication, the 
+Please make sure you understand the difference between a Django project and a Django app. For reference, you can read this short tutorial: https://docs.djangoproject.com/en/1.9/intro/tutorial01/.
+In this repository, the folder `server-side/workload/workload` is the Django project. It contains the main configuration file `settings.py` as well as the script which is caleld by the apache server, `wsgi.py`. Two apps belong to the project: First, the main app which is located in the directory `server-side/workload/workloadApp`. This app contains the views, the data models and the html for the workload website, the API and the admin panel. Additionally, the `django-shibboleth-adapter` app is used for authentication. It is not part of this repository, the next step explains how to install it.
 
 ## Installation
   * The website is using the [Django web framework](https://www.djangoproject.com/), version 1.9.7 Therefore a web server (apache2, nginx) with an installation of Django and all its dependencies is needed. Django is extremely well documented. For starters, here are:
     * [Installation instructions](https://docs.djangoproject.com/en/1.7/topics/install/)
     * [Deployment instructions](https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/)
     * [A beginners tutorial](https://docs.djangoproject.com/en/1.7/intro/tutorial01/) in case you are intersted in understanding the architecture of django projects and apps.
-  * Please consider that Django is under active developmnent and despite the developer's care for backwards compatibility, newer versions of Django might not always work. This project was tested with version 1.9.7, you might have to update the code to run with newer versions. 
+  * Please consider that Django is under active developmnent and despite the developer's care for backwards compatibility, newer versions of Django might not always work. This project was tested with version 1.9.7, you might have to update the code to run with newer versions.
+  * Other python dependencies are listed in the [`requirements.txt`](requirements.txt)
   
   * To install the workload project, just clone the repository to your server. The Django project directory is `server-side/workload`.
   * Create an empty file called `workload.log` in the root directory of the repository and make sure that the server-user (usually `www-data`) can write to it. Django will log into this file.
@@ -40,7 +43,7 @@ For authentication, the
 
 ## Currently installed setup for `survey.zqa.tu-dresden.de`
  * The current setup is installed on a Debain machine with public DNS `survey.zqa.tu-dresden.de`.
- * The repository which contains the django project is located in `/home/kon`.
+ * The repository located in `/home/kon`.
  * The django logger writes to `/home/kon/workload/workload.log`
  * Django is installed in a virtual environment which can be activated by entering `workon workload` in the shell.
  * The project is configured to use a MySQL database which is daily backed up into `database-backup`. The file name of the backup which is stored contains the month and day of month. Therefore, once a year, the backup is overwritten. This rotation mechanism should prevent the server from running out of dsik if left unattended for a long time.
