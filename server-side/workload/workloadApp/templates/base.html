@@ -11,12 +11,12 @@
     <div id="wrapper">
         <div id="header">
             <div id="header_inner">
+                {% block header %}{% endblock %}
                 <a href="/app/workload/options/">
                 <div class="iconButton">
                     <img class="iconButtonGraphic" src="/static/workloadApp/optionsButton.png">
                 </div>
                 </a>
-                {% block header %}{% endblock %}
             </div>
         </div><!-- close header -->
         <div id="content">
