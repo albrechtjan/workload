@@ -1,7 +1,32 @@
 
 html{
 	height: 100%;
+  	/* This line sets the basic scale for the whole website.
+
+	The absolute value of the base font size is very small for this page because the sizes of the actual
+	elements and fonts have high multiplication factors.
+
+  	Because we use the <meta name="viewport" content="width=device-width, initial-scale=1"> directive,
+  	a 12pt font seems to be is about the same physical size on a mobile screen as on a big screen, 
+  	maybe slightly smaller.
+  	Therefore we opt to chose a smaller font size for smaller devices.
+ 	*/
+  	font-size: 11pt;
+  	
+
 }
+
+/* we measure the screen width in rem units */
+@media (max-width: 33rem) {
+  html {
+   font-size: 8pt; 
+	}
+  	/**************************************/
+}
+
+
+
+
 
 body{
 	margin: 0 auto;
@@ -20,7 +45,7 @@ flex: 1;
 
 #header{
 	background-color: #2F4067;
-	height: 9em;
+	height: 8em;
 	width: 100%;
 	
 	color: white;
@@ -28,63 +53,58 @@ flex: 1;
 }
 
 #header_inner{
-	max-width: 100rem;
+	max-width: 65em;
 	margin: 0 auto ;
-	height: 9em;
+	height: 8em;
 }
  
 .iconButton{
-	width: 9em;
-	height: 9em;
+	width: 8em;
+	height: 8em;
 	float: right;
 }
 
 .iconButtonGraphic{
-	height: 6em;
-	width: 6em;
+	height: 5em;
+	width: 5em;
 	padding: 1.5em;
 }
 
 #homeButton{
-	height: 9em;
-	width: 9em;
+	height: 8em;
+	width: 8em;
 	float: left;
 }
 
 
 #homeButtonGraphic{
 	padding: 1.5em;
-	height: 6em;
-	width: 6em;
+	height: 5em;
+	width: 5em;
 }
 
 #content{
 	overflow: hidden;
-	max-width: 100rem;
+	max-width: 65em;
 	margin: 0 auto;
 }
 
 footer{
 	margin-top: 2em;
 	background-color: #2F4067;
-	overflow: hidden;
-	padding: 1em auto;
-	width: 100%;
-
 	color: white;
-}
+	font-size: 120%;
 
-.footer_inner{
-	max-width: 100rem;
-	margin: 0 auto ;
-	height: 9em;
 	display: flex;
-	justify-content: space-around;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
- footer .footerElement{
+ .footerElement{
  	flex-basis: 18em;
- 	padding: 1em;
+ 	margin: 1em 3em 1em 3em;
 }
 
 footer a {
@@ -102,16 +122,15 @@ footer a {
 }
 
 .calendarYearDivider{
-	overflow: hidden;
-	width: 100%;
+	max-width: 100%;
 	text-align: center;
-	font-size: 400%;
-	margin: 0 0.5em;
+	font-size: 230%;
+	margin: auto 0.5em;
 }
 
 #title{
-	margin: 0.15em 0.333333em;
-	font-size: 6em;
+	margin: 0.5em 0.2em;
+	font-size: 4em;
 	float: left;
 }
 
@@ -138,7 +157,7 @@ footer a {
 }
 #headline2{
 	padding-top: 0.3em;
-	font-size: 1.9em;
+	font-size: 1.8em;
 	width: 59%;
 	float: center;
 	text-align: center;
@@ -149,11 +168,11 @@ footer a {
 
 .weekButton{
 	float:left;
-	height: 10em;
-	width: 10em;
-	margin: 1em;
-	border-width: 0.3em;
-	padding: 0.2em;
+	height: 7em;
+	width: 7em;
+	margin: 0.5em;
+	border-width: 0.2em;
+	padding: 0.1em;
 }
 
 .isCurrentWeek{
@@ -167,13 +186,15 @@ footer a {
 	border-radius: 1em;
 }
 
-.buttonText{
-	font-size: 3em;
+.buttonText, .itemText{
+	font-size: 2em;
+	overflow: hidden;
 }
+
 
 .wideItem{
 	/*this class takes anything that belongs to a wide element, be it a button or a list item*/
-	padding: 3em;
+	padding: 1.5em;
 	text-align: center;
 	margin-left: 5%;
 	margin-right: 5%;
@@ -183,10 +204,6 @@ footer a {
 	border-radius: 1em;
 }
 
-.itemText{
-	font-size: 3em;
-	overflow: hidden;
-}
 
 .removeLectureButton{
 	max-height:0.7em;
@@ -231,9 +248,9 @@ a{max-width:100%; max-height:100%;
 }
 
 .calendarDates{
-	font-size: 220%;
+	font-size: 150%;
 	text-align: center;
-	margin-top: 0.5em;
+	margin-top: 0.6em;
 }
 
 
