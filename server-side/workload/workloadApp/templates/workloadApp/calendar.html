@@ -14,11 +14,9 @@
  			{% for week in semester.1 %}
 				<a href="../selectLecture?year={{week.year}}&week={{week.week}}">
 					<div class="weekButton button {% if week.hasData %} green {%else%} red {%endif%} {%if week.isCurrentWeek %} isCurrentWeek {%endif%}">
-						<div class="calendarDates">
-							{{week.monday | date:"d. M."}} </br>
-								- <br/> 	
-							{{week.sunday | date:"d. M."}} </br> <!-- wihtout the line break the last line is shifted versus the first line-->
-						</div>
+						<div class="weekButtonText">{{week.monday | date:"d. M."}} </div>
+						<div class="weekButtonText"> - </div>
+						<div class="weekButtonText"> {{week.sunday | date:"d. M."}} </div>
 					</div>
 				</a>
 			{% endfor %}
