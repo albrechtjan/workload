@@ -1,10 +1,13 @@
 
 html{
 	height: 100%;
-  	/* This line sets the basic scale for the whole website.
+  	/* This line sets the basic scale for the whole website. 
+  	The rem unit is relative to the root—or the html—element. 
+  	That means that we can define a single font size on the html element 
+  	and define all rem units to be a percentage of that.
 
 	The absolute value of the base font size is very small for this page because the sizes of the actual
-	elements and fonts have high multiplication factors.
+	elements and fonts have high multiplication factors. This is for "historic", but it does not matter.
 
   	Because we use the <meta name="viewport" content="width=device-width, initial-scale=1"> directive,
   	a 12pt font seems to be is about the same physical size on a mobile screen as on a big screen, 
@@ -13,18 +16,28 @@ html{
  	*/
   	font-size: 11pt;
   	
-
 }
 
-/* we measure the screen width in rem units */
-@media (max-width: 33rem) {
+/* we measure the screen width in rem units.
+* We also measuere in px because safari on ios deosn't seem 
+* to work with the rem-based queries.
+* Apparently, at least in chrome seems to evaluate
+media queries BEFORE changing the scale of the root element.
+That is, the rem unit in the media query seems to be based on the
+browser default size..*/
+@media (max-width: 33rem), (max-width: 500px) {
   html {
    font-size: 8pt; 
 	}
   	/**************************************/
 }
 
-
+@media (max-width: 25rem), (max-width: 400px) {
+  html {
+   font-size: 7pt; 
+	}
+  	/**************************************/
+}
 
 
 
@@ -45,7 +58,7 @@ flex: 1;
 
 #header{
 	background-color: #2F4067;
-	height: 8rem;
+	height: 7rem;
 	width: 100%;
 	
 	color: white;
@@ -62,38 +75,42 @@ flex: 1;
 }
  
 .iconButton, #homeButton{
-	width: 5rem;
-	height: 5rem;
-	padding: 1.5rem;
+	width: 4.6rem;
+	height: 4.6rem;
+	padding: 1.2rem;
 	float: right;
 	flex-shrink: 0;
 }
 
 .iconButtonGraphic, #homeButtonGraphic{
-	height: 5rem;
-	width: 5rem;
+	height: 4.6rem;
+	width: 4.6rem;
 }
 
 
-#title{
-	font-size: 4em;
-	line-height: 4rem;
+#title, #advice, #headline1, #headline2{
 	margin: 0 1.5rem;
 	flex-shrink: 1;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+#title{
+	font-size: 3.5em;
+	line-height: 3.5rem;
 }
 
 
 #advice{
-	font-size: 3rem;
-	line-height: 3rem;
-	margin: 0 1.5rem;
-	flex-shrink: 1;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	font-size: 2.3rem;
+	line-height: 2.3rem;
+}
+
+#headline1, #headline2 {
+	font-size: 2rem;
+	line-height: 2rem;
+
 }
 
 #content{
@@ -141,26 +158,6 @@ footer a {
 	margin: auto 0.5em;
 }
 
-#headline1{
-	padding-top: 1em;
-	font-size: 2.2em;
-	width: 59%;
-	float: center;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-
-}
-#headline2{
-	padding-top: 0.3em;
-	font-size: 1.8em;
-	width: 59%;
-	float: center;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-
-}
 
 .weekButton{
 	float:left;
