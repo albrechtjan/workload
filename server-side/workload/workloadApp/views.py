@@ -342,8 +342,9 @@ def privacyAgreement(request):
             return HttpResponseRedirect("./?notification=You must check the checkbox.")
 
     template = loader.get_template('workloadApp/privacyAgreement.html')
-    context = RequestContext(request, {  # it would be a good idea to pass here the users insitution
-         "has_agreed_to_privacy_agreement": privacy_agreement(request.user)
+    has_agreed = request.user.groups.filter(name='has_agreed_to_privacy_agreement').exists()
+    context = RequestContext(request, {
+         "has_agreed_to_privacy_agreement": has_agreed
         })
     return HttpResponse(template.render(add_info(context, request)))
 

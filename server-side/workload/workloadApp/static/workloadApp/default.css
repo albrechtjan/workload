@@ -45,7 +45,7 @@ flex: 1;
 
 #header{
 	background-color: #2F4067;
-	height: 8em;
+	height: 8rem;
 	width: 100%;
 	
 	color: white;
@@ -53,9 +53,11 @@ flex: 1;
 }
 
 #header_inner{
-	max-width: 65em;
-	margin: 0 auto ;
-	height: 8em;
+	max-width: 65rem;
+	padding:; 1.5rem;
+	height: 100%;
+	margin: 0;
+	display: flex;
 }
  
 .iconButton{
