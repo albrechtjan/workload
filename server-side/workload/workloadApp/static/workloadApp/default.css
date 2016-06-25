@@ -178,6 +178,7 @@ footer a {
 
 .button{
 	border-style: solid;
+	border-width: 0.2em;
 	text-align: center;
 	background-color: #D8D8D8;
 	border-radius: 1em;
