@@ -83,7 +83,17 @@ DATABASES = {
     }
 }
 
+
+# Use secure session cookie
+SESSION_COOKIE_SECURE = True
+
+# The "age" of session cookies. I think this defines the amount of time
+# until the cookie should expire
+
+SESSION_COOKIE_AGE = 1209600 * 4  # 8 weeks
+
 CSRF_COOKIE_SECURE = True
+
 SESSION_COOKIE_SECURE = True
 
 # Internationalization
