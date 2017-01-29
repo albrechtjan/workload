@@ -9,7 +9,7 @@ How to extract the data from the database and analyse it
     * Start the MySQL console `mysql -u root -p`
     * Create a database `create database <database-name>;`
     * Exit the MySQL shell with Ctrl+D
-    * Load the database dump into the database: `mysql <database-name> -u root -p < pfad/zum/databasedump.sql`
+    * Load the database dump into the database: `mysql <database-name> -u root -p < pfad/zum/databasedump.db`
   * Now, you can view the tables in the database with graphical interfaces such as [`MySQL Workbench`](https://www.mysql.com/products/workbench/). MySQL Workbench also supports CSV export, so you can export the tables to `.csv` and then re-import them to any spreadsheet software such as Google Sheets or Microsoft Excel.
 
 To understand the meaning of the data in the database, read [TableStructure.md](TableStructure.md)
