@@ -57,3 +57,6 @@ In this repository, the folder `server-side/workload/workload` is the Django pro
  * [See here for description of the table structure in the database.](documentation/TableStructure.md)
   
   
+## License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (GNU AGPL).
